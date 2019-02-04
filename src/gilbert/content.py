@@ -24,23 +24,18 @@ class Content:
         klass = cls._types[content_type]
         return klass(name, data, *args, **kwargs)
 
-    def render(self, context):
-        """
-        """
-
-
-class DataObject(ContentObject):
-    """
-    A simple, generic Data container object.
-    """
     def __getitem__(self, key, default=None):
         """
         Provide dict-alike access to our data.
         """
         return self.data.get(key, default)
 
+    def render(self, site):
+        """
+        """
 
-class Page(ContentObject):
+
+class Page(Content):
 
     def get_template_names(self):
         return [

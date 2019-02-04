@@ -3,7 +3,7 @@ from pathlib import Path
 
 import yaml
 
-from .content import ContentObject
+from .content import Content
 
 
 class Collection:
@@ -11,7 +11,7 @@ class Collection:
     Collection of content objects.
     """
 
-    def __init__(self, default_type=ContentObject):
+    def __init__(self, default_type=Content):
         self.default_type = default_type
         self._items = {}
         self._index = {}

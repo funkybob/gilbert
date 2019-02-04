@@ -1,9 +1,9 @@
 from scss import Compiler
 
-from gilbert.content import ContentObject
+from gilbert.content import Content
 
 
-class SCSS(DataObject):
+class SCSS(Content):
 
     def get_output_name(self, site):
         return Path(self.name).with_suffix('.css')
