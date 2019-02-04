@@ -1,6 +1,6 @@
 from markdown2 import Markdown
 
-from gilbert.collecction import Collection
+from gilbert.collection import Collection
 from gilbert.content import Page
 
 
