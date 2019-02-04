@@ -10,11 +10,18 @@ class Collection:
     """
     Collection of content objects.
     """
+    __loaders__ = {}
 
     def __init__(self, default_type=Content):
         self.default_type = default_type
         self._items = {}
         self._index = {}
+
+    @classmethod
+    def register(cls, name, func):
+        if name in cls.__loaders__:
+            print(f"WARNING: Overriding loader for {name}")
+        cls.__loaders__[name] = func
 
     def items(self):
         return self._items.items()
@@ -44,37 +51,49 @@ class Collection:
     def load_file(self, path: Path, name: str):
         ext = path.suffix.lstrip('.')
 
-        load_func = getattr(self, f'load_file_{ext}', self.load_file_yaml)
+        load_func = self.__loaders__.get(ext, load_yaml)
+
         args = load_func(path)
 
         obj = self.default_type.create(name, *args)
 
         return obj
 
-    def load_file_yaml(self, path: Path):
-        with path.open() as fin:
-            loader = yaml.Loader(fin)
-            data = loader.get_data()
-            # PyYAML Reader greedily consumes chunks from the stream.
-            # We must recover any un-consumed data, as well as what's left in the stream.
-            if loader.buffer:
-                content = loader.buffer[loader.pointer:]
-            else:
-                content = ''
-            content += fin.read()
-        return data, content
 
-    load_file_yml = load_file_yaml
+def load_yaml(path: Path):
+    with path.open() as fin:
+        loader = yaml.Loader(fin)
+        data = loader.get_data()
+        # PyYAML Reader greedily consumes chunks from the stream.
+        # We must recover any un-consumed data, as well as what's left in the stream.
+        if loader.buffer:
+            content = loader.buffer[loader.pointer:]
+        else:
+            content = ''
+        content += fin.read()
+    return data, content
 
-    def load_file_scss(self, path: Path):
-        content = path.read_text(encoding='utf-8')
 
-        return {'content_type': 'SCSS'}, content
+Collection.register('yaml', load_yaml)
+Collection.register('yml', load_yaml)
 
-    def load_file_md(self, path: Path):
-        content = path.read_text(encoding='utf-8')
 
-        return {'content_type': 'MarkdownPage'}, contente
+def load_scss(path: Path):
+    content = path.read_text(encoding='utf-8')
+
+    return {'content_type': 'SCSS'}, content
+
+
+Collection.register('scss', load_scss)
+
+
+def load_md(path: Path):
+    content = path.read_text(encoding='utf-8')
+
+    return {'content_type': 'MarkdownPage'}, content
+
+
+Collection.register('md', load_md)
 
 
 class CollectionIndex(dict):

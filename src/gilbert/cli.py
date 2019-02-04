@@ -4,6 +4,7 @@ from pathlib import Path
 
 from .site import Site
 
+
 def main():
     parser = argparse.ArgumentParser(prog='gilbert', description="Gilber static site generator")
     parser.add_argument('--root', '-r', type=Path, default=Path.cwd(),

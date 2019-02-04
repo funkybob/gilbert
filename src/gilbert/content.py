@@ -25,16 +25,6 @@ class Content:
         klass = cls._types[content_type]
         return klass(name, data, *args, **kwargs)
 
-    def __getitem__(self, key, default=None):
-        """
-        Provide dict-alike access to our data.
-        """
-        return self.data.get(key, default)
-
-    def render(self, site):
-        """
-        """
-
 
 class Page(Content):
 
