@@ -73,6 +73,7 @@ class Site:
         self.pages.load(self.root / 'pages')
 
         for name, page in sorted(self.pages.items()):
+            print(f"Rendering {name} ...")
             page.render(self)
 
     def get_context(self, obj, **kwargs) -> Context:
