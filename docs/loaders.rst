@@ -7,7 +7,9 @@ The first returned argument must be a ``dict``, which may include a `content_typ
 
 The base ``Content`` class takes 2 arguments: data, and content.
 
-Build in Loaders
+Built in Loaders
 ----------------
 
-Most often the YAML loader will be used. It reads the first document in a YAML file, and reads any remaining part of the file as the `content`.
+By default, there is a `yaml` load available.
+
+It reads the first document in a YAML file as the configuration ``dict``, and reads any remaining part of the file as the `content`.
