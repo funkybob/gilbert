@@ -10,6 +10,7 @@ https://en.wikipedia.org/wiki/William_Gilbert_(astronomer)
 
    tutorial
    content
+   collections
    loaders
    plugins
 
