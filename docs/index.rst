@@ -8,6 +8,7 @@ https://en.wikipedia.org/wiki/William_Gilbert_(astronomer)
    :maxdepth: 2
    :caption: Contents:
 
+   tutorial
    loaders
    plugins
 
