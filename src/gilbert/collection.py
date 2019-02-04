@@ -51,7 +51,7 @@ class Collection:
 
         return obj
 
-    def load_file_yaml(self, path: Path) -> dict:
+    def load_file_yaml(self, path: Path):
         with path.open() as fin:
             loader = yaml.Loader(fin)
             data = loader.get_data()
@@ -62,9 +62,19 @@ class Collection:
             else:
                 content = ''
             content += fin.read()
-        return (data, content)
+        return data, content
 
     load_file_yml = load_file_yaml
+
+    def load_file_scss(self, path: Path):
+        content = path.read_text(encoding='utf-8')
+
+        return {'content_type': 'SCSS'}, content
+
+    def load_file_md(self, path: Path):
+        content = path.read_text(encoding='utf-8')
+
+        return {'content_type': 'MarkdownPage'}, contente
 
 
 class CollectionIndex(dict):
