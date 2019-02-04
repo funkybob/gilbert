@@ -26,6 +26,14 @@ class Content:
         return klass(name, data, *args, **kwargs)
 
 
+class Raw(Content):
+    """
+    Container for 'raw' content.
+    """
+    def render(self, site):
+        (site.dest_dir / self.name).write_bytes(self.content)
+
+
 class Page(Content):
 
     def get_template_names(self):

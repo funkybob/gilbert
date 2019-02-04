@@ -51,13 +51,20 @@ class Collection:
     def load_file(self, path: Path, name: str):
         ext = path.suffix.lstrip('.')
 
-        load_func = self.__loaders__.get(ext, load_yaml)
+        load_func = self.__loaders__.get(ext, load_raw)
 
         args = load_func(path)
 
         obj = self.default_type.create(name, *args)
 
         return obj
+
+
+def load_raw(path: Path):
+   '''
+   For anything we don't recognise, we load it as a Raw content.
+   '''
+   return {'content_type': 'Raw'}, path.read_bytes()
 
 
 def load_yaml(path: Path):
