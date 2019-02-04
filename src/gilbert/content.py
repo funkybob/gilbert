@@ -1,6 +1,7 @@
 """
 Content object classes
 """
+from pathlib import Path
 
 
 class Content:
@@ -38,15 +39,17 @@ class Content:
 class Page(Content):
 
     def get_template_names(self):
-        return [
-            self.data.get('template', 'default.html'),
-        ]
+        template = self.data.get('template', [])
+        if isinstance(template, str):
+            template = [template]
+
+        return template + ['default.html']
 
     def get_template(self, site):
         template_names = self.get_template_names()
         for name in template_names:
             try:
-                template = site.templates[self.data['template']]
+                template = site.templates[name]
                 break
             except KeyError:
                 pass
@@ -58,7 +61,7 @@ class Page(Content):
     def get_context(self, site):
         return site.get_context(self)
 
-    def get_output_name(self, site):
+    def get_output_name(self):
         return Path(self.name).with_suffix('.html')
 
     def render(self, site):

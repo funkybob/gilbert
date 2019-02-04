@@ -5,7 +5,7 @@ from gilbert.content import Content
 
 class SCSS(Content):
 
-    def get_output_name(self, site):
+    def get_output_name(self):
         return Path(self.name).with_suffix('.css')
 
     def render(self, site):
