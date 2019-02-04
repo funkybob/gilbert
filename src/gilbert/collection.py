@@ -78,24 +78,6 @@ Collection.register('yaml', load_yaml)
 Collection.register('yml', load_yaml)
 
 
-def load_scss(path: Path):
-    content = path.read_text(encoding='utf-8')
-
-    return {'content_type': 'SCSS'}, content
-
-
-Collection.register('scss', load_scss)
-
-
-def load_md(path: Path):
-    content = path.read_text(encoding='utf-8')
-
-    return {'content_type': 'MarkdownPage'}, content
-
-
-Collection.register('md', load_md)
-
-
 class CollectionIndex(dict):
     def __init__(self, collection: Collection, key: str):
         data = defaultdict(list)

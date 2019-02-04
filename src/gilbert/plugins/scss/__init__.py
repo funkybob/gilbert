@@ -3,6 +3,7 @@ from pathlib import Path
 from scss import Compiler
 
 from gilbert.content import Content
+from gilbert.collection import Collection
 
 
 class SCSS(Content):
@@ -16,3 +17,12 @@ class SCSS(Content):
 
         with (site.dest_dir / self.get_output_name()).open('w') as fout:
             fout.write(compiler.compile_string(self.content))
+
+
+def load_scss(path):
+    content = path.read_text(encoding='utf-8')
+
+    return {'content_type': 'SCSS'}, content
+
+
+Collection.register('scss', load_scss)
