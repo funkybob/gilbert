@@ -52,7 +52,8 @@ class Page(Content):
         return site.get_context(self)
 
     def get_output_name(self):
-        return Path(self.name).with_suffix('.html')
+        target_ext = self.data.get('extension', 'html')
+        return Path(self.name).with_suffix(f'.{target_ext}')
 
     def render(self, site):
         template = self.get_template(site)
