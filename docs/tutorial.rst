@@ -58,6 +58,8 @@ If we now try to `render` our site, we'll see the following:
 
 We need to provide a template to render the page with. Let's do that now:
 
+.. note:: Templates use the stencil_ template engine.
+
 .. code-block:: html
    :caption: mysite/templates/default.html
 
@@ -86,3 +88,6 @@ We can now look at our new page:
 .. code-block:: sh
 
    (venv) $ $BROWSER dist/index.html
+
+
+.. _stencil: https://stencil-templates.readthedocs.io/en/latest/
