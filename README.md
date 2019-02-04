@@ -13,13 +13,13 @@ Install gilbert:
 
 Create a gilbert project:
 
-    $ python -m gilbert --root mysite init
+    $ gilbert --root mysite init
 
 Create page files in mysite/pages/
 
 Render your site:
 
-    $ python -m gilbert --root mysite render
+    $ gilbert --root mysite render
 
 
 # Project contents:
