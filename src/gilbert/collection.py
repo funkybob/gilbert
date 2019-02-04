@@ -27,7 +27,7 @@ class Collection:
             self._index[key] = CollectionIndex(self, key)
         return self._index[key]
 
-    def load(self, path: Path, root: Path =None):
+    def load(self, path: Path, root: Path = None):
         """
         Recursively load all objects from a path.
         """

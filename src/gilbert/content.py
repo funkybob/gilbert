@@ -3,11 +3,13 @@ Content object classes
 """
 
 
-class ContentObject:
+class Content:
     _types = {}
 
-    def __init__(self, name):
+    def __init__(self, name, data=None, content=None):
         self.name = name
+        self.data = data or {}
+        self.content = content or ''
 
     def __init_subclass__(cls, **kwargs):
         """
@@ -31,20 +33,14 @@ class DataObject(ContentObject):
     """
     A simple, generic Data container object.
     """
-    def __init__(self, name, data):
-        super().__init__(name)
-        self.data = data
-
     def __getitem__(self, key, default=None):
+        """
+        Provide dict-alike access to our data.
+        """
         return self.data.get(key, default)
 
 
 class Page(ContentObject):
-
-    def __init__(self, name, data, content=None):
-        super().__init__(name)
-        self.data = data
-        self.content = content or ''
 
     def get_template_names(self):
         return [
@@ -60,16 +56,19 @@ class Page(ContentObject):
             except KeyError:
                 pass
         else:
-            template=  site.templates['default.html']
+            raise ValueError(f'Template for {name} not found: {template_names}')
 
         return template
 
     def get_context(self, site):
         return site.get_context(self)
 
+    def get_output_name(self, site):
+        return Path(self.name).with_suffix('.html')
+
     def render(self, site):
         template = self.get_template(site)
         context = self.get_context(site)
 
-        with (site.dest_dir / self.name).with_suffix('.html').open('w') as fout:
+        with (site.dest_dir / self.get_output_name()).open('w') as fout:
             template.render(context, output=fout)

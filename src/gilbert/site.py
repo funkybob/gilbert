@@ -14,15 +14,26 @@ class Site:
     """
     def __init__(self, root: Path):
         self.root = root
-        self.templates = TemplateLoader([
-            self.root / 'templates',
-        ])
 
+        self.templates_dir = self.root / 'templates'
         self.pages_dir = self.root / 'pages'
         self.content_dir = self.root / 'content'
         self.dest_dir = self.root / 'dist'
 
+        self.templates = TemplateLoader([
+            self.templates_dir,
+        ])
+
         self.load_plugins()
+
+    def init(self):
+        '''
+        Initialise directories.
+        '''
+        self.templates_dir.mkdir(parents=True, exist_ok=True)
+        self.pages_dir.mkdir(parents=True, exist_ok=True)
+        self.content_dir.mkdir(parents=True, exist_ok=True)
+        self.dest_dir.mkdir(parents=True, exist_ok=True)
 
     def load_plugins(self):
         from . import plugins
@@ -39,7 +50,6 @@ class Site:
                 try:
                     import_module(f'gilbert.plugins.{name}')
                 except ImportError:
-                    import traceback; traceback.print_exc()
                     continue
                 else:
                     print(f'Loaded plugin: {name}')
