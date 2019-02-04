@@ -41,7 +41,7 @@ class Page(Content):
             try:
                 template = site.templates[name]
                 break
-            except KeyError:
+            except LookupError:
                 pass
         else:
             raise ValueError(f'Template for {name} not found: {template_names}')
