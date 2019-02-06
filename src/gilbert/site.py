@@ -25,9 +25,9 @@ class Site:
         ])
 
     def init(self):
-        '''
+        """
         Initialise directories.
-        '''
+        """
         self.templates_dir.mkdir(parents=True, exist_ok=True)
         self.pages_dir.mkdir(parents=True, exist_ok=True)
         self.content_dir.mkdir(parents=True, exist_ok=True)
@@ -51,6 +51,14 @@ class Site:
                     continue
                 else:
                     print(f'Loaded plugin: {name}')
+
+        local_plugins =  self.root / 'plugins.py'
+        if local_plugins.is_file():
+            import sys
+            root = str(self.root)
+            if root not in sys.path:
+                sys.path.insert(0, root)
+            found['__local__'] = import_module('plugins')
 
         self.plugins = found
 
