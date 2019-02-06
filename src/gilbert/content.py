@@ -2,15 +2,22 @@
 Content object classes
 """
 from pathlib import Path
+from typing import Union, Sequence
+
+from .schema import Schema
 
 
-class Content:
+class Content(Schema):
     _types = {}
 
-    def __init__(self, name, data=None, content=None):
+    content_type: str
+
+    content: str
+
+    def __init__(self, name, content=None, meta=None):
         self.name = name
-        self.data = data or {}
         self.content = content or ''
+        super().__init__(**meta)
 
     def __init_subclass__(cls, **kwargs):
         """
@@ -20,10 +27,10 @@ class Content:
         cls._types[cls.__name__] = cls
 
     @classmethod
-    def create(cls, name, data, *args, **kwargs):
-        content_type = data.get('content_type', cls.__name__)
+    def create(cls, name, content, meta):
+        content_type = meta.get('content_type', cls.__name__)
         klass = cls._types[content_type]
-        return klass(name, data, *args, **kwargs)
+        return klass(name, content, meta)
 
 
 class Raw(Content):
@@ -36,12 +43,15 @@ class Raw(Content):
 
 class Page(Content):
 
+    template: Union[str, Sequence[str]] = 'default.html'
+    extension: str = 'html'
+
     def get_template_names(self):
-        template = self.data.get('template', [])
+        template = self.template
         if isinstance(template, str):
             template = [template]
 
-        return template + ['default.html']
+        return template
 
     def get_template(self, site):
         template_names = self.get_template_names()
@@ -60,8 +70,7 @@ class Page(Content):
         return site.get_context(self)
 
     def get_output_name(self):
-        target_ext = self.data.get('extension', 'html')
-        return Path(self.name).with_suffix(f'.{target_ext}')
+        return Path(self.name).with_suffix(f'.{self.extension}')
 
     def render(self, site):
         template = self.get_template(site)

@@ -53,18 +53,18 @@ class Collection:
 
         load_func = self.__loaders__.get(ext, load_raw)
 
-        args = load_func(path)
+        content, meta = load_func(path)
 
-        obj = self.default_type.create(name, *args)
+        obj = self.default_type.create(name, content=content, meta=meta)
 
         return obj
 
 
 def load_raw(path: Path):
-   '''
-   For anything we don't recognise, we load it as a Raw content.
-   '''
-   return {'content_type': 'Raw'}, path.read_bytes()
+    '''
+    For anything we don't recognise, we load it as a Raw content.
+    '''
+    return path.read_bytes(), {'content_type': 'Raw'}
 
 
 def load_yaml(path: Path):
@@ -78,7 +78,7 @@ def load_yaml(path: Path):
         else:
             content = ''
         content += fin.read()
-    return data, content
+    return content, data
 
 
 Collection.register('yaml', load_yaml)

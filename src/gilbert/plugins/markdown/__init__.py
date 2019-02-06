@@ -5,6 +5,7 @@ from gilbert.content import Page
 
 
 class MarkdownPage(Page):
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         markdown = Markdown()
@@ -14,7 +15,7 @@ class MarkdownPage(Page):
 def load_md(path):
     content = path.read_text(encoding='utf-8')
 
-    return {'content_type': 'MarkdownPage'}, content
+    return content, {'content_type': 'MarkdownPage'}
 
 
 Collection.register('md', load_md)

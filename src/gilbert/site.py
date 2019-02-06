@@ -24,8 +24,6 @@ class Site:
             self.templates_dir,
         ])
 
-        self.load_plugins()
-
     def init(self):
         '''
         Initialise directories.
@@ -57,6 +55,8 @@ class Site:
         self.plugins = found
 
     def render(self):
+        self.load_plugins()
+
         self.load_content()
         self.index_assets()
         self.render_pages()
