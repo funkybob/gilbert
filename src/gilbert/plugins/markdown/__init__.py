@@ -1,15 +1,17 @@
 from markdown2 import Markdown
 
 from gilbert.collection import Collection
-from gilbert.content import Page
+from gilbert.content import Content, Renderable
 
 
-class MarkdownPage(Page):
+class MarkdownPage(Renderable, Content):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+    def generate_content(self, site, target):
         markdown = Markdown()
-        self.content = markdown.convert(self.content)
+        target.write(markdown.convert(self.content))
 
 
 def load_md(path):

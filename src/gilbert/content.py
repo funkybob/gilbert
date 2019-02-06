@@ -41,10 +41,28 @@ class Raw(Content):
         (site.dest_dir / self.name).write_bytes(self.content)
 
 
-class Page(Content):
-
-    template: Union[str, Sequence[str]] = 'default.html'
+class Renderable:
+    """
+    Mixin to simplify making renderable content types.
+    """
     extension: str = 'html'
+
+    def get_output_name(self):
+        return Path(self.name).with_suffix(f'.{self.extension}')
+
+    def generate_content(self, site, target):
+        target.write(self.content)
+
+    def render(self, site):
+        with (site.dest_dir / self.get_output_name()).open('w') as fout:
+            self.generate_content(site, fout)
+
+
+class Templated(Renderable):
+    """
+    Definition and implementation of the Templated interface.
+    """
+    template: Union[str, Sequence[str]] = 'default.html'
 
     def get_template_names(self):
         template = self.template
@@ -69,12 +87,12 @@ class Page(Content):
     def get_context(self, site):
         return site.get_context(self)
 
-    def get_output_name(self):
-        return Path(self.name).with_suffix(f'.{self.extension}')
-
-    def render(self, site):
+    def generate_content(self, site, target):
         template = self.get_template(site)
         context = self.get_context(site)
 
-        with (site.dest_dir / self.get_output_name()).open('w') as fout:
-            template.render(context, output=fout)
+        template.render(context, output=target)
+
+
+class Page(Templated, Content):
+    pass

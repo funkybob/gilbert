@@ -2,22 +2,21 @@ from pathlib import Path
 
 from scss import Compiler
 
-from gilbert.content import Content
+from gilbert.content import Content, Renderable
 from gilbert.collection import Collection
 
 
-class SCSS(Content):
+class SCSS(Renderable, Content):
 
     scss_options: dict = {}
 
     def get_output_name(self):
         return Path(self.name).with_suffix('.css')
 
-    def render(self, site):
+    def generate_content(self, site, target):
         compiler = Compiler(**self.scss_options)
 
-        with (site.dest_dir / self.get_output_name()).open('w') as fout:
-            fout.write(compiler.compile_string(self.content))
+        target.write(compiler.compile_string(self.content))
 
 
 def load_scss(path):

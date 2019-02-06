@@ -53,3 +53,88 @@ When rendered, it will:
    This can be overridden by providing `extension` in the config dict.
 
 4. Render the template, using the context, to the target.
+
+Custom Content Types
+====================
+
+You can declare your own content-types easily in your project.  Create a ``plugins.py`` file, and declare them in there.
+
+
+.. code-block:: python
+   :caption: mysite/plugins.py
+
+   import typing
+
+   from gilbert.content import Templated, Content
+
+   class BlogPost(Templated, Content):
+       title: str
+       author: str
+       posted: typing.Union[None, datetime]
+       template: str = "blog/post.html"
+
+Now you can define documents with the content-type of `BlogPost` with these attributes.
+
+.. code-block:: yaml
+   :caption: mysite/content/post.yaml
+
+   content_type: BlockPost
+   title: My First Post!
+   ---
+   Welcome to my blog!
+
+
+Content Type Mixins
+-------------------
+
+In addition, there are provided some mixin classes to help simplify writing custom plugins.
+
+
+.. py:class:: Renderable
+
+   .. py:attribute:: extension : Union[str, Sequence[str]]
+
+      The extension to use when writing the output.
+
+   .. py:method:: get_outut_name() -> str
+
+      Returns the ``Path`` to write output to.
+
+      Default implementation appents the `name` of this object to the ``Site.dist_dir`` and replaces its extension with ``extension``.
+
+   .. py:method:: generate_content(site : Site, target: file)
+
+      Called to generate the objects output.
+
+      Default writes ``self.content`` to the target.
+
+   .. py:method:: render(site: Site)
+
+      Called to render this object.
+      Opens the Path returned by ``get_output_name`` and passes it to ``generate_content``
+
+.. py:class:: Templated(Renderable)
+
+   Base for a class that renders using a template.
+
+   .. py:method:: get_template_names() -> Sequence[str]
+
+      Returns a list of template names.
+
+   .. py:method:: get_template(site: Site) -> stencil.Template
+
+      Loads the template for this object.
+
+      Default action is to return the first template listed in ``get_template_names`` it can load from ``Site.templates``
+
+   .. py:method:: get_context(site: Site) -> stencil.Context
+
+      Produce the ``stencil.Context`` object to render the template against.
+
+      Default is to return ``Site.get_context(self)``
+
+   .. py:method:: generate_content(site: Site, target: file)
+
+      Calls ``get_template``
+      Calls ``get_contest``
+      Renders the template against the context, and write to ``target``.
