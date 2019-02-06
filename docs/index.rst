@@ -1,9 +1,10 @@
 Welcome to Gilbert's documentation!
 ===================================
 
-https://en.wikipedia.org/wiki/William_Gilbert_(astronomer)
+.. rubric::
+   This project is named after `William Gilbert`_ who is credited with originating the term "electricity".
 
-.. note:: This project is still very much in flux, so beware. These docs should be updated frequently.
+.. warning:: This project is still very much in flux, so beware. These docs should be updated frequently.
 
 .. toctree::
    :maxdepth: 2
@@ -22,3 +23,6 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+
+.. _William Gilbert: https://en.wikipedia.org/wiki/William_Gilbert_(astronomer)
