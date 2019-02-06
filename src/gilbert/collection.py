@@ -74,7 +74,7 @@ def load_yaml(path: Path):
         # PyYAML Reader greedily consumes chunks from the stream.
         # We must recover any un-consumed data, as well as what's left in the stream.
         if loader.buffer:
-            content = loader.buffer[loader.pointer:]
+            content = loader.buffer[loader.pointer:-1]
         else:
             content = ''
         content += fin.read()
