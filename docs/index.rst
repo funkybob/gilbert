@@ -16,6 +16,7 @@ Welcome to Gilbert's documentation!
    loaders
    plugins
 
+   ref/modules
 
 Indices and tables
 ==================
