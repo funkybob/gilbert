@@ -8,6 +8,9 @@ from .schema import Schema
 
 
 class Content(Schema):
+    """
+    Base content class.
+    """
     _types = {}
 
     content_type: str
@@ -28,6 +31,12 @@ class Content(Schema):
 
     @classmethod
     def create(cls, name, content, meta):
+        """
+        Create a new Content instance.
+
+        Will extract the content type from the meta, and create the
+        appropriate sub-class.
+        """
         content_type = meta.get('content_type', cls.__name__)
         klass = cls._types[content_type]
         return klass(name, content, meta)
@@ -45,10 +54,10 @@ class Renderable:
     """
     Mixin to simplify making renderable content types.
     """
-    extension: str = 'html'
+    output_extension: str = 'html'
 
     def get_output_name(self):
-        return Path(self.name).with_suffix(f'.{self.extension}')
+        return Path(self.name).with_suffix(f'.{self.output_extension}')
 
     def generate_content(self, site, target):
         target.write(self.content)
@@ -64,7 +73,7 @@ class Templated(Renderable):
     """
     template: Union[str, Sequence[str]] = 'default.html'
 
-    def get_template_names(self):
+    def get_template_names(self) -> Sequence[str]:
         template = self.template
         if isinstance(template, str):
             template = [template]
@@ -95,4 +104,6 @@ class Templated(Renderable):
 
 
 class Page(Templated, Content):
-    pass
+    """
+    A templated Page content type.
+    """
