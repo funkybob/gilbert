@@ -7,11 +7,8 @@ from gilbert.collection import Collection
 
 
 class SCSS(Renderable, Content):
-
+    output_extension: str = 'css'
     scss_options: dict = {}
-
-    def get_output_name(self):
-        return Path(self.name).with_suffix('.css')
 
     def generate_content(self, site, target):
         compiler = Compiler(**self.scss_options)
