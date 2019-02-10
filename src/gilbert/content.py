@@ -2,7 +2,7 @@
 Content object classes
 """
 from pathlib import Path
-from typing import Union, Sequence
+from typing import Collection, Sequence, Union
 
 from .schema import Schema
 
@@ -16,6 +16,7 @@ class Content(Schema):
     content_type: str
 
     content: str
+    tags: Collection[str]
 
     def __init__(self, name, content=None, meta=None):
         self.name = name
