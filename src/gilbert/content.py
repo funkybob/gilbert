@@ -16,7 +16,7 @@ class Content(Schema):
     content_type: str
 
     content: str
-    tags: Collection[str]
+    tags: Collection[str] = []
 
     def __init__(self, name, content=None, meta=None):
         self.name = name
@@ -60,12 +60,14 @@ class Renderable:
     def get_output_name(self):
         return Path(self.name).with_suffix(f'.{self.output_extension}')
 
-    def generate_content(self, site, target):
-        target.write(self.content)
+    def generate_content(self, site):
+        return self.content
 
     def render(self, site):
-        with (site.dest_dir / self.get_output_name()).open('w') as fout:
-            self.generate_content(site, fout)
+        target = site.dest_dir / self.get_output_name()
+        target.write_text(
+            self.generate_content(site)
+        )
 
 
 class Templated(Renderable):
@@ -97,11 +99,11 @@ class Templated(Renderable):
     def get_context(self, site):
         return site.get_context(self)
 
-    def generate_content(self, site, target):
+    def generate_content(self, site):
         template = self.get_template(site)
         context = self.get_context(site)
 
-        template.render(context, output=target)
+        return template.render(context)
 
 
 class Page(Templated, Content):

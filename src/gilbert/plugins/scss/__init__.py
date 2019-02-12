@@ -10,10 +10,10 @@ class SCSS(Renderable, Content):
     output_extension: str = 'css'
     scss_options: dict = {}
 
-    def generate_content(self, site, target):
+    def generate_content(self, site):
         compiler = Compiler(**self.scss_options)
 
-        target.write(compiler.compile_string(self.content))
+        return compiler.compile_string(self.content)
 
 
 def load_scss(path):

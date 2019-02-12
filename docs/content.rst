@@ -102,11 +102,11 @@ In addition, there are provided some mixin classes to help simplify writing cust
 
       Default implementation appents the `name` of this object to the ``Site.dist_dir`` and replaces its extension with ``extension``.
 
-   .. py:method:: generate_content(site : Site, target: file)
+   .. py:method:: generate_content(site : Site)
 
       Called to generate the objects output.
 
-      Default writes ``self.content`` to the target.
+      Default: returns ``self.content``.
 
    .. py:method:: render(site: Site)
 
