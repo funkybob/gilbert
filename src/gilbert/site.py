@@ -71,11 +71,11 @@ class Site:
 
     def load_content(self):
         self.content = Collection()
-        self.content.load(self.root / 'content')
+        self.content.load(self.content_dir)
 
     def load_pages(self):
         self.pages = Collection(default_type=Page)
-        self.pages.load(self.root / 'pages')
+        self.pages.load(self.pages_dir)
 
     def render_pages(self):
         for name, page in sorted(self.pages.items()):
