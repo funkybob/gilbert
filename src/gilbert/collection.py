@@ -23,6 +23,9 @@ class Collection:
             print(f"WARNING: Overriding loader for {name}")
         cls.__loaders__[name] = func
 
+    def __getitem__(self, key):
+        return self._items[key]
+
     def items(self):
         return self._items.items()
 
