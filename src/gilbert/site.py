@@ -83,10 +83,18 @@ class Site:
             page.render(self)
 
     def get_context(self, obj, **kwargs) -> Context:
+
+        def render(collection, name):
+            print(f'[{collection}] -> {name}')
+            obj = collection[name]
+            return obj.generate_content(self)
+
         return Context({
             'site': self,
             'pages': self.pages,
             'content': self.content,
             'this': obj,
+            # Add helper functions
+            'render': render,
             **kwargs
         })
