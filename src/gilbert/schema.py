@@ -1,3 +1,4 @@
+import inspect
 import types
 
 
@@ -21,15 +22,13 @@ class SchemaProperty:
             return instance.__data__[self.name]
         except KeyError:
             if self.default is NO_DEFAULT:
-                raise AttributeError('Schema {} has no value for {}')
+                raise AttributeError(f'Schema {instance} has no value for {self.name}')
 
         return self.default
 
     def __set__(self, instance, value):
-        if issubclass(self._type, Schema):
+        if inspect.isclass(self._type) and issubclass(self._type, Schema):
             value = self._type(**value)
-        else:
-            value = self._type(value)
         instance.__data__[self.name] = value
 
 
