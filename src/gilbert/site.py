@@ -64,22 +64,20 @@ class Site:
 
     def render(self):
         self.load_plugins()
-
         self.load_content()
-        self.index_assets()
+        self.load_pages()
+
         self.render_pages()
 
     def load_content(self):
         self.content = Collection()
         self.content.load(self.root / 'content')
 
-    def index_assets(self):
-        pass
-
-    def render_pages(self):
+    def load_pages(self):
         self.pages = Collection(default_type=Page)
         self.pages.load(self.root / 'pages')
 
+    def render_pages(self):
         for name, page in sorted(self.pages.items()):
             print(f"Rendering {name} ...")
             page.render(self)
