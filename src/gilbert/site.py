@@ -41,13 +41,21 @@ class Site:
         for path in plugins.__path__:
             root = Path(path)
             print(f"Searching {root} for plugins...")
+
             for child in root.iterdir():
-                if not child.is_dir():
+                if not (
+                    child.is_dir() or
+                    (child.is_file() and child.suffix == '.py')
+                ):
                     continue
-                name = str(child.relative_to(root)).replace('/', '.')
+
+                rel_path = child.relative_to(root)
+
+                name = '.'.join(rel_path.parts[:-1] + (rel_path.stem,))
                 try:
                     import_module(f'gilbert.plugins.{name}')
-                except ImportError:
+                except ImportError as e:
+                    print(f'Failed importing {name}: {e !r}')
                     continue
                 else:
                     print(f'Loaded plugin: {name}')
