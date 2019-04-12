@@ -34,7 +34,7 @@ class ContainerValidator(Validator):
 
     def validate_contents(self, value):
         for item in value:
-            if not self.inner_type(item)
+            self.inner_type(item)
 
 
 class MappingValidator(ContainerValidator):
