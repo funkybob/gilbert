@@ -93,7 +93,6 @@ class Site:
     def get_context(self, obj, **kwargs) -> Context:
 
         def render(collection, name):
-            print(f'[{collection}] -> {name}')
             obj = collection[name]
             return obj.generate_content(self)
 
