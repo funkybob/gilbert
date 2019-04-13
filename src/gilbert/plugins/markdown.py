@@ -1,6 +1,6 @@
 from markdown2 import Markdown
 
-from gilbert.collection import Collection
+from gilbert import Site
 from gilbert.content import Content, Templated
 
 
@@ -18,4 +18,4 @@ def load_md(path):
     return content, {'content_type': 'MarkdownPage'}
 
 
-Collection.register('md', load_md)
+Site.register_loader('md', load_md)

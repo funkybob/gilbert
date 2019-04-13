@@ -3,7 +3,7 @@ from pathlib import Path
 from scss import Compiler
 
 from gilbert.content import Content, Renderable
-from gilbert.collection import Collection
+from gilbert import Site
 
 
 class SCSS(Renderable, Content):
@@ -22,4 +22,4 @@ def load_scss(path):
     return content, {'content_type': 'SCSS'}
 
 
-Collection.register('scss', load_scss)
+Site.register_loader('scss', load_scss)
