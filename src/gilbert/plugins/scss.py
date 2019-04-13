@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from scss import Compiler
 
 from gilbert.content import Content, Renderable

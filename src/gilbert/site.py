@@ -64,7 +64,7 @@ class Site:
                 else:
                     print(f'Loaded plugin: {name}')
 
-        local_plugins =  self.root / 'plugins.py'
+        local_plugins = self.root / 'plugins.py'
         if local_plugins.is_file():
             import sys
             root = str(self.root)
@@ -82,9 +82,9 @@ class Site:
 
     @classmethod
     def register_context_provider(cls, func):
-        if func in self.__context_generators__:
+        if func in cls.__context_generators__:
             raise Warning(f'Context generator {func} already registered.')
-        self.__context_generators__.append(func)
+        cls.__context_generators__.append(func)
 
     def render(self):
         self.load_plugins()
