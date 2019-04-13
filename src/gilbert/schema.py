@@ -3,6 +3,7 @@ import types
 import typing
 from collections.abc import Container, Mapping
 
+
 class Validator:
 
     def is_valid(self, value):
@@ -23,11 +24,10 @@ class SimpleValidator(Validator):
 
 
 class ContainerValidator(Validator):
-    _contained_arg = 0
 
     def __init__(self, _type):
         self.base = _type.__origin__
-        self.inner_type = validator_for(_type.__args__[self._contained_arg])
+        self.inner_type = validator_for(_type.__args__[0])
 
     def __call__(self, value):
         if not isinstance(value, self.base):
@@ -40,7 +40,7 @@ class ContainerValidator(Validator):
 
 
 class MappingValidator(ContainerValidator):
-    _contained_arg = 1
+
     def __init__(self, _type):
         self.base = _type.__origin__
         self.key_type = validator_for(_type.__args__[0])
