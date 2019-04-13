@@ -12,6 +12,10 @@ class Site:
     """
     Configuration of main site.
     """
+
+    __context_generators__ = []
+    __loaders__ = {}
+
     def __init__(self, root: Path):
         self.root = root
 
@@ -70,6 +74,18 @@ class Site:
 
         self.plugins = found
 
+    @classmethod
+    def register_loader(cls, ext, func):
+        if ext in cls.__loaders__:
+            print(f"WARNING: Overriding loader for {ext}")
+        cls.__loaders__[ext] = func
+
+    @classmethod
+    def register_context_provider(cls, func):
+        if func in self.__context_generators__:
+            raise Warning(f'Context generator {func} already registered.')
+        self.__context_generators__.append(func)
+
     def render(self):
         self.load_plugins()
         self.load_content()
@@ -78,11 +94,11 @@ class Site:
         self.render_pages()
 
     def load_content(self):
-        self.content = Collection()
+        self.content = Collection(loaders=self.__loaders__)
         self.content.load(self.content_dir)
 
     def load_pages(self):
-        self.pages = Collection(default_type=Page)
+        self.pages = Collection(default_type=Page, loaders=self.__loaders__)
         self.pages.load(self.pages_dir)
 
     def render_pages(self):
@@ -96,7 +112,7 @@ class Site:
             obj = collection[name]
             return obj.generate_content(self)
 
-        return Context({
+        ctx = {
             'site': self,
             'pages': self.pages,
             'content': self.content,
@@ -104,4 +120,9 @@ class Site:
             # Add helper functions
             'render': render,
             **kwargs
-        })
+        }
+
+        for func in self.__context_generators__:
+            ctx = func(ctx)
+
+        return Context(ctx)

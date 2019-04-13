@@ -1,8 +1,6 @@
 from collections import defaultdict
 from pathlib import Path
 
-import yaml
-
 from .content import Content
 
 
@@ -10,18 +8,11 @@ class Collection:
     """
     Collection of content objects.
     """
-    __loaders__ = {}
-
-    def __init__(self, default_type=Content):
+    def __init__(self, default_type=Content, loaders=None):
         self.default_type = default_type
         self._items = {}
         self._index = {}
-
-    @classmethod
-    def register(cls, name, func):
-        if name in cls.__loaders__:
-            print(f"WARNING: Overriding loader for {name}")
-        cls.__loaders__[name] = func
+        self._loaders = loaders or {}
 
     def __getitem__(self, key):
         return self._items[key]
@@ -64,7 +55,7 @@ class Collection:
     def load_file(self, path: Path, name: str):
         ext = path.suffix.lstrip('.')
 
-        load_func = self.__loaders__.get(ext, load_raw)
+        load_func = self._loaders.get(ext, load_raw)
 
         content, meta = load_func(path)
 
@@ -78,24 +69,6 @@ def load_raw(path: Path):
     For anything we don't recognise, we load it as a Raw content.
     '''
     return path.read_bytes(), {'content_type': 'Raw'}
-
-
-def load_yaml(path: Path):
-    with path.open() as fin:
-        loader = yaml.Loader(fin)
-        data = loader.get_data()
-        # PyYAML Reader greedily consumes chunks from the stream.
-        # We must recover any un-consumed data, as well as what's left in the stream.
-        if loader.buffer:
-            content = loader.buffer[loader.pointer:-1]
-        else:
-            content = ''
-        content += fin.read()
-    return content, data
-
-
-Collection.register('yaml', load_yaml)
-Collection.register('yml', load_yaml)
 
 
 class CollectionIndex(dict):
