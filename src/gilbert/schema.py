@@ -23,9 +23,11 @@ class SimpleValidator(Validator):
 
 
 class ContainerValidator(Validator):
+    _contained_arg = 0
+
     def __init__(self, _type):
         self.base = _type.__origin__
-        self.inner_type = validator_for(_type.__args__[0])
+        self.inner_type = validator_for(_type.__args__[self._contained_arg])
 
     def __call__(self, value):
         if not isinstance(value, self.base):
@@ -38,9 +40,16 @@ class ContainerValidator(Validator):
 
 
 class MappingValidator(ContainerValidator):
+    _contained_arg = 1
+    def __init__(self, _type):
+        self.base = _type.__origin__
+        self.key_type = validator_for(_type.__args__[0])
+        self.value_type = validator_for(_type.__args__[1])
+
     def validate_contents(self, value):
-        for item in value.items():
-            self.inner_type(item)
+        for key, value in value.items():
+            self.key_type(key)
+            self.value_type(value)
 
 
 class UnionValidator(Validator):
@@ -61,15 +70,21 @@ def validator_for(_type):
     '''
     Utility function to create a Type validator callable.
     '''
+    if _type is None:
+        return _type
+
     if isinstance(_type, typing._GenericAlias):
         base = _type.__origin__
-        if issubclass(base, Container):
-            if issubclass(base, Mapping):
-                return MappingValidator(_type)
-            return ContainerValidator(_type)
-        elif issubclass(base, typing.Union):
-            return UnionValidator(_type)
+
+        if inspect.isclass(base):
+            if issubclass(base, Container):
+                if issubclass(base, Mapping):
+                    return MappingValidator(_type)
+                return ContainerValidator(_type)
         # Optional, Any, AnyStr ?
+        elif isinstance(base, typing._SpecialForm):
+            if base._name == 'Union':
+                return UnionValidator(_type)
 
     if any(
         issubclass(_type, x)
@@ -77,7 +92,7 @@ def validator_for(_type):
     ):
         return SimpleValidator(_type)
 
-    raise TypeError(f"How do I validate a {base !r} ?")
+    raise TypeError(f"How do I validate a {_type !r} ?")
 
 
 class NO_DEFAULT:
