@@ -12,6 +12,11 @@ Default plugins
 
 Gilbert comes with some plugins by default.
 
+yaml
+----
+
+The ``yaml`` plugin registers a ``loader`` for `.yml` and `.yaml` files.
+
 markdown
 --------
 
@@ -71,26 +76,49 @@ This will register the class by its name.
 Adding a loader
 ---------------
 
-New file type loaders can be registered with the
-`gilbert.collection.Collection` class using the `Collection.register`
-classmethod.
+New file type loaders can be registered with the `gilbert.site.Site` class
+using the `Site.register_loader` classmethod.
 
 The following example will register a handler for files with a `.toml`
 extension:
 
 .. code-block:: python
 
-   from gilbert.collection import Collection
+   from gilbert import Site
 
    def load_toml(path: Path):
        data = toml.load(path.open())
 
        return '', data
 
-    Collection.register('toml')
+    Site.register_loader('toml', load_toml)
 
 
 A loader must return two values: `content`, and `meta`.
 
 The first argument is expected to be a dict, possibly including a key
 'content_type' indicating which Content class to use.
+
+Extending the Context
+---------------------
+
+Plugins can also register a ``Context Provider``. These are called in turn by
+the ``Site.get_context`` method to update the ``Context``.
+
+A ``Context Provider`` is a callable that accepts a context dict, and returns
+an updated context dict.
+
+The following example will register a ``Context Provider`` that adds the current time:
+
+.. code-block:: python
+
+    from datetime import datetime
+
+    from gilbert import Site
+
+    def add_datetime(ctx):
+        ctx['current_time'] = datetime.now()
+        return ctx
+
+    Site.register_context_provider(add_datetime)
+
