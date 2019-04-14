@@ -112,7 +112,7 @@ class SchemaProperty:
             return self
 
         try:
-            return instance.__data__[self.name]
+            return instance.__dict__[self.name]
         except KeyError:
             if self.default is NO_DEFAULT:
                 raise AttributeError(f'Schema {instance} has no value for {self.name}')
@@ -125,12 +125,11 @@ class SchemaProperty:
         elif isinstance(self._type, Validator):
             if not self._type.is_valid(value):
                 raise ValueError(f'{instance.__class__.__name__}.{self.name} does not accept value {value !r}')
-        instance.__data__[self.name] = value
+        instance.__dict__[self.name] = value
 
 
 class SchemaType(type):
     def __new__(cls, classname, bases, namespace, **kwargs):
-        namespace['__data__'] = {}
 
         for name, _type in namespace.get('__annotations__', {}).items():
             if name.startswith('__') and name.endswith('__'):
@@ -149,7 +148,6 @@ class SchemaType(type):
 
 
 class Schema(object, metaclass=SchemaType):
-    __slots__ = ()
 
     def __init__(self, **kwargs):
         for name, value in kwargs.items():
