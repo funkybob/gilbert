@@ -12,6 +12,7 @@ pytest = "*"
 stencil-template = "*"
 pyyaml = "*"
 markdown2 = "*"
+inotify = "*"
 
 [requires]
 python_version = "3.7"

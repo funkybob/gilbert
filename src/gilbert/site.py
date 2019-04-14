@@ -128,3 +128,22 @@ class Site:
             ctx = func(ctx)
 
         return Context(ctx)
+
+    def watch(self):
+        '''
+        Watch for changes, then re-render
+        '''
+        import inotify.adapters
+        from inotify.constants import IN_DELETE, IN_MOVE, IN_CLOSE, IN_MODIFY
+        i = inotify.adapters.InotifyTrees(
+            [
+                str(self.templates_dir),
+                str(self.pages_dir),
+                str(self.content_dir),
+            ],
+            mask=IN_DELETE | IN_MOVE | IN_MODIFY,
+        )
+
+        for event in i.event_gen(yield_nones=False):
+            print(event)
+            self.render()
