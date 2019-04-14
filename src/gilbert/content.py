@@ -65,6 +65,7 @@ class Renderable:
 
     def render(self, site):
         target = site.dest_dir / self.get_output_name()
+        target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(
             self.generate_content(site)
         )
