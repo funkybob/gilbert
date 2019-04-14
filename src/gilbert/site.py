@@ -27,6 +27,7 @@ class Site:
         self.templates = TemplateLoader([
             self.templates_dir,
         ])
+        self.load_plugins()
 
     def init(self):
         """
@@ -87,7 +88,6 @@ class Site:
         cls.__context_generators__.append(func)
 
     def render(self):
-        self.load_plugins()
         self.load_content()
         self.load_pages()
 
@@ -142,8 +142,10 @@ class Site:
                 str(self.content_dir),
             ],
             mask=IN_DELETE | IN_MOVE | IN_MODIFY,
+            block_duration_s=None,
         )
 
-        for event in i.event_gen(yield_nones=False):
-            print(event)
-            self.render()
+        for event in i.event_gen():
+            if event is None:
+                self.templates.clear()  # Reset template cache
+                self.render()
