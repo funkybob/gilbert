@@ -17,6 +17,9 @@ class Collection:
     def __getitem__(self, key):
         return self._items[key]
 
+    def __len__(self):
+        return len(self._items)
+
     def items(self):
         return self._items.items()
 

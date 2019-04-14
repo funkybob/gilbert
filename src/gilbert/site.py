@@ -96,10 +96,12 @@ class Site:
     def load_content(self):
         self.content = Collection(loaders=self.__loaders__)
         self.content.load(self.content_dir)
+        print(f'Found {len(self.content)} content objects.')
 
     def load_pages(self):
         self.pages = Collection(default_type=Page, loaders=self.__loaders__)
         self.pages.load(self.pages_dir)
+        print(f'Found {len(self.pages)} pages.')
 
     def render_pages(self):
         for name, page in sorted(self.pages.items()):
