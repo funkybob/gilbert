@@ -53,6 +53,7 @@ If we now try to `render` our site, we'll see the following:
    (venv) $ gilbert render
    Searching .../gilbert/plugins for plugins...
    Loaded plugin: markdown
+   Loaded plugin: yaml
    Loaded plugin: scss
    ValueError: Template for default.html not found: ['default.html']
 
@@ -80,6 +81,7 @@ This time when we render, we'll see:
    (venv) $ gilbert render
    Searching .../gilbert/plugins for plugins...
    Loaded plugin: markdown
+   Loaded plugin: yaml
    Loaded plugin: scss
    Rendering index.yaml ...
 
