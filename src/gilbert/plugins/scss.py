@@ -1,7 +1,7 @@
 from scss import Compiler
 
-from gilbert.content import Content, Renderable
 from gilbert import Site
+from gilbert.content import Content, Renderable
 
 
 class SCSS(Renderable, Content):

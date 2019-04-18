@@ -134,7 +134,7 @@ class Site:
         Watch for changes, then re-render
         '''
         import inotify.adapters
-        from inotify.constants import IN_DELETE, IN_MOVE, IN_CLOSE, IN_MODIFY
+        from inotify.constants import IN_DELETE, IN_MOVE, IN_MODIFY
         i = inotify.adapters.InotifyTrees(
             [
                 str(self.templates_dir),
