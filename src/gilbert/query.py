@@ -1,3 +1,4 @@
+import operator
 
 
 class Query:
@@ -46,6 +47,55 @@ class Attr(AstNode, operator='attr'):
         name = self.resolve(self.name, context)
 
         return getattr(context, name)
+
+
+class BooleanNode(AstNode, operator=None):
+
+    def __init__(self, left, right):
+        self.left = left
+        self.right = right
+
+    def __call__(self, context):
+        left = self.resolve(self.left, context)
+        right = self.resolve(self.right, context)
+
+        return self.op(left, right)
+
+
+class And(BooleanNode, operator='and'):
+    op = operator.and_
+
+
+class Or(BooleanNode, operator='or'):
+    op = operator.or_
+
+
+class Not(BooleanNode, operator='not'):
+    op = operator.not_
+
+
+class Lt(BooleanNode, operator='lt'):
+    op = operator.lt
+
+
+class Le(BooleanNode, operator='le'):
+    op = operator.le
+
+
+class Equal(BooleanNode, operator='eq'):
+    op = operator.eq
+
+
+class NotEqual(BooleanNode, operator='ne'):
+    op = operator.ne
+
+
+class Ge(BooleanNode, operator='ge'):
+    op = operator.ge
+
+
+class Gt(BooleanNode, operator='gt'):
+    op = operator.gt
 
 
 class StartsWith(AstNode, operator='startswith'):
