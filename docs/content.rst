@@ -78,7 +78,7 @@ Now you can define documents with the content-type of `BlogPost` with these attr
 .. code-block:: yaml
    :caption: mysite/content/post.yaml
 
-   content_type: BlockPost
+   content_type: BlogPost
    title: My First Post!
    ---
    Welcome to my blog!
