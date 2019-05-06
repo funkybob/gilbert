@@ -7,9 +7,13 @@ https://en.wikipedia.org/wiki/William_Gilbert_(astronomer)
 
 # Quick Start
 
-Install gilbert:
+Install gilbert: (** Not currently published **)
 
     $ pip install gilbert
+
+Or install from GitHub:
+
+    $ pip install git+https://github.com/funkybob/gilbert.git
 
 Create a gilbert project:
 
