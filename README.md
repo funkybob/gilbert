@@ -58,10 +58,14 @@ Gilbert supports auto-discovered plugins. They simply need to be packages existi
 
 By default, the following Plugins are provided:
 
-1. markdown
+1. yaml
+
+   Registers a loader for .yml and .yaml files.
+
+2. markdown
 
    An extension of `Page` which renders its `content` using Markdown
 
-2. scss
+3. scss
 
    Renders its content using SCSS
