@@ -2,6 +2,7 @@ from collections import defaultdict
 from pathlib import Path
 
 from .content import Content
+from .query import Query
 
 
 class Collection:
@@ -20,8 +21,23 @@ class Collection:
     def __len__(self):
         return len(self._items)
 
+    def __iter__(self):
+        return iter(self._items.values())
+
     def items(self):
         return self._items.items()
+
+    def matching(self, query):
+        """
+        Return objects matching a query
+        """
+        q = Query(query)
+
+        return [
+            item
+            for item in self
+            if q(item)
+        ]
 
     def by(self, key):
         """
