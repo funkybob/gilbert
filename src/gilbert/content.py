@@ -42,8 +42,8 @@ class Content(Schema):
         try:
             klass = cls._types[content_type]
         except KeyError:
-            msg = f"You attempted to create a page with type {content_type} but no class is registered to handle this content type"
-            raise TypeError(msg)
+            raise ValueError(f'You attempted to create a page with type "{content_type}"'
+                              ' but no class is registered to handle this content type')
         return klass(name, content, meta)
 
 
