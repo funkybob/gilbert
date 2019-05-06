@@ -2,7 +2,7 @@
 Content Types
 *************
 
-Content types control how pages and content are interepreted and rendered.
+Content types control how pages and content are interpreted and rendered.
 
 
 Built in Content types
@@ -100,7 +100,7 @@ In addition, there are provided some mixin classes to help simplify writing cust
 
       Returns the ``Path`` to write output to.
 
-      Default implementation appents the `name` of this object to the ``Site.dist_dir`` and replaces its extension with ``extension``.
+      Default implementation appends the `name` of this object to the ``Site.dist_dir`` and replaces its extension with ``extension``.
 
    .. py:method:: generate_content(site : Site)
 
