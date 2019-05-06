@@ -2,7 +2,7 @@
 Content Types
 *************
 
-Content types control how pages and content are interepreted and rendered.
+Content types control how pages and content are interpreted and rendered.
 
 
 Built in Content types
@@ -78,7 +78,7 @@ Now you can define documents with the content-type of `BlogPost` with these attr
 .. code-block:: yaml
    :caption: mysite/content/post.yaml
 
-   content_type: BlockPost
+   content_type: BlogPost
    title: My First Post!
    ---
    Welcome to my blog!
@@ -96,11 +96,11 @@ In addition, there are provided some mixin classes to help simplify writing cust
 
       The extension to use when writing the output.
 
-   .. py:method:: get_outut_name() -> str
+   .. py:method:: get_output_name() -> str
 
       Returns the ``Path`` to write output to.
 
-      Default implementation appents the `name` of this object to the ``Site.dist_dir`` and replaces its extension with ``extension``.
+      Default implementation appends the `name` of this object to the ``Site.dist_dir`` and replaces its extension with ``extension``.
 
    .. py:method:: generate_content(site : Site)
 
