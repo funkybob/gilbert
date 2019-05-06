@@ -49,7 +49,7 @@ class Attr(AstNode, operator='attr'):
         return getattr(context, name)
 
 
-class And(AstNode, operator='and'):
+class All(AstNode, operator='all'):
 
     def __init__(self, *terms):
         self.terms = terms
@@ -61,7 +61,7 @@ class And(AstNode, operator='and'):
         )
 
 
-class Or(AstNode, operator='or'):
+class Any(AstNode, operator='any'):
 
     def __init__(self, *terms):
         self.terms = terms
