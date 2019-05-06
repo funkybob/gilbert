@@ -73,7 +73,6 @@ class Any(AstNode, operator='any'):
         )
 
 
-
 class BooleanNode(AstNode, operator=None):
 
     def __init__(self, left, right):
@@ -125,3 +124,15 @@ class StartsWith(AstNode, operator='startswith'):
         prefix = self.resolve(self.prefix, context)
 
         return value.startswith(prefix)
+
+
+class Contains(AstNode, operator='contains'):
+    def __init__(self, left, right):
+        self.left = left
+        self.right = right
+
+    def __call__(self, context):
+        left = self.render(self.left, context)
+        right = self.render(self.right, context)
+
+        return right in left
