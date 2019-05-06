@@ -22,15 +22,13 @@ class AstNode:
         if isinstance(term, (int, float, str)):
             return term
 
+        assert isinstance(term, dict)
+
         operator, args = term.popitem()
         assert not len(term)
 
         args = [AstNode.build(arg) for arg in args]
-        try:
-            return AstNode.__ops__[operator](*args)
-        except TypeError:
-            print(operator, args)
-            raise
+        return AstNode.__ops__[operator](*args)
 
     def resolve(self, term, context):
         if isinstance(term, (int, float, str)):
