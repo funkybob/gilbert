@@ -39,7 +39,11 @@ class Content(Schema):
         appropriate sub-class.
         """
         content_type = meta.get('content_type', cls.__name__)
-        klass = cls._types[content_type]
+        try:
+            klass = cls._types[content_type]
+        except KeyError:
+            msg = f"You attempted to create a page with type {content_type} but no class is registered to handle this content type"
+            raise TypeError(msg)
         return klass(name, content, meta)
 
 
