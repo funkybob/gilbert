@@ -96,7 +96,7 @@ In addition, there are provided some mixin classes to help simplify writing cust
 
       The extension to use when writing the output.
 
-   .. py:method:: get_outut_name() -> str
+   .. py:method:: get_output_name() -> str
 
       Returns the ``Path`` to write output to.
 
