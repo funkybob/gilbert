@@ -26,7 +26,7 @@ for `.md` files.
 The `.md` loader reads the files contents, and returns a dict with a single key
 of `content_type` as ``MarkdownPage``.
 
-The ``MarkdownPage`` class takes a config dict and contents. It renderse the
+The ``MarkdownPage`` class takes a config dict and contents. It renders the
 content using the ``markdown2`` package.
 
 scss
