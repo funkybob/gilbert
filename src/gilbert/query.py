@@ -49,6 +49,31 @@ class Attr(AstNode, operator='attr'):
         return getattr(context, name)
 
 
+class And(AstNode, operator='and'):
+
+    def __init__(self, *terms):
+        self.terms = terms
+
+    def __call__(self, context):
+        return all(
+            term(context)
+            for term in self.terms
+        )
+
+
+class Or(AstNode, operator='or'):
+
+    def __init__(self, *terms):
+        self.terms = terms
+
+    def __call__(self, context):
+        return any(
+            term(context)
+            for term in self.terms
+        )
+
+
+
 class BooleanNode(AstNode, operator=None):
 
     def __init__(self, left, right):
@@ -60,14 +85,6 @@ class BooleanNode(AstNode, operator=None):
         right = self.resolve(self.right, context)
 
         return self.op(left, right)
-
-
-class And(BooleanNode, operator='and'):
-    op = operator.and_
-
-
-class Or(BooleanNode, operator='or'):
-    op = operator.or_
 
 
 class Not(BooleanNode, operator='not'):
