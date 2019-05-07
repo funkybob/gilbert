@@ -70,7 +70,12 @@ class Any(AstNode, operator='any'):
         )
 
 
-class BooleanNode(AstNode, operator=None):
+class Not(AstNode, operator='not'):
+    def __call__(self, context):
+        return not context
+
+
+class BinaryOperator(AstNode, operator=None):
 
     def __init__(self, left, right):
         self.left = left
@@ -83,31 +88,27 @@ class BooleanNode(AstNode, operator=None):
         return self.op(left, right)
 
 
-class Not(BooleanNode, operator='not'):
-    op = operator.not_
-
-
-class Lt(BooleanNode, operator='lt'):
+class Lt(BinaryOperator, operator='lt'):
     op = operator.lt
 
 
-class Le(BooleanNode, operator='le'):
+class Le(BinaryOperator, operator='le'):
     op = operator.le
 
 
-class Equal(BooleanNode, operator='eq'):
+class Equal(BinaryOperator, operator='eq'):
     op = operator.eq
 
 
-class NotEqual(BooleanNode, operator='ne'):
+class NotEqual(BinaryOperator, operator='ne'):
     op = operator.ne
 
 
-class Ge(BooleanNode, operator='ge'):
+class Ge(BinaryOperator, operator='ge'):
     op = operator.ge
 
 
-class Gt(BooleanNode, operator='gt'):
+class Gt(BinaryOperator, operator='gt'):
     op = operator.gt
 
 
