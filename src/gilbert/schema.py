@@ -26,7 +26,7 @@ class SimpleValidator(Validator):
 
     def __call__(self, value):
         if not isinstance(value, self._type):
-            raise TypeError(f"Vaue {value !r} is not of type '{self._type.__name__}'.")
+            raise TypeError(f"Value {value !r} is not of type '{self._type.__name__}'.")
 
 
 class ContainerValidator(Validator):
