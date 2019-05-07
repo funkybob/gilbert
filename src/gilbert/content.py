@@ -4,6 +4,7 @@ Content object classes
 from pathlib import Path
 from typing import Collection, Sequence, Union
 
+from .clientexception import ClientException
 from .schema import Schema
 
 
@@ -101,7 +102,7 @@ class Templated(Renderable):
             except LookupError:
                 pass
         else:
-            raise ValueError(f'Template for {name} not found: {template_names}')
+            raise ClientException(f'Template for {name} not found: {template_names}')
 
         return template
 
