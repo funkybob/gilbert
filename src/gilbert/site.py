@@ -49,8 +49,9 @@ class Site:
 
             for child in root.iterdir():
                 if not (
-                    child.is_dir() or
-                    (child.is_file() and child.suffix == '.py')
+                    child.is_dir() or (
+                        child.is_file() and child.suffix == '.py'
+                    )
                 ):
                     continue
 
