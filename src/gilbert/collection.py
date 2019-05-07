@@ -31,12 +31,13 @@ class Collection:
         """
         Return objects matching a query
         """
-        q = Query(query)
+        if not isinstance(query, Query):
+            query = Query(query)
 
         return [
             item
             for item in self
-            if q(item)
+            if query(item)
         ]
 
     def by(self, key):
