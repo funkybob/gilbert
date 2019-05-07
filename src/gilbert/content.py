@@ -51,8 +51,12 @@ class Raw(Content):
     """
     Container for 'raw' content.
     """
+    content: bytes
+
     def render(self, site):
-        (site.dest_dir / self.name).write_bytes(self.content)
+        target = site.dest_dir / self.name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(self.content)
 
 
 class Renderable:
