@@ -129,7 +129,7 @@ class Contains(AstNode, operator='contains'):
         self.right = right
 
     def __call__(self, context):
-        left = self.render(self.left, context)
-        right = self.render(self.right, context)
+        left = self.resolve(self.left, context)
+        right = self.resolve(self.right, context)
 
         return right in left
