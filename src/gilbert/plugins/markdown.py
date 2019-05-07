@@ -7,8 +7,8 @@ from gilbert.content import Content, Templated
 class MarkdownPage(Templated, Content):
     extras : list = []
 
-    def __init__(self, name, content=None, meta=None):
-        super().__init__(name, content, meta)
+    def __init__(self, name, site, content=None, meta=None):
+        super().__init__(name, site, content=content, meta=meta)
         markdown = Markdown(extras=self.extras)
         self.content = markdown.convert(self.content)
 

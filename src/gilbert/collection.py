@@ -9,7 +9,8 @@ class Collection:
     """
     Collection of content objects.
     """
-    def __init__(self, default_type=Content, loaders=None):
+    def __init__(self, site, default_type=Content, loaders=None):
+        self.site = site
         self.default_type = default_type
         self._items = {}
         self._index = {}
@@ -79,7 +80,7 @@ class Collection:
 
         content, meta = load_func(path)
 
-        obj = self.default_type.create(name, content=content, meta=meta)
+        obj = self.default_type.create(name, self.site, content=content, meta=meta)
 
         return obj
 

@@ -95,25 +95,28 @@ class Site:
         self.render_pages()
 
     def load_content(self):
-        self.content = Collection(loaders=self.__loaders__)
+        self.content = Collection(self, loaders=self.__loaders__)
         self.content.load(self.content_dir)
         print(f'Found {len(self.content)} content objects.')
 
     def load_pages(self):
-        self.pages = Collection(default_type=Page, loaders=self.__loaders__)
+        self.pages = Collection(self, default_type=Page, loaders=self.__loaders__)
         self.pages.load(self.pages_dir)
         print(f'Found {len(self.pages)} pages.')
 
     def render_pages(self):
         for name, page in sorted(self.pages.items()):
             print(f"Rendering {name} ...")
-            page.render(self)
+            page.render()
 
     def get_context(self, obj, **kwargs) -> Context:
 
         def render(collection, name):
             obj = collection[name]
-            return obj.generate_content(self)
+            return obj.generate_content()
+
+        def lookup(collection, name):
+            return collection[name]
 
         ctx = {
             'site': self,
@@ -122,6 +125,7 @@ class Site:
             'this': obj,
             # Add helper functions
             'render': render,
+            'lookup': lookup,
             **kwargs
         }
 
