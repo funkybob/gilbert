@@ -5,10 +5,11 @@ from gilbert.content import Content, Templated
 
 
 class MarkdownPage(Templated, Content):
+    extras : list = []
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        markdown = Markdown()
+    def __init__(self, name, content=None, meta=None):
+        super().__init__(name, content, meta)
+        markdown = Markdown(extras=self.extras)
         self.content = markdown.convert(self.content)
 
 
