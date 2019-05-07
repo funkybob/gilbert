@@ -54,7 +54,7 @@ Next, we need to gather all the content objects and aggregate the tags.
 
 And that's it!
 
-Oh, but wait - maybe we don't want to count _all_ the objects? Let's add a
+Oh, but wait - maybe we don't want to count *all* the objects? Let's add a
 filter.
 
 .. code-block:: python
@@ -86,12 +86,11 @@ start to get expensive.
 .. code-block:: python
    :caption: plugins.py
    :linenos:
-   :emphasize-lines: 4,5,12-14
+   :emphasize-lines: 3-4,11-16
 
    from collections import Counter
 
    from gilbert.content import Content, Templated
-   from gilbert.query import Query
    from gilbert.utils import oneshot
 
    class TagCloud(Templated, Content):
