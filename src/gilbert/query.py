@@ -37,13 +37,15 @@ class AstNode:
 
 
 class Attr(AstNode, operator='attr'):
-    def __init__(self, name):
+    def __init__(self, name, default=None):
         self.name = name
+        self.default = default
 
     def __call__(self, context):
         name = self.resolve(self.name, context)
+        default = None if self.default is None else self.resolve(self.default, context)
 
-        return getattr(context, name)
+        return getattr(context, name, default)
 
 
 class All(AstNode, operator='all'):
