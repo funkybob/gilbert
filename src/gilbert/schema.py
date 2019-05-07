@@ -88,7 +88,7 @@ def validator_for(_type):
 
     if any(
         issubclass(_type, x)
-        for x in (str, int, float, set, dict, tuple, list)
+        for x in (bytes, str, int, float, set, dict, tuple, list)
     ):
         return SimpleValidator(_type)
 
