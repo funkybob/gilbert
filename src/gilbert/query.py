@@ -24,8 +24,7 @@ class AstNode:
 
         assert isinstance(term, dict)
 
-        operator, args = term.popitem()
-        assert not len(term)
+        operator, args = list(term.items())[0]
 
         args = [AstNode.build(arg) for arg in args]
         return AstNode.__ops__[operator](*args)
