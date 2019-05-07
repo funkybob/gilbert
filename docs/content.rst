@@ -64,6 +64,7 @@ You can declare your own content-types easily in your project.  Create a ``plugi
    :caption: mysite/plugins.py
 
    import typing
+   from datetime import datetime
 
    from gilbert.content import Templated, Content
 
