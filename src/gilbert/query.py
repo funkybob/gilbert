@@ -71,8 +71,11 @@ class Any(AstNode, operator='any'):
 
 
 class Not(AstNode, operator='not'):
+    def __init__(self, value):
+        self.value = value
+
     def __call__(self, context):
-        return not context
+        return not self.resolve(self.value, context)
 
 
 class BinaryOperator(AstNode, operator=None):
