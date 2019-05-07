@@ -19,6 +19,8 @@ Create a gilbert project:
 
     $ gilbert --root mysite init
 
+(You can omit `--root` if it's the current directory.)
+
 Create page files in mysite/pages/
 
 Render your site:
