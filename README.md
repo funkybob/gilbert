@@ -27,6 +27,13 @@ Render your site:
 
     $ gilbert --root mysite render
 
+Have gilbert watch your files, and re-render on changes:
+
+    $ gilbert --root mysite watch
+
+Finally, list all loaders and plugins:
+
+    $ gilbert --root mysite plugins
 
 # Project contents:
 
