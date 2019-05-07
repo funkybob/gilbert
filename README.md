@@ -4,6 +4,7 @@ Another static site generator.
 
 https://en.wikipedia.org/wiki/William_Gilbert_(astronomer)
 
+This README contains a brief introduction to the project. Full documentation [is available here](https://gilbert.readthedocs.io/en/latest/).
 
 # Quick Start
 
