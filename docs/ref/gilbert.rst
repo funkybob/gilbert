@@ -44,15 +44,6 @@ gilbert.site module
     :undoc-members:
     :show-inheritance:
 
-gilbert.template module
------------------------
-
-.. automodule:: gilbert.template
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
 Module contents
 ---------------
 

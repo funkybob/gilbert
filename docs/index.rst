@@ -10,11 +10,14 @@ Welcome to Gilbert's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   tutorial
+   tutorials/index
+
    content
    collections
    loaders
    plugins
+
+   query
 
    ref/modules
 
