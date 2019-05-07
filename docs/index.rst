@@ -2,9 +2,11 @@ Welcome to Gilbert's documentation!
 ===================================
 
 .. rubric::
-   This project is named after `William Gilbert`_ who is credited with originating the term "electricity".
+   This project is named after `William Gilbert`_ who is credited with
+   originating the term "electricity".
 
-.. warning:: This project is still very much in flux, so beware. These docs should be updated frequently.
+.. warning:: This project is still very much in flux, so beware. These docs
+   should be updated frequently.
 
 .. toctree::
    :maxdepth: 2

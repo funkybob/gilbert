@@ -108,7 +108,8 @@ the ``Site.get_context`` method to update the ``Context``.
 A ``Context Provider`` is a callable that accepts a context dict, and returns
 an updated context dict.
 
-The following example will register a ``Context Provider`` that adds the current time:
+The following example will register a ``Context Provider`` that adds the
+current time:
 
 .. code-block:: python
 

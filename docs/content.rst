@@ -57,7 +57,8 @@ When rendered, it will:
 Custom Content Types
 ====================
 
-You can declare your own content-types easily in your project.  Create a ``plugins.py`` file, and declare them in there.
+You can declare your own content-types easily in your project.  Create a
+``plugins.py`` file, and declare them in there.
 
 
 .. code-block:: python
@@ -73,7 +74,8 @@ You can declare your own content-types easily in your project.  Create a ``plugi
        posted: typing.Union[None, datetime]
        template: str = "blog/post.html"
 
-Now you can define documents with the content-type of `BlogPost` with these attributes.
+Now you can define documents with the content-type of `BlogPost` with these
+attributes.
 
 .. code-block:: yaml
    :caption: mysite/content/post.yaml
@@ -87,7 +89,8 @@ Now you can define documents with the content-type of `BlogPost` with these attr
 Content Type Mixins
 -------------------
 
-In addition, there are provided some mixin classes to help simplify writing custom plugins.
+In addition, there are provided some mixin classes to help simplify writing
+custom plugins.
 
 
 .. py:class:: Renderable
@@ -100,7 +103,8 @@ In addition, there are provided some mixin classes to help simplify writing cust
 
       Returns the ``Path`` to write output to.
 
-      Default implementation appends the `name` of this object to the ``Site.dist_dir`` and replaces its extension with ``extension``.
+      Default implementation appends the `name` of this object to the
+      ``Site.dist_dir`` and replaces its extension with ``extension``.
 
    .. py:method:: generate_content(site : Site)
 
@@ -111,7 +115,8 @@ In addition, there are provided some mixin classes to help simplify writing cust
    .. py:method:: render(site: Site)
 
       Called to render this object.
-      Opens the Path returned by ``get_output_name`` and passes it to ``generate_content``
+      Opens the Path returned by ``get_output_name`` and passes it to
+      ``generate_content``
 
 .. py:class:: Templated(Renderable)
 
@@ -125,7 +130,8 @@ In addition, there are provided some mixin classes to help simplify writing cust
 
       Loads the template for this object.
 
-      Default action is to return the first template listed in ``get_template_names`` it can load from ``Site.templates``
+      Default action is to return the first template listed in
+      ``get_template_names`` it can load from ``Site.templates``
 
    .. py:method:: get_context(site: Site) -> stencil.Context
 
