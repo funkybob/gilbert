@@ -14,6 +14,12 @@ class Validator:
         return True
 
 
+class NoneValidator(Validator):
+    def __call__(self, value):
+        if not value is None:
+            raise TypeError(f'Value {value !r} is not of type NoneType')
+
+
 class SimpleValidator(Validator):
     def __init__(self, _type):
         self._type = _type
@@ -70,8 +76,8 @@ def validator_for(_type):
     '''
     Utility function to create a Type validator callable.
     '''
-    if _type is None:
-        return _type
+    if _type is type(None):
+        return NoneValidator()
 
     if isinstance(_type, typing._GenericAlias):
         base = _type.__origin__
