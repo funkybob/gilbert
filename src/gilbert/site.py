@@ -2,7 +2,7 @@ from collections import OrderedDict
 from importlib import import_module
 from pathlib import Path
 
-from stencil import Context, TemplateLoader
+from .template import Context, TemplateLoader
 
 from .collection import Collection
 from .content import Page
@@ -111,21 +111,11 @@ class Site:
 
     def get_context(self, obj, **kwargs) -> Context:
 
-        def render(collection, name):
-            obj = collection[name]
-            return obj.generate_content()
-
-        def lookup(collection, name):
-            return collection[name]
-
         ctx = {
             'site': self,
             'pages': self.pages,
             'content': self.content,
             'this': obj,
-            # Add helper functions
-            'render': render,
-            'lookup': lookup,
             **kwargs
         }
 
