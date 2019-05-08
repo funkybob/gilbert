@@ -53,76 +53,99 @@ for
 
 Allows for repeating a portion of the template over a sequence:
 
-{% for value in sequence %}
+.. code-block:: html
 
-{% endfor %}
+   {% for value in sequence %}
+   ...
+   {% endfor %}
 
 Additionally, an ``else`` clause can be included for when the sequence is empty:
 
-{% for valie in sequence %}
+.. code-block:: html
 
-{% else %}
-
-{% endfor %}
+   {% for value in sequence %}
+   ...
+   {% else %}
+   ...
+   {% endfor %}
 
 if
 --
 
-{% if expr %}
-{% endif %}
+.. code-block:: html
 
-{% if not expr %}
-{% endif %}
+   {% if expr %}
+   ...
+   {% endif %}
 
-{% if expr %}
-{% else %}
-{% endif %}
+   {% if not expr %}
+   ...
+   {% endif %}
+
+   {% if expr %}
+   ...
+   {% else %}
+   ...
+   {% endif %}
 
 include
 -------
 
 Include another template here.
 
-{% include templatename %}
+.. code-block:: html
+
+   {% include templatename %}
 
 Additionally, extra context may be overlaid:
 
-{% include templatename foo=bar ... %}
+.. code-block:: html
 
-load
-----
-
-Load a supplementary template extension library.
+   {% include templatename foo=bar ... %}
 
 extends
 -------
 
 Defines this template as extending another template, overriding its {% block %} tags.
 
-{% extends templatename %}
+.. code-block:: html
+
+   {% extends templatename %}
 
 block
 -----
 
 Defines or overrides a block.
 
-{% block name %}
-{% endblock %}
+.. code-block:: html
+
+   {% block name %}
+   ...
+   {% endblock %}
 
 with
 ----
 
 Temporarily define some extra context.
 
-{% with foo=bar ... %}
-{% endwith %}
+.. code-block:: html
+
+   {% with foo=bar ... %}
+   ...
+   {% endwith %}
 
 case
 ----
 
 A switch/case flow control.
 
-{% case expr %}
-{% when value %}
-{% else %}
-{% endcase %}
+.. code-block:: html
+
+   {% case expr %}
+   {% when value %}
+   ...
+   {% when value %}
+   ...
+   {% else %}
+   ...
+   {% endcase %}
