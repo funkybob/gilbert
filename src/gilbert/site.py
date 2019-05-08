@@ -52,7 +52,7 @@ class Site:
                     child.is_dir() or (
                         child.is_file() and child.suffix == '.py'
                     )
-                ):
+                ) or child.name.startswith('__'):
                     continue
 
                 rel_path = child.relative_to(root)
