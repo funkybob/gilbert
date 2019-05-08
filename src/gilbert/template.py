@@ -403,14 +403,6 @@ class IncludeTag(BlockNode, name='include'):
             tmpl.render(context, output)
 
 
-class LoadTag(BlockNode, name='load'):
-
-    @classmethod
-    def parse(cls, content, parser):
-        importlib.import_module(content)
-        return cls(None)
-
-
 class ExtendsTag(BlockNode, name='extends'):
 
     def __init__(self, parent, loader, nodelist):
