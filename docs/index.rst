@@ -16,9 +16,10 @@ Welcome to Gilbert's documentation!
 
    content
    collections
+   templates
+
    loaders
    plugins
-
    query
 
    ref/modules
