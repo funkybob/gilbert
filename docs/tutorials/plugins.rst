@@ -19,19 +19,6 @@ We start by creating a ``plugins.py`` in our project, and declaring
    class TagCloud(Content):
        pass
 
-Since this will be rendered using a template, we also need to include the
-``Templated`` mixin, and specify a default ``template`` attribute.
-
-.. code-block:: python
-   :caption: plugins.py
-   :linenos:
-
-   from gilbert.content import Content, Templated
-
-
-   class TagCloud(Templated, Content):
-       template = 'tag_cloud.html'
-
 Next, we need to gather all the content objects and aggregate the tags.
 
 .. code-block:: python
@@ -40,11 +27,10 @@ Next, we need to gather all the content objects and aggregate the tags.
 
    from collections import Counter
 
-   from gilbert.content import Content, Templated
+   from gilbert.content import Content
 
 
-   class TagCloud(Templated, Content):
-       template = 'tag_cloud.html'
+   class TagCloud(Content):
 
        def get_context(self):
            tags = Counter()

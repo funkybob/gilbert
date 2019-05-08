@@ -52,7 +52,7 @@ Each project contains 4 directories:
 
    This contains other content objects to be made available to all pages on the site to include in their templates.
 
-4. dist/
+4. docs/
 
    This is where the site distributable content are rendered into.
 

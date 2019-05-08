@@ -23,7 +23,7 @@ This will create a basic project layout:
    (venv) $ tree mysite
    mysite/
    ├── content
-   ├── dist
+   ├── docs
    ├── pages
    └── templates
 
@@ -89,7 +89,7 @@ We can now look at our new page:
 
 .. code-block:: sh
 
-   (venv) $ $BROWSER dist/index.html
+   (venv) $ $BROWSER docs/index.html
 
 
 .. _stencil: https://stencil-templates.readthedocs.io/en/latest/

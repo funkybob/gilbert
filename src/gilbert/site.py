@@ -22,7 +22,7 @@ class Site:
         self.templates_dir = self.root / 'templates'
         self.pages_dir = self.root / 'pages'
         self.content_dir = self.root / 'content'
-        self.dest_dir = self.root / 'dist'
+        self.dest_dir = self.root / 'docs'
 
         self.templates = TemplateLoader([
             self.templates_dir,
