@@ -44,6 +44,13 @@ using the ``PySCSS`` package.
 If the config dict contains a `scss_options` key, it is passed to the
 ``PySCSS`` Compiler as keyword arguments.
 
+collection
+----------
+
+The ``collection`` plugin provides a `Collection` content type for defining
+collections of pages or content objects.
+
+
 Writing your own Plugins
 ========================
 
@@ -122,4 +129,3 @@ current time:
         return ctx
 
     Site.register_context_provider(add_datetime)
-
