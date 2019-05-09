@@ -2,6 +2,7 @@ import argparse
 import sys
 import traceback
 from pathlib import Path
+from shutil import rmtree
 
 from .exceptions import ClientException
 from .site import Site
@@ -13,7 +14,13 @@ def main():
                         help="Root of site data [defaults to CWD]")
     parser.add_argument('--debug', '-d', default=False, action="store_true",
                         help="Additional debugging [defaults to off]")
-    parser.add_argument('action', choices=['init', 'render', 'watch', 'plugins'])
+    parser.add_argument('action', choices=[
+        'init',
+        'render',
+        'watch',
+        'plugins',
+        'clean',
+    ])
 
     args = parser.parse_args()
 
@@ -36,6 +43,19 @@ def main():
             for name in Content._types:
                 print(f"- {name}")
             print("")
+        elif args.action == 'clean':
+            def onerror(func, path, exc_info):
+                print(f"!! Unable to remove {path}")
+
+            for child in site.dest_dir.iterdir():
+                if child.is_dir():
+                    rmtree(child, onerror=onerror)
+                else:
+                    try:
+                        child.unlink()
+                    except Exception:
+                        onerror(None, str(child), None)
+
     except ClientException as exc:
         if args.debug:
             traceback.print_exc(file=sys.stdout)
