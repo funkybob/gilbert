@@ -5,7 +5,7 @@ from gilbert.content import Content, Templated
 
 
 class MarkdownPage(Templated, Content):
-    extras : list = []
+    extras: list = []
 
     def __init__(self, name, site, content=None, meta=None):
         super().__init__(name, site, content=content, meta=meta)

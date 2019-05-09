@@ -1,4 +1,3 @@
-import importlib
 import re
 import token
 import tokenize

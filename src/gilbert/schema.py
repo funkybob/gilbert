@@ -16,7 +16,7 @@ class Validator:
 
 class NoneValidator(Validator):
     def __call__(self, value):
-        if not value is None:
+        if value is not None:
             raise TypeError(f'Value {value !r} is not of type NoneType')
 
 
@@ -76,7 +76,7 @@ def validator_for(_type):
     '''
     Utility function to create a Type validator callable.
     '''
-    if _type is type(None):
+    if isinstance(_type, type(None)):
         return NoneValidator()
 
     if isinstance(_type, typing._GenericAlias):
