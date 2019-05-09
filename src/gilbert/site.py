@@ -81,12 +81,14 @@ class Site:
         if ext in cls.__loaders__:
             print(f"WARNING: Overriding loader for {ext}")
         cls.__loaders__[ext] = func
+        return func
 
     @classmethod
     def register_context_provider(cls, func):
         if func in cls.__context_generators__:
             raise Warning(f'Context generator {func} already registered.')
         cls.__context_generators__.append(func)
+        return func
 
     def render(self):
         self.load_content()
