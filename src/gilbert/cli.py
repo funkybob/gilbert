@@ -3,7 +3,7 @@ import sys
 import traceback
 from pathlib import Path
 
-from .clientexception import ClientException
+from .exceptions import ClientException
 from .site import Site
 
 

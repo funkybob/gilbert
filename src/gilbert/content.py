@@ -4,7 +4,7 @@ Content object classes
 from pathlib import Path
 from typing import Collection, Sequence, Union
 
-from .clientexception import ClientException
+from .exceptions import ClientException
 from .schema import Schema
 
 
