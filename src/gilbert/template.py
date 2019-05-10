@@ -326,12 +326,7 @@ class ForTag(BlockNode, name='for'):
         argname, iterable = content.split(' in ', 1)
         nodelist = parser.parse_nodelist({'endfor', 'else'})
         elselist = parser.parse_nodelist({'endfor'}) if nodelist.endnode.name == 'else' else None
-        return cls(
-            argname.strip(),
-            Expression.parse(iterable.strip()),
-            nodelist,
-            elselist
-        )
+        return cls(argname.strip(), Expression.parse(iterable.strip()), nodelist, elselist)
 
     def render(self, context, output):
         iterable = self.iterable.resolve(context)
@@ -416,14 +411,18 @@ class ExtendsTag(BlockNode, name='extends'):
     def render(self, context, output):
         parent = self.loader[self.parent.resolve(context)]
         block_context = getattr(context, 'block_context', None)
+        new = False
         if block_context is None:
             block_context = context.block_context = defaultdict(deque)
+            new = True
         for block in self.nodelist.nodes_by_type(BlockTag):
             block_context[block.block_name].append(block)
         if parent.nodelist[0].name != 'extends':
             for block in parent.nodelist.nodes_by_type(BlockTag):
                 block_context[block.block_name].append(block)
         parent.render(context, output)
+        if new:
+            del context.block_context
 
 
 class BlockTag(BlockNode, name='block'):
