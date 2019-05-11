@@ -4,45 +4,16 @@ gilbert package
 Submodules
 ----------
 
-gilbert.cli module
-------------------
+.. toctree::
 
-.. automodule:: gilbert.cli
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-gilbert.collection module
--------------------------
-
-.. automodule:: gilbert.collection
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-gilbert.content module
-----------------------
-
-.. automodule:: gilbert.content
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-gilbert.schema module
----------------------
-
-.. automodule:: gilbert.schema
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-gilbert.site module
--------------------
-
-.. automodule:: gilbert.site
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   gilbert.cli
+   gilbert.collection
+   gilbert.content
+   gilbert.exceptions
+   gilbert.query
+   gilbert.schema
+   gilbert.site
+   gilbert.utils
 
 Module contents
 ---------------
