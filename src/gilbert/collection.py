@@ -41,24 +41,6 @@ class Collection:
             if query(item)
         ]
 
-    def by(self, key):
-        """
-        Dynamically generate an index by key
-        """
-        if key not in self._index:
-            self._index[key] = CollectionIndex(self, key)
-        return self._index[key]
-
-    def with_tag(self, tag):
-        """
-        Build a set of content with this tag.
-        """
-        return {
-            obj
-            for obj in self._items.values()
-            if tag in obj.tags
-        }
-
     def load(self, path: Path, root: Path = None):
         """
         Recursively load all objects from a path.
@@ -90,12 +72,3 @@ def load_raw(path: Path):
     For anything we don't recognise, we load it as a Raw content.
     '''
     return path.read_bytes(), {'content_type': 'Raw'}
-
-
-class CollectionIndex(dict):
-    def __init__(self, collection: Collection, key: str):
-        data = defaultdict(list)
-        for obj in collection.values():
-            if key in obj:
-                data[key].append(obj)
-        return super().__init__(data)
