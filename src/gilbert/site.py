@@ -2,7 +2,7 @@ from collections import OrderedDict
 from importlib import import_module
 from pathlib import Path
 
-from .template import Context, TemplateLoader
+from stencil import Context, TemplateLoader
 
 from .collection import Collection
 from .content import Page

@@ -9,6 +9,7 @@ sphinx = "*"
 pytest = "*"
 
 [packages]
+stencil-template = "*"
 pyyaml = "*"
 markdown2 = "*"
 inotify = "*"
