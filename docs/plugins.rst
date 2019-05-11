@@ -100,7 +100,6 @@ extension:
 
     Site.register_loader('toml', load_toml)
 
-
 A loader must return two values: `content`, and `meta`.
 
 The first argument is expected to be a dict, possibly including a key
@@ -129,3 +128,12 @@ current time:
         return ctx
 
     Site.register_context_provider(add_datetime)
+
+The ``register_context_provider`` method can also be used as a decorator:
+
+.. code-block:: python
+
+    @Site.register_context_provider
+    def add_datetime(ctx):
+        ctx['current_time'] = datetime.now()
+        return ctx

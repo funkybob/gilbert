@@ -8,7 +8,20 @@ must be a dict.
 Built in Loaders
 ----------------
 
-By default, there is a `yaml` load available.
+Although ``gilbert`` has only a "raw" loader built in as a fallback, it ships
+with several plugins which provide loads for some common cases:
 
-It reads the first document in a YAML file as the configuration ``dict``, and
-reads any remaining part of the file as the `content`.
+md:
+
+  Loads `.md` files, and provides a dummy meta dict containing only
+  ``{content_type: 'MarkdownPage'}``
+
+yaml / yml:
+
+  Loads `.yml` and `.yaml` files. Reads the first document in the file as the
+  metadata, and the rest of the file as the content.
+
+scss:
+
+  Loads `.scss` files, and provides a dummy meta dict containing only
+  ``{'content_type': 'SCSS'}``

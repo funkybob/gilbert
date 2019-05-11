@@ -67,10 +67,10 @@ We need to provide a template to render the page with. Let's do that now:
    <!DOCTYPE html>
    <html>
      <head>
-       <title> {{ this:title }} </title>
+       <title> {{ this.title }} </title>
      </head>
      <body>
-     {{ this:content }}
+     {{ this.content }}
      </body>
    </html>
 

@@ -32,13 +32,16 @@ Next, we need to gather all the content objects and aggregate the tags.
 
    class TagCloud(Content):
 
-       def get_context(self):
+       @property
+       def tag_counts(self):
            tags = Counter()
            for obj in site.content:
                tags.update(obj.tags)
-           return site.get_context(self, tag_cloud=tags)
+           return tags
 
-And that's it!
+And that's it! We can create a content object with `content_type: TagCloud`,
+and access it in our templates by looking it up in ``site.content[]``, and
+accessing its ``tag_counts`` property.
 
 Oh, but wait - maybe we don't want to count *all* the objects? Let's add a
 filter.
@@ -46,22 +49,21 @@ filter.
 .. code-block:: python
    :caption: plugins.py
    :linenos:
-   :emphasize-lines: 8,12
+   :emphasize-lines: 6,11
 
    from collections import Counter
 
-   from gilbert.content import Content, Templated
+   from gilbert.content import Content
 
-   class TagCloud(Templated, Content):
-       template = 'tag_cloud.html'
-
+   class TagCloud(Content):
        filter_by : dict = {}
 
-       def get_context(self):
+       @property
+       def tag_counts(self):
            tags = Counter()
            for obj in self.site.content.matches(self.filter_by):
                tags.update(obj.tags)
-           return self.site.get_context(self, tag_cloud=tags)
+           return tags
 
 Now our users can declare a filter using :doc:`/query` to limit which objects
 will be scanned.
@@ -72,16 +74,14 @@ start to get expensive.
 .. code-block:: python
    :caption: plugins.py
    :linenos:
-   :emphasize-lines: 3-4,11-16
+   :emphasize-lines: 4,9
 
    from collections import Counter
 
-   from gilbert.content import Content, Templated
+   from gilbert.content import Content
    from gilbert.utils import oneshot
 
-   class TagCloud(Templated, Content):
-       template = 'tag_cloud.html'
-
+   class TagCloud(Content):
        filter_by : dict = {}
 
        @oneshot
@@ -91,8 +91,7 @@ start to get expensive.
                tags.update(obj.tags)
             return tags
 
-       def get_context(self):
-           return self.site.get_context(self, tag_cloud=self.tag_counts)
-
 So here we introduce the ``oneshot`` utility decorator, which works like
-``property`` but caches the result so it only invokes the function once.
+``property`` but caches the result so it only invokes the function once,
+saving the result on the instance; future accesses are super fast as they're
+handled internally within Python.
