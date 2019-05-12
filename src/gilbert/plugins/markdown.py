@@ -10,7 +10,8 @@ class MarkdownPage(Templated, Content):
     def __init__(self, name, site, content=None, meta=None):
         super().__init__(name, site, content=content, meta=meta)
         markdown = Markdown(extras=self.extras)
-        self.content = markdown.convert(self.content)
+        self.raw_content = self.content
+        self.content = markdown.convert(content)
 
 
 def load_md(path):

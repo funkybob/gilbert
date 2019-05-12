@@ -6,6 +6,7 @@ from typing import Collection, Sequence, Union
 
 from .exceptions import ClientException
 from .schema import Schema
+from .utils import oneshot
 
 
 class Content(Schema):
@@ -69,14 +70,19 @@ class Renderable:
     """
     output_extension: str = 'html'
 
-    def get_output_name(self):
+    @oneshot
+    def output_filename(self):
         return Path(self.name).with_suffix(f'.{self.output_extension}')
+
+    @oneshot
+    def url(self):
+        return f'/{self.output_filename}'
 
     def generate_content(self):
         return self.content
 
     def render(self):
-        target = self.site.dest_dir / self.get_output_name()
+        target = self.site.dest_dir / self.output_filename
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(
             self.generate_content()

@@ -100,23 +100,28 @@ custom plugins.
 
       The extension to use when writing the output.
 
-   .. py:method:: get_output_name() -> str
+   .. py:attribute:: url : str
 
-      Returns the ``Path`` to write output to.
+      The url of this rendered page.
+
+   .. py:attribute:: output_filenamename : str
+
+      The ``Path`` to write output to.
 
       Default implementation appends the `name` of this object to the
       ``Site.dist_dir`` and replaces its extension with ``extension``.
 
-   .. py:method:: generate_content(site : Site)
+   .. py:method:: generate_content()
 
       Called to generate the objects output.
 
       Default: returns ``self.content``.
 
-   .. py:method:: render(site: Site)
+   .. py:method:: render()
 
       Called to render this object.
-      Opens the Path returned by ``get_output_name`` and passes it to
+
+      Opens the Path specified by ``output_filename`` and passes it to
       ``generate_content``
 
 .. py:class:: Templated(Renderable)
@@ -127,20 +132,20 @@ custom plugins.
 
       Returns a list of template names.
 
-   .. py:method:: get_template(site: Site) -> stencil.Template
+   .. py:method:: get_template() -> stencil.Template
 
       Loads the template for this object.
 
       Default action is to return the first template listed in
       ``get_template_names`` it can load from ``Site.templates``
 
-   .. py:method:: get_context(site: Site) -> stencil.Context
+   .. py:method:: get_context() -> stencil.Context
 
       Produce the ``stencil.Context`` object to render the template against.
 
       Default is to return ``Site.get_context(self)``
 
-   .. py:method:: generate_content(site: Site, target: file)
+   .. py:method:: generate_content(target: file)
 
       Calls ``get_template``
       Calls ``get_contest``
