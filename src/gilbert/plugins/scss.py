@@ -21,3 +21,4 @@ def load_scss(path):
 
 
 Site.register_loader('scss', load_scss)
+Site.register_loader('css', load_scss)
