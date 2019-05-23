@@ -110,6 +110,7 @@ class Site:
         for name, page in sorted(self.pages.items()):
             print(f"Rendering {name} ...")
             page.render()
+        print('-- Done.')
 
     def get_context(self, obj, **kwargs) -> Context:
 
@@ -141,6 +142,8 @@ class Site:
             mask=IN_DELETE | IN_MOVE | IN_MODIFY,
             block_duration_s=None,
         )
+
+        self.render()
 
         for event in i.event_gen():
             if event is None:
