@@ -1,4 +1,4 @@
-from scss import Compiler
+import sass
 
 from gilbert import Site
 from gilbert.content import Content, Renderable
@@ -9,9 +9,11 @@ class SCSS(Renderable, Content):
     scss_options: dict = {}
 
     def generate_content(self):
-        compiler = Compiler(**self.scss_options)
+        options = self.scss_options
+        if not options:
+            options = self.site.config.get('content_type', {}).get('SCSS', {})
 
-        return compiler.compile_string(self.content)
+        return sass.compile(string=self.content, **options)
 
 
 def load_scss(path):
