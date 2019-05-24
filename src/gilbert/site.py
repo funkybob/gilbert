@@ -3,6 +3,7 @@ from importlib import import_module
 from pathlib import Path
 
 from stencil import Context, TemplateLoader
+import yaml
 
 from .collection import Collection
 from .content import Page
@@ -23,6 +24,13 @@ class Site:
         self.pages_dir = self.root / 'pages'
         self.content_dir = self.root / 'content'
         self.dest_dir = self.root / 'docs'
+
+        config_file = root / 'config.yml'
+
+        if config_file.is_file():
+            self.config = yaml.load(config_file.open(), Loader=yaml.Loader)
+        else:
+            self.config = {}
 
         self.templates = TemplateLoader([
             self.templates_dir,
