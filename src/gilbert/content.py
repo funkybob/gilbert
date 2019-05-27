@@ -2,6 +2,7 @@
 Content object classes
 """
 from pathlib import Path
+from shutil import copyfileobj
 from typing import Collection, Sequence, Union
 
 from .exceptions import ClientException
@@ -55,13 +56,16 @@ class Content(Schema):
 class Raw(Content):
     """
     Container for 'raw' content.
+
+    Unlike other content types, does not hold its contents - only the path to the source.
+    Upon render, it copies the source file directly to the target.
     """
-    content: bytes
+    path: Path
 
     def render(self):
         target = self.site.dest_dir / self.name
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes(self.content)
+        copyfileobj(self.path.open('rb'), target.open('wb'))
 
 
 class Renderable:

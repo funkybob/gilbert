@@ -1,4 +1,3 @@
-from collections import defaultdict
 from pathlib import Path
 
 from .content import Content
@@ -71,4 +70,4 @@ def load_raw(path: Path):
     '''
     For anything we don't recognise, we load it as a Raw content.
     '''
-    return path.read_bytes(), {'content_type': 'Raw'}
+    return None, {'content_type': 'Raw', 'path': path}
