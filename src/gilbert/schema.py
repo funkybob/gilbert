@@ -20,7 +20,10 @@ class NoneValidator(Validator):
             raise TypeError(f'Value {value !r} is not of type NoneType')
 
 
-class SimpleValidator(Validator):
+class InstanceValidator(Validator):
+    '''
+    Validates only that the value isinstance(type)
+    '''
     def __init__(self, _type):
         self._type = _type
 
@@ -92,13 +95,7 @@ def validator_for(_type):
             if base._name == 'Union':
                 return UnionValidator(_type)
 
-    if any(
-        issubclass(_type, x)
-        for x in (bytes, str, int, float, set, dict, tuple, list)
-    ):
-        return SimpleValidator(_type)
-
-    raise TypeError(f"How do I validate a {_type !r} ?")
+    return InstanceValidator(_type)
 
 
 class NO_DEFAULT:
