@@ -2,22 +2,26 @@ from markdown2 import Markdown
 
 from gilbert import Site
 from gilbert.content import Content, Templated
+from gilbert.utils import oneshot
 
 
 class MarkdownPage(Templated, Content):
     extras: list = []
 
-    def __init__(self, name, site, content=None, meta=None):
-        super().__init__(name, site, content=content, meta=meta)
-        markdown = Markdown(extras=self.extras)
-        self.raw_content = self.content
-        self.content = markdown.convert(content)
+    @oneshot
+    def content(self):
+        extras = self.extras
+        if not extras:
+            extras = self.site.config.get('content_type', {}).get('MarkdownPage', [])
+
+        self._markdown = Markdown(extras=extras)
+        return self._markdown.convert(self.data)
 
 
 def load_md(path):
-    content = path.read_text(encoding='utf-8')
+    data = path.read_text(encoding='utf-8')
 
-    return content, {'content_type': 'MarkdownPage'}
+    return data, {'content_type': 'MarkdownPage'}
 
 
 Site.register_loader('md', load_md)

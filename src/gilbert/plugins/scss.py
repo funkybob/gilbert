@@ -2,24 +2,26 @@ import sass
 
 from gilbert import Site
 from gilbert.content import Content, Renderable
+from gilbert.utils import oneshot
 
 
 class SCSS(Renderable, Content):
     output_extension: str = 'css'
     scss_options: dict = {}
 
-    def generate_content(self):
+    @oneshot
+    def content(self):
         options = self.scss_options
         if not options:
             options = self.site.config.get('content_type', {}).get('SCSS', {})
 
-        return sass.compile(string=self.content, **options)
+        return sass.compile(string=self.data, **options)
 
 
 def load_scss(path):
-    content = path.read_text(encoding='utf-8')
+    data = path.read_text(encoding='utf-8')
 
-    return content, {'content_type': 'SCSS'}
+    return data, {'content_type': 'SCSS'}
 
 
 Site.register_loader('scss', load_scss)

@@ -59,15 +59,15 @@ class Collection:
 
         load_func = self._loaders.get(ext, load_raw)
 
-        content, meta = load_func(path)
+        data, meta = load_func(path)
 
-        obj = self.default_type.create(name, self.site, content=content, meta=meta)
+        obj = self.default_type.create(name, self.site, data=data, meta=meta)
 
         return obj
 
 
 def load_raw(path: Path):
     '''
-    For anything we don't recognise, we load it as a Raw content.
+    For anything we don't recognise, we load it as a Raw data.
     '''
     return None, {'content_type': 'Raw', 'path': path}

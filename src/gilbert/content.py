@@ -18,13 +18,12 @@ class Content(Schema):
 
     content_type: str
 
-    content: str
     tags: Collection[str] = []
 
-    def __init__(self, name, site, content=None, meta=None):
+    def __init__(self, name, site, data=None, meta=None):
         self.name = name
         self.site = site
-        self.content = content or ''
+        self.data = data or ''
         super().__init__(**meta)
 
     def __init_subclass__(cls, **kwargs):
@@ -35,7 +34,7 @@ class Content(Schema):
         cls._types[cls.__name__] = cls
 
     @classmethod
-    def create(cls, name, site, content, meta):
+    def create(cls, name, site, data, meta):
         """
         Create a new Content instance.
 
@@ -50,14 +49,18 @@ class Content(Schema):
                 f'You attempted to create a page with type "{content_type}" but no class is registered to handle this'
                 ' content type'
             )
-        return klass(name, site, content=content, meta=meta)
+        return klass(name, site, data=data, meta=meta)
+
+    @property
+    def content(self):
+        return self.data
 
 
 class Raw(Content):
     """
-    Container for 'raw' content.
+    Container for 'raw' data.
 
-    Unlike other content types, does not hold its contents - only the path to the source.
+    Unlike other content types, does not hold its data - only the path to the source.
     Upon render, it copies the source file directly to the target.
     """
     path: Path
@@ -75,22 +78,17 @@ class Renderable:
     output_extension: str = 'html'
 
     @oneshot
-    def output_filename(self):
+    def output_filename(self) -> Path:
         return Path(self.name).with_suffix(f'.{self.output_extension}')
 
     @oneshot
-    def url(self):
+    def url(self) -> str:
         return f'/{self.output_filename}'
-
-    def generate_content(self):
-        return self.content
 
     def render(self):
         target = self.site.dest_dir / self.output_filename
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(
-            self.generate_content()
-        )
+        target.write_text(self.content)
 
 
 class Templated(Renderable):
@@ -122,7 +120,8 @@ class Templated(Renderable):
     def get_context(self):
         return self.site.get_context(self)
 
-    def generate_content(self):
+    @oneshot
+    def content(self):
         template = self.get_template()
         context = self.get_context()
 

@@ -20,9 +20,9 @@ Content
 
 This is the default, generic ``Content`` type for the `content/` directory.
 
-It holds only its name, and any data and/or content passed at its creation.
+It holds only its name, and any meta-data and/or content passed at its creation.
 
-It can not be rendered.
+It can not be rendered as a page.
 
 
 Page
@@ -111,18 +111,19 @@ custom plugins.
       Default implementation appends the `name` of this object to the
       ``Site.dist_dir`` and replaces its extension with ``extension``.
 
-   .. py:method:: generate_content()
+   .. py:attribute:: content
 
-      Called to generate the objects output.
+      Access the objects content.
 
-      Default: returns ``self.content``.
+      Typically implemented as a `oneshot` property.
+
+      Default: ``self.data``.
 
    .. py:method:: render()
 
       Called to render this object.
 
-      Opens the Path specified by ``output_filename`` and passes it to
-      ``generate_content``
+      Writes ``self.content`` to ``self.output_filename``
 
 .. py:class:: Templated(Renderable)
 

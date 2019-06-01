@@ -81,6 +81,7 @@ class Site:
             if root not in sys.path:
                 sys.path.insert(0, root)
             found['__local__'] = import_module('plugins')
+            print('Loaded local plugins.')
 
         self.plugins = found
 
