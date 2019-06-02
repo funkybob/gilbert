@@ -44,18 +44,22 @@ Now, let's create the index page for our new site:
    ---
    This is my page!
 
-This defines a new ``Content`` object, with config options and content.
+This defines a new ``Content`` object, with config options before the `---`
+line, and content after.
 
 If we now try to `render` our site, we'll see the following:
 
 .. code-block:: sh
 
    (venv) $ gilbert render
-   Searching .../gilbert/plugins for plugins...
-   Loaded plugin: markdown
-   Loaded plugin: yaml
-   Loaded plugin: scss
-   ValueError: Template for default.html not found: ['default.html']
+    Loaded plugin: markdown
+    Loaded plugin: collection
+    Loaded plugin: yaml
+    Loaded plugin: scss
+    Found 0 content objects.
+    Found 1 pages.
+    Rendering index.yaml ...
+    Template for default.html not found: ['default.html']
 
 We need to provide a template to render the page with. Let's do that now:
 
@@ -79,17 +83,22 @@ This time when we render, we'll see:
 .. code-block:: sh
 
    (venv) $ gilbert render
-   Searching .../gilbert/plugins for plugins...
-   Loaded plugin: markdown
-   Loaded plugin: yaml
-   Loaded plugin: scss
-   Rendering index.yaml ...
+    Loaded plugin: markdown
+    Loaded plugin: collection
+    Loaded plugin: yaml
+    Loaded plugin: scss
+    Found 0 content objects.
+    Found 1 pages.
+    Rendering index.yaml ...
+    -- Done.
 
 We can now look at our new page:
 
 .. code-block:: sh
 
-   (venv) $ $BROWSER docs/index.html
+   (venv) $ gilbert serve
+
+And point your browser at http://localhost:8000/
 
 
 .. _stencil: https://stencil-templates.readthedocs.io/en/latest/
