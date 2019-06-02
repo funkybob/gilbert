@@ -20,6 +20,7 @@ def main():
         'watch',
         'plugins',
         'clean',
+        'serve',
     ])
 
     args = parser.parse_args()
@@ -55,6 +56,12 @@ def main():
                         child.unlink()
                     except Exception:
                         onerror(None, str(child), None)
+        elif args.action == 'serve':
+            import http.server
+            from functools import partial
+            http.server.test(
+                partial(http.server.SimpleHTTPRequestHandler, directory=site.dest_dir)
+            )
 
     except ClientException as exc:
         if args.debug:
