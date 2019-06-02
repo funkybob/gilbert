@@ -1,0 +1,28 @@
+
+0.3.3 (??)
+----------
+
+- Fix broken limit handling on Collection plugin
+- refactor the cli code to use sub-parsers
+- Make 'serve' command pass paths as str not Path
+  Fixes issues on Windows
+
+0.3.2 (2019-06-02)
+------------------
+
+- Add limit to Collection plugin
+- Add 'serve' action
+
+0.3.1 (2019-06-02)
+------------------
+
+- Switch from Markdown2 to Markdown (significantly faster)
+- Fix broken Templated API after interface changes
+
+0.3.0 (2019-06-02)
+------------------
+
+- Rework Content API to separate data / meta / content
+- Use InstanceValidator (nes SimpleValidator) as default schema validator
+- Make Raw objects lazy; saves memory
+
