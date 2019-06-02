@@ -24,7 +24,8 @@ class Collection(Content):
             reverse=reverse,
         )
         if self.limit:
-            return items[:self.limit]
+            items = items[:self.limit]
+        return items
 
     @oneshot
     def pages(self):
