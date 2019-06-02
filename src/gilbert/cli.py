@@ -60,7 +60,7 @@ def main():
             import http.server
             from functools import partial
             http.server.test(
-                partial(http.server.SimpleHTTPRequestHandler, directory=site.dest_dir)
+                partial(http.server.SimpleHTTPRequestHandler, directory=str(site.dest_dir))
             )
 
     except ClientException as exc:
