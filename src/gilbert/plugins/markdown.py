@@ -1,11 +1,12 @@
-from markdown2 import Markdown
+# from markdown2 import Markdown
+from markdown import markdown
 
 from gilbert import Site
-from gilbert.content import Content, Templated
+from gilbert.content import Page
 from gilbert.utils import oneshot
 
 
-class MarkdownPage(Templated, Content):
+class MarkdownPage(Page):
     extras: list = []
 
     @oneshot
@@ -14,8 +15,7 @@ class MarkdownPage(Templated, Content):
         if not extras:
             extras = self.site.config.get('content_type', {}).get('MarkdownPage', [])
 
-        self._markdown = Markdown(extras=extras)
-        return self._markdown.convert(self.data)
+        return markdown(self.data, output_format='html5', extensions=extras)
 
 
 def load_md(path):
