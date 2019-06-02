@@ -85,6 +85,10 @@ class Renderable:
     def url(self) -> str:
         return f'/{self.output_filename}'
 
+    @oneshot
+    def page_content(self):
+        return self.content
+
     def render(self):
         target = self.site.dest_dir / self.output_filename
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -121,7 +125,7 @@ class Templated(Renderable):
         return self.site.get_context(self)
 
     @oneshot
-    def content(self):
+    def page_content(self):
         template = self.get_template()
         context = self.get_context()
 
@@ -129,6 +133,11 @@ class Templated(Renderable):
             return template.render(context)
         except Exception as ex:
             raise ClientException(f'Error rendering template "{template.name}": {ex.args[0]}')
+
+    def render(self):
+        target = self.site.dest_dir / self.output_filename
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(self.page_content)
 
 
 class Page(Templated, Content):
