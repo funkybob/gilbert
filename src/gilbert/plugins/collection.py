@@ -10,29 +10,26 @@ class Collection(Content):
     '''
     filter_by: dict = {}
     sort_by: str = 'name'
+    limit: int = 0
+
+    def select_objects(self, source):
+        sort_by = self.sort_by
+        reverse = sort_by.startswith('-')
+        if reverse:
+            sort_by = sort_by[1:]
+        key = attrgetter(sort_by)
+        items = sorted(
+            source.matching(self.filter_by),
+            key=key,
+            reverse=reverse,
+        )
+        if self.limit:
+            return items[:self.limit]
 
     @oneshot
     def pages(self):
-        sort_by = self.sort_by
-        reverse = sort_by.startswith('-')
-        if reverse:
-            sort_by = sort_by[1:]
-        key = attrgetter(sort_by)
-        return sorted(
-            self.site.pages.matching(self.filter_by),
-            key=key,
-            reverse=reverse,
-        )
+        return self.select_objects(self.site.pages)
 
     @oneshot
     def content(self):
-        sort_by = self.sort_by
-        reverse = sort_by.startswith('-')
-        if reverse:
-            sort_by = sort_by[1:]
-        key = attrgetter(sort_by)
-        return sorted(
-            self.site.content.matching(self.filter_by),
-            key=key,
-            reverse=reverse,
-        )
+        return self.select_objets(self.site.content)
