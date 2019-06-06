@@ -33,4 +33,4 @@ class Collection(Content):
 
     @oneshot
     def content(self):
-        return self.select_objets(self.site.content)
+        return self.select_objects(self.site.content)
