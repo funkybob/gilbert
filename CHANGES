@@ -1,6 +1,10 @@
+0.3.4 (2019-06-??)
+------------------
 
-0.3.3 (??)
-----------
+- Handle `gilbert` being run with no options
+
+0.3.3 (2019-06-03)
+------------------
 
 - Fix broken limit handling on Collection plugin
 - refactor the cli code to use sub-parsers
