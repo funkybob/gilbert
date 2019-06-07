@@ -13,6 +13,7 @@ parser.add_argument('--root', '-r', type=Path, default=Path.cwd(),
 parser.add_argument('--debug', '-d', default=False, action="store_true",
                     help="Additional debugging [defaults to off]")
 
+parser.set_defaults(func=None)
 
 subparsers = parser.add_subparsers()
 
@@ -89,6 +90,11 @@ serve_parser.set_defaults(func=handle_serve)
 
 def main():
     args = parser.parse_args()
+
+    if args.func is None:
+        parser.print_help()
+        return
+
     site = Site(args.root)
 
     try:
