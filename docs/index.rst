@@ -24,6 +24,8 @@ Welcome to Gilbert's documentation!
 
    ref/modules
 
+   FAQ
+
 Indices and tables
 ==================
 
