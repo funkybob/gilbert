@@ -36,6 +36,16 @@ Finally, list all loaders and plugins:
 
     $ gilbert --root mysite plugins
 
+
+## Installation requirements
+
+In order to install this package you need a recent version of setuptools (`>41.0.1`), to ensure this please run:
+
+```
+pip install -U pip
+pip install -U setuptools
+```
+
 # Project contents:
 
 Each project contains 4 directories:
