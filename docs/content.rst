@@ -4,6 +4,11 @@ Content Types
 
 Content types control how pages and content are interpreted and rendered.
 
+Requirements
+============
+
+Gilbert requires Python 3.7 or newer.
+
 
 Built in Content types
 ======================

@@ -6,7 +6,7 @@ First, we'll create a `virtualenv` and install `gilbert`:
 
 .. code-block:: sh
 
-   $ python3 -m venv venv
+   $ python3.7 -m venv venv
    $ . venv/bin/activate
    (venv) $ pip install gilbert
 
