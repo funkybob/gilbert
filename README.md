@@ -4,7 +4,8 @@ Another static site generator.
 
 https://en.wikipedia.org/wiki/William_Gilbert_(astronomer)
 
-This README contains a brief introduction to the project. Full documentation [is available here](https://gilbert.readthedocs.io/en/latest/).
+This README contains a brief introduction to the project. Full documentation
+[is available here](https://gilbert.readthedocs.io/en/latest/).
 
 # Quick Start
 
@@ -39,7 +40,10 @@ Finally, list all loaders and plugins:
 
 ## Installation requirements
 
-In order to install this package you need a recent version of setuptools (`>41.0.1`), to ensure this please run:
+Gilbert current requires Python 3.7 or greater.
+
+In order to install this package you need a recent version of setuptools
+(`>41.0.1`), to ensure this please run:
 
 ```
 pip install -U pip
@@ -52,7 +56,8 @@ Each project contains 4 directories:
 
 1. templates/
 
-   These are templates available to Content Objects, using the `stencil` template system.
+   These are templates available to Content Objects, using the `stencil`
+   template system.
 
 2. pages/
 
@@ -60,7 +65,8 @@ Each project contains 4 directories:
 
 3. content/
 
-   This contains other content objects to be made available to all pages on the site to include in their templates.
+   This contains other content objects to be made available to all pages on the
+   site to include in their templates.
 
 4. docs/
 
@@ -69,16 +75,21 @@ Each project contains 4 directories:
 
 # Content Objects
 
-Content objects are basically YAML files, with a single YAML document, optionally followed by additional raw content.
+Content objects are basically YAML files, with a single YAML document,
+optionally followed by additional raw content.
 
-The default Content Object is `Data` which simply provides access to the data in the YAML document.
+The default Content Object is `Data` which simply provides access to the data
+in the YAML document.
 
-The `Page` content object is the default type for documents in the `pages/` collection. It will render using the template defined in its data, or the 'default.html' template.
+The `Page` content object is the default type for documents in the `pages/`
+collection. It will render using the template defined in its data, or the
+'default.html' template.
 
 
 # Plugins
 
-Gilbert supports auto-discovered plugins. They simply need to be packages existing in the namespaced package 'gilbert.plugins'.
+Gilbert supports auto-discovered plugins. They simply need to be packages
+existing in the namespaced package 'gilbert.plugins'.
 
 By default, the following Plugins are provided:
 
