@@ -53,7 +53,7 @@ For every other OS, you will notice an error that the module could not be found:
 
 This is because the implementation for ``watch`` was written only for inotify compatible OSs as a matter of expediency.
 
-However there is a solution to use `watchexec <https://github.com/watchexec/watchexec>`_, which is available by following the instructions `here <<https://github.com/watchexec/watchexec#installation>`_.
+However there is a solution to use `watchexec <https://github.com/watchexec/watchexec>`_, which is available by following the instructions `here <https://github.com/watchexec/watchexec#installation>`_.
 
 Now the command to have gilbert watch your files, and re-render on changes:
 
