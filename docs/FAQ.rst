@@ -9,7 +9,7 @@ My install fails because  `error: package directory 'src/find_namespace:' does n
 
 If you see an issue with the install failing like so:
 
-
+.. code-block:sh
     $python3.7 -m pip install git+https://github.com/funkybob/gilbert.git
     Collecting git+https://github.com/funkybob/gilbert.git
     Cloning https://github.com/funkybob/gilbert.git to /tmp/pip-g3bsf2gf-build
@@ -31,4 +31,32 @@ This will be because you have a version of setuptools that is too old, Gilbert r
 
 You can fix this by updating versions:
 
+.. code-block:sh
     pip install -U setuptools
+	
+How do I have Gilbert automatically rebuild the site when files change?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Have gilbert watch your files, and re-render on changes:
+
+.. code-block:sh
+	$ gilbert --root mysite watch
+
+If you are using Windows you will notice this error:
+
+.. code-block:sh
+	OSError: [WinError 126] The specified module could not be found
+
+This is because the implementation for "watch" was written only for inotify compatible OSs as a matter of expediency.
+
+However there is a solution for Windows users to use `watchexec <https://github.com/watchexec/watchexec#windows>`_, which is available using `scoop <https://scoop.sh/>`_, or by unzipping the binary from the GitHub Releases.
+
+Using scoop:
+
+.. code-block:sh
+	scoop install watchexec
+
+Now the command to have gilbert watch your files, and re-render on changes:
+
+.. code-block:sh
+	watchexec -i docs gilbert render
