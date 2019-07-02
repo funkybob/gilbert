@@ -39,7 +39,7 @@ You can fix this by updating versions:
 How do I have Gilbert automatically rebuild the site when files change?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Have gilbert watch your files, and re-render on changes:
+If you have Linux, you can use the built-in watch command:
 
 .. code-block:: sh
 
