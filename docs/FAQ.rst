@@ -37,7 +37,7 @@ You can fix this by updating versions:
     pip install -U setuptools
 	
 How do I have Gilbert automatically rebuild the site when files change?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Have gilbert watch your files, and re-render on changes:
 
