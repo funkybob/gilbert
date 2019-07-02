@@ -39,30 +39,24 @@ You can fix this by updating versions:
 How do I have Gilbert automatically rebuild the site when files change?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you have Linux, you can use the built-in watch command:
+If you have Linux, you can use the built-in ``watch`` command:
 
 .. code-block:: sh
 
 	$ gilbert --root mysite watch
 
-If you are using Windows you will notice this error:
+For every other OS, you will notice an error that the module could not be found:
 
-.. code-block:: powershell
+.. code-block:: sh
 
 	OSError: [WinError 126] The specified module could not be found
 
-This is because the implementation for "watch" was written only for inotify compatible OSs as a matter of expediency.
+This is because the implementation for ``watch`` was written only for inotify compatible OSs as a matter of expediency.
 
-However there is a solution for Windows users to use `watchexec <https://github.com/watchexec/watchexec#windows>`_, which is available using `scoop <https://scoop.sh/>`_, or by unzipping the binary from the GitHub Releases.
-
-Using scoop:
-
-.. code-block:: powershell
-
-	scoop install watchexec
+However there is a solution to use `watchexec <https://github.com/watchexec/watchexec>`_, which is available by following the instructions `here <<https://github.com/watchexec/watchexec#installation>`_.
 
 Now the command to have gilbert watch your files, and re-render on changes:
 
-.. code-block:: :powershell
+.. code-block:: :sh
 
 	watchexec -i docs gilbert render
