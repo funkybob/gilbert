@@ -9,7 +9,7 @@ My install fails because  `error: package directory 'src/find_namespace:' does n
 
 If you see an issue with the install failing like so:
 
-.. code-block:: bash
+.. code-block:: sh
 
     $python3.7 -m pip install git+https://github.com/funkybob/gilbert.git
     Collecting git+https://github.com/funkybob/gilbert.git
@@ -32,7 +32,7 @@ This will be because you have a version of setuptools that is too old, Gilbert r
 
 You can fix this by updating versions:
 
-.. code-block:: bash
+.. code-block:: sh
 
     pip install -U setuptools
 	
@@ -41,7 +41,7 @@ How do I have Gilbert automatically rebuild the site when files change?
 
 Have gilbert watch your files, and re-render on changes:
 
-.. code-block:: bash
+.. code-block:: sh
 
 	$ gilbert --root mysite watch
 
