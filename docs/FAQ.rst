@@ -5,7 +5,7 @@ Installation
 ------------
 
 My install fails because  `error: package directory 'src/find_namespace:' does not exist`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you see an issue with the install failing like so:
 
@@ -45,7 +45,7 @@ If you have Linux, you can use the built-in ``watch`` command:
 
 	$ gilbert --root mysite watch
 
-For every other OS, you will notice an error that the module could not be found:
+For every other OS, you will notice a similar error that the module could not be found:
 
 .. code-block:: sh
 
