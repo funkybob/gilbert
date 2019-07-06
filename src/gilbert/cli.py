@@ -18,30 +18,32 @@ parser.set_defaults(func=None)
 subparsers = parser.add_subparsers()
 
 
+def subcommand(name):
+
+    def _inner(handler):
+        subparser = subparsers.add_parser(name)
+        subparser.set_defaults(func=handler)
+        return handler
+
+    return _inner
+
+
+@subcommand('init')
 def handle_init(args, site):
     site.init()
 
 
-init_parser = subparsers.add_parser('init')
-init_parser.set_defaults(func=handle_init)
-
-
+@subcommand('render')
 def handle_render(args, site):
     site.render()
 
 
-render_parser = subparsers.add_parser('render')
-render_parser.set_defaults(func=handle_render)
-
-
+@subcommand('watch')
 def handle_watch(args, site):
     site.watch()
 
 
-watch_parser = subparsers.add_parser('watch')
-watch_parser.set_defaults(func=handle_watch)
-
-
+@subcommand('plugins')
 def handle_plugins(args, site):
     from .content import Content
     print("")
@@ -54,10 +56,7 @@ def handle_plugins(args, site):
     print("")
 
 
-plugins_parser = subparsers.add_parser('plugins')
-plugins_parser.set_defaults(func=handle_plugins)
-
-
+@subcommand('clean')
 def handle_clean(args, site):
     def onerror(func, path, exc_info):
         print(f"!! Unable to remove {path}")
@@ -72,20 +71,13 @@ def handle_clean(args, site):
                 onerror(None, str(child), None)
 
 
-clean_parser = subparsers.add_parser('clean')
-clean_parser.set_defaults(func=handle_clean)
-
-
+@subcommand('serve')
 def handle_serve(args, site):
     import http.server
     from functools import partial
     http.server.test(
         partial(http.server.SimpleHTTPRequestHandler, directory=str(site.dest_dir))
     )
-
-
-serve_parser = subparsers.add_parser('serve')
-serve_parser.set_defaults(func=handle_serve)
 
 
 def main():
