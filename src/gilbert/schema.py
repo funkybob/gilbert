@@ -82,6 +82,9 @@ def validator_for(_type):
     if isinstance(_type, type(None)):
         return NoneValidator()
 
+    if inspect.isclass(_type) and issubclass(_type, Schema):
+        return _type
+
     if isinstance(_type, typing._GenericAlias):
         base = _type.__origin__
 
@@ -132,7 +135,7 @@ class SchemaProperty:
 
 
 class SchemaType(type):
-    def __new__(cls, classname, bases, namespace, **kwargs):
+    def __new__(mcs, classname, bases, namespace, **kwargs):
 
         for name, _type in namespace.get('__annotations__', {}).items():
             if name.startswith('__') and name.endswith('__'):
@@ -147,10 +150,10 @@ class SchemaType(type):
 
             namespace[name] = SchemaProperty(_type, default)
 
-        return type.__new__(cls, classname, bases, namespace, **kwargs)
+        return type.__new__(mcs, classname, bases, namespace, **kwargs)
 
 
-class Schema(object, metaclass=SchemaType):
+class Schema(metaclass=SchemaType):
 
     def __init__(self, **kwargs):
         for name, value in kwargs.items():
