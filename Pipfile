@@ -7,12 +7,9 @@ verify_ssl = true
 flake8 = "*"
 sphinx = "*"
 pytest = "*"
+pytest-mock = "*"
 
 [packages]
-stencil-template = "*"
-pyyaml = "*"
-markdown2 = "*"
-inotify = "*"
 
 [requires]
 python_version = "3.7"
