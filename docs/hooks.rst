@@ -9,7 +9,7 @@ callable which accepts a `Site` as its first argument,
 
 .. code-block:: python
 
-   def hynamder(site: Site):
+   def myhandler(site: Site):
        # Do work here!
 
    site.on('before-render', myhandler)
@@ -22,3 +22,11 @@ There are by default only the following events:
 - pages
 
 Each event emits a `before-` and `after-` version.
+
+
+Custom Hooks
+------------
+
+You can listen on and emit any events you like.
+
+To emit a custom event, simply call `Site.emit('myevent')`.
