@@ -1,4 +1,4 @@
-from collections import OrderedDict
+from collections import OrderedDict, defaultdict
 from importlib import import_module
 from pathlib import Path
 
@@ -7,6 +7,23 @@ import yaml
 
 from .collection import Collection
 from .content import Page
+
+
+class emits:
+    def __init__(self, event):
+        self.event = event
+
+    def __call__(self, method):
+        event = self.event
+
+        def _inner(self, *args, **kwargs):
+            self.emit(f'before-{event}')
+            try:
+                return method(self, *args, **kwargs)
+            finally:
+                self.emit(f'after-{event}')
+
+        return _inner
 
 
 class Site:
@@ -18,6 +35,8 @@ class Site:
     __loaders__ = {}
 
     def __init__(self, root: Path):
+        self.hooks = defaultdict(list)
+
         self.root = root
 
         self.templates_dir = self.root / 'templates'
@@ -36,6 +55,17 @@ class Site:
             self.templates_dir,
         ])
         self.load_plugins()
+
+    # Event handling
+
+    def on(self, event, handler):
+        self.hooks[event].append(handler)
+
+    def emit(self, event):
+        for handler in self.hooks[event]:
+            handler(self)
+
+    # Actions
 
     def init(self):
         """
@@ -99,17 +129,22 @@ class Site:
         cls.__context_generators__.append(func)
         return func
 
+    @emits('render')
     def render(self):
+        self.emit('before-render')
         self.load_content()
         self.load_pages()
 
         self.render_pages()
+        self.emit('after-render')
 
+    @emits('content')
     def load_content(self):
         self.content = Collection(self, loaders=self.__loaders__)
         self.content.load(self.content_dir)
         print(f'Found {len(self.content)} content objects.')
 
+    @emits('pages')
     def load_pages(self):
         self.pages = Collection(self, default_type=Page, loaders=self.__loaders__)
         self.pages.load(self.pages_dir)

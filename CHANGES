@@ -1,7 +1,9 @@
-0.3.4 (2019-06-??)
+0.3.4 (2019-07-??)
 ------------------
 
 - Handle `gilbert` being run with no options
+- Fix support for nested schema
+- Added lifetime 'hooks'
 
 0.3.3 (2019-06-03)
 ------------------
