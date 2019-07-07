@@ -24,7 +24,7 @@ If you see an issue with the install failing like so:
         writing top-level names to pip-egg-info/gilbert.egg-info/top_level.txt
         writing manifest file 'pip-egg-info/gilbert.egg-info/SOURCES.txt'
         error: package directory 'src/find_namespace:' does not exist
-        
+
         ----------------------------------------
     Command "python setup.py egg_info" failed with error code 1 in /tmp/pip-g3bsf2gf-build/
 
@@ -35,7 +35,7 @@ You can fix this by updating versions:
 .. code-block:: sh
 
     pip install -U setuptools
-	
+
 How do I have Gilbert automatically rebuild the site when files change?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
