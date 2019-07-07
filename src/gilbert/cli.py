@@ -19,6 +19,7 @@ subparsers = parser.add_subparsers()
 
 
 def subcommand(name):
+    # TODO: Add option to add extra arguments
 
     def _inner(handler):
         subparser = subparsers.add_parser(name)
