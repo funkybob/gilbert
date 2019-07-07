@@ -21,6 +21,7 @@ Welcome to Gilbert's documentation!
    loaders
    plugins
    query
+   hooks
 
    ref/modules
 
