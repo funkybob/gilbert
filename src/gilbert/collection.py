@@ -59,7 +59,10 @@ class Collection:
 
         load_func = self._loaders.get(ext, load_raw)
 
-        data, meta = load_func(path)
+        try:
+            data, meta = load_func(path)
+        except Exception as e:
+            raise RuntimeError(f"Error loading file: {path}") from e
 
         obj = self.default_type.create(name, self.site, data=data, meta=meta)
 
