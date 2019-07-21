@@ -57,6 +57,6 @@ However there is a solution to use `watchexec <https://github.com/watchexec/watc
 
 Now the command to have gilbert watch your files, and re-render on changes:
 
-.. code-block:: :sh
+.. code-block:: sh
 
 	watchexec -i docs gilbert render

@@ -18,8 +18,9 @@ Welcome to Gilbert's documentation!
    collections
    templates
 
+   plugins/index
+
    loaders
-   plugins
    query
    hooks
 
@@ -34,5 +35,9 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+Requirements
+============
+
+Gilbert requires Python 3.7 or newer.
 
 .. _William Gilbert: https://en.wikipedia.org/wiki/William_Gilbert_(astronomer)

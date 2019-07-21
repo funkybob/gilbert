@@ -4,21 +4,16 @@ Content Types
 
 Content types control how pages and content are interpreted and rendered.
 
-Requirements
-============
-
-Gilbert requires Python 3.7 or newer.
-
-
 Built in Content types
 ======================
 
 Raw
 ---
 
-For any content that requires no processing, a ``Raw`` type just copies the
-content and name verbatim.
+For any content that requires no processing (such as images), a ``Raw`` type
+renders the content verbatim, and does not alter the name.
 
+Note: the ``Raw`` type will lazy-load its content on render.
 
 Content
 -------
@@ -28,7 +23,6 @@ This is the default, generic ``Content`` type for the `content/` directory.
 It holds only its name, and any meta-data and/or content passed at its creation.
 
 It can not be rendered as a page.
-
 
 Page
 ----
@@ -63,8 +57,7 @@ Custom Content Types
 ====================
 
 You can declare your own content-types easily in your project.  Create a
-``plugins.py`` file, and declare them in there.
-
+``plugins.py`` file, and declare them there as a subclass of ``Content``.
 
 .. code-block:: python
    :caption: mysite/plugins.py
@@ -97,7 +90,6 @@ Content Type Mixins
 
 In addition, there are provided some mixin classes to help simplify writing
 custom plugins.
-
 
 .. py:class:: Renderable
 

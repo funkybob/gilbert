@@ -2,8 +2,8 @@ Loaders
 =======
 
 Content loaders are functions which take a ``pathlib.Path``, and return two
-values: `content` and `meta`. `content` is typically a string, where `meta`
-must be a dict.
+values: ``content`` and ``meta``. ``content`` is typically a string, where
+``meta`` must be a dict.
 
 Built in Loaders
 ----------------

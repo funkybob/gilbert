@@ -2,53 +2,26 @@
 Plugins
 *******
 
-When a `Site` is instantiated, it will try to load all plugins.
+When a ``Site`` is instantiated, it will try to load all plugins.
 
-Plugins are any packages in the `gilbert.plugins` namespaced package.
+Plugins are any packages in the ``gilbert.plugins`` namespaced package.
 
+If a plugin has an ``init_site`` function, it will be registered to be called
+on the site's ``init`` event. See :doc:`/hooks` for more details.
 
 Default plugins
 ===============
 
 Gilbert comes with some plugins by default.
 
-yaml
-----
+.. toctree::
+   :maxdepth: 1
+   :caption: Built in Plugins
 
-The ``yaml`` plugin registers a ``loader`` for `.yml` and `.yaml` files.
-
-markdown
---------
-
-The ``markdown`` plugin provides a ``MarkdownPage`` content type, and a loader
-for `.md` files.
-
-The `.md` loader reads the files contents, and returns a dict with a single key
-of `content_type` as ``MarkdownPage``.
-
-The ``MarkdownPage`` class takes a config dict and contents. It renders the
-content using the ``markdown2`` package.
-
-scss
-----
-
-The ``scss`` plugin provides a `SCSS` content type, and a loader for `.scss`
-files.
-
-The `.scss` loader reads the files contents, and returns a dict with a single
-key of `content_type` as ``SCSS``.
-
-The ``SCSS`` class takes a config dict and contents. It renders the contents
-using the ``PySCSS`` package.
-
-If the config dict contains a `scss_options` key, it is passed to the
-``PySCSS`` Compiler as keyword arguments.
-
-collection
-----------
-
-The ``collection`` plugin provides a `Collection` content type for defining
-collections of pages or content objects.
+   yaml
+   markdown
+   scss
+   collection
 
 
 Writing your own Plugins
