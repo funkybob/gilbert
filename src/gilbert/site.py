@@ -56,6 +56,8 @@ class Site:
         ])
         self.load_plugins()
 
+        self.emit('init')
+
     # Event handling
 
     def on(self, event, handler):
@@ -97,11 +99,14 @@ class Site:
 
                 name = '.'.join(rel_path.parts[:-1] + (rel_path.stem,))
                 try:
-                    import_module(f'gilbert.plugins.{name}')
+                    module = import_module(f'gilbert.plugins.{name}')
                 except ImportError as e:
                     print(f'Failed importing {name}: {e !r}')
                     continue
                 else:
+                    init_func = getattr(module, 'init_site', None)
+                    if init_func:
+                        self.on('init', init_func)
                     print(f'Loaded plugin: {name}')
 
         local_plugins = self.root / 'plugins.py'
@@ -110,7 +115,10 @@ class Site:
             root = str(self.root)
             if root not in sys.path:
                 sys.path.insert(0, root)
-            found['__local__'] = import_module('plugins')
+            found['__local__'] = module = import_module('plugins')
+            init_func = getattr(module, 'init_site', None)
+            if init_func:
+                self.on('init', init_func)
             print('Loaded local plugins.')
 
         self.plugins = found
