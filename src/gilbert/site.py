@@ -97,6 +97,9 @@ class Site:
             "yaml.py",
         ]
 
+        # Store paths of already found plugins
+        already_found = []
+
         for path in plugins.__path__:
             root = Path(path)
             print(f"Searching {root} for default plugins...")
@@ -118,7 +121,7 @@ class Site:
                     if init_func:
                         self.on('init', init_func)
                     print(f'Loaded plugin: {name}')
-
+                    already_found.append(child)
 
         for path in plugins.__path__:
             root = Path(path)
@@ -129,7 +132,7 @@ class Site:
                     child.is_dir() or (
                         child.is_file() and child.suffix == '.py'
                     )
-                ) or child.name.startswith('__'):
+                ) or child.name.startswith('__') or child in already_found:
                     continue
 
                 rel_path = child.relative_to(root)
