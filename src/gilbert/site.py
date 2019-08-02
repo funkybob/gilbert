@@ -79,9 +79,46 @@ class Site:
         self.dest_dir.mkdir(parents=True, exist_ok=True)
 
     def load_plugins(self):
+        """
+        Load the plugins.
+
+        Note that the default provided plugins are loaded first so that any custom plugins
+        that are loaded later are able to override the defaults.
+        """
         from . import plugins
 
         found = OrderedDict()
+
+        # Attempt to lead the deafult plugins first
+        DEFAULT_PLUGIN_FILES = [
+            "collection.py",
+            "markdown.py",
+            "scss.py",
+            "yaml.py",
+        ]
+
+        for path in plugins.__path__:
+            root = Path(path)
+            print(f"Searching {root} for default plugins...")
+
+            for child in root.iterdir():
+                if child.name not in DEFAULT_PLUGIN_FILES:
+                    continue
+
+                rel_path = child.relative_to(root)
+
+                name = '.'.join(rel_path.parts[:-1] + (rel_path.stem,))
+                try:
+                    module = import_module(f'gilbert.plugins.{name}')
+                except ImportError as e:
+                    print(f'Failed importing {name}: {e !r}')
+                    continue
+                else:
+                    init_func = getattr(module, 'init_site', None)
+                    if init_func:
+                        self.on('init', init_func)
+                    print(f'Loaded plugin: {name}')
+
 
         for path in plugins.__path__:
             root = Path(path)
