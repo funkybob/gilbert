@@ -45,6 +45,10 @@ Then, inside the plugins directory, create your plugins package directory.
          |
          + __init__.py
 
+It is important in your package's `setup` to use `find_namespace_packages`_.
+This ensures your code is not installed over-top of `gilbert` itself, and
+doesn't break the ordering of imports.
+
 Adding a Content Type
 ---------------------
 
@@ -110,3 +114,5 @@ The ``register_context_provider`` method can also be used as a decorator:
     def add_datetime(ctx):
         ctx['current_time'] = datetime.now()
         return ctx
+
+.. _find_namespace_packages: https://setuptools.readthedocs.io/en/latest/setuptools.html#find-namespace-packages
