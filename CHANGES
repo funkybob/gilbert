@@ -1,9 +1,10 @@
-0.4.0 (2019-08-??)
+0.4.0 (2019-08-05)
 ------------------
 
 - Switched to explicit plugins list in config.yml
 - Added 'init' hook on Site init
 - Added support for 'init_site' callbacks in plugins
+- Include config.globals in template context by default
 
 0.3.4 (2019-07-14)
 ------------------
