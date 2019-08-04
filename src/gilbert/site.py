@@ -165,6 +165,7 @@ class Site:
             'pages': self.pages,
             'content': self.content,
             'this': obj,
+            **self.config.get('global', {}),
             **kwargs
         }
 
