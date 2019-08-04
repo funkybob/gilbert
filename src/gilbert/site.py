@@ -114,7 +114,8 @@ class Site:
             root_path = str(self.root)
             if root_path not in sys.path:
                 sys.path.insert(0, root_path)
-            self.load_plugin('plugins')
+            if self.load_plugin('plugins'):
+                print('Loaded local plugins.')
 
     @classmethod
     def register_loader(cls, ext, func):
