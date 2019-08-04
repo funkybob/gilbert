@@ -78,50 +78,43 @@ class Site:
         self.content_dir.mkdir(parents=True, exist_ok=True)
         self.dest_dir.mkdir(parents=True, exist_ok=True)
 
+        (self.root / 'config.yml').write_text(
+            yaml.dump({
+                'plugins': [],
+                'global': {},
+            }, Dumper=yaml.Dumper)
+        )
+
+    def load_plugin(self, package_name):
+        '''
+        Helper function for importing a plugin and handling its init.
+        '''
+        try:
+            module = import_module(package_name)
+        except ImportError as e:
+            print(f'Failed importing {package_name}: {e !r}')
+            return False
+
+        init_func = getattr(module, 'init_site', None)
+        if init_func:
+            self.on('init', init_func)
+
+        return True
+
     def load_plugins(self):
-        from . import plugins
+        for package_name in self.config.get('plugins', []):
+            if self.load_plugin(package_name):
+                print(f'Loaded plugin: {package_name}')
 
-        found = OrderedDict()
-
-        for path in plugins.__path__:
-            root = Path(path)
-            print(f"Searching {root} for plugins...")
-
-            for child in root.iterdir():
-                if not (
-                    child.is_dir() or (
-                        child.is_file() and child.suffix == '.py'
-                    )
-                ) or child.name.startswith('__'):
-                    continue
-
-                rel_path = child.relative_to(root)
-
-                name = '.'.join(rel_path.parts[:-1] + (rel_path.stem,))
-                try:
-                    module = import_module(f'gilbert.plugins.{name}')
-                except ImportError as e:
-                    print(f'Failed importing {name}: {e !r}')
-                    continue
-                else:
-                    init_func = getattr(module, 'init_site', None)
-                    if init_func:
-                        self.on('init', init_func)
-                    print(f'Loaded plugin: {name}')
-
-        local_plugins = self.root / 'plugins.py'
-        if local_plugins.is_file():
+        if (
+            (self.root / 'plugins.py').is_file() or
+            (self.root / 'plugins/__init__.py').is_file()
+        ):
             import sys
-            root = str(self.root)
-            if root not in sys.path:
-                sys.path.insert(0, root)
-            found['__local__'] = module = import_module('plugins')
-            init_func = getattr(module, 'init_site', None)
-            if init_func:
-                self.on('init', init_func)
-            print('Loaded local plugins.')
-
-        self.plugins = found
+            root_path = str(self.root)
+            if root_path not in sys.path:
+                sys.path.insert(0, root_path)
+            self.load_plugin('plugins')
 
     @classmethod
     def register_loader(cls, ext, func):
