@@ -14,6 +14,7 @@ Welcome to Gilbert's documentation!
 
    tutorials/index
 
+   config
    content
    collections
    templates
