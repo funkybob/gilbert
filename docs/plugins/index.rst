@@ -2,9 +2,8 @@
 Plugins
 *******
 
-When a ``Site`` is instantiated, it will try to load all plugins.
-
-Plugins are any packages in the ``gilbert.plugins`` namespaced package.
+When a ``Site`` is instantiated, it will try to load all plugins listed in the
+config `plugins` list.
 
 If a plugin has an ``init_site`` function, it will be registered to be called
 on the site's ``init`` event. See :doc:`/hooks` for more details.
@@ -27,27 +26,9 @@ Gilbert comes with some plugins by default.
 Writing your own Plugins
 ========================
 
-Gilbert leverages Python's "namespaced packages" (as per PEP 420) to implement
-plugins.
-
-To provide a plugin in your package, you need to create empty directories for
-`gilbert` and `gilbert/plugins`; by "empty" I mean no __init__.py.
-
-Then, inside the plugins directory, create your plugins package directory.
-
-.. code-block:: sh
-
-   + gilbert/
-     |
-     + plugins/
-       |
-       + mything/
-         |
-         + __init__.py
-
-It is important in your package's `setup` to use `find_namespace_packages`_.
-This ensures your code is not installed over-top of `gilbert` itself, and
-doesn't break the ordering of imports.
+Plugins are nothing more than a Python module that contributes a
+`Content Type` class, a `loader function`, a `context provider`, or an
+`init_site` hook callback.
 
 Adding a Content Type
 ---------------------
