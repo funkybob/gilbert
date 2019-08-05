@@ -35,7 +35,7 @@ Next, we need to gather all the content objects and aggregate the tags.
        @property
        def tag_counts(self):
            tags = Counter()
-           for obj in site.content:
+           for obj in self.site.content:
                tags.update(obj.tags)
            return tags
 
