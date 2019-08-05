@@ -1,6 +1,8 @@
 YAML plugin
 ===========
 
+``gilbert.plugins.yaml``
+
 On Init
 -------
 

@@ -1,6 +1,8 @@
 SCSS plugin
 ===========
 
+``gilbert.plugins.scss``
+
 A plugin for rendering content using `libsass`_
 
 On Init

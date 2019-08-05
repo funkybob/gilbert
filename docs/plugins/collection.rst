@@ -1,6 +1,8 @@
 Collection plugin
 =================
 
+``gilbert.plugins.collection``
+
 On Init
 -------
 

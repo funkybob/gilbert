@@ -1,6 +1,8 @@
 Markdown plugin
 ===============
 
+``gilbert.plugins.markdown``
+
 A plugin for rendering content using `markdown2`_.
 
 On Init
