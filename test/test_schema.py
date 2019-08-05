@@ -41,7 +41,7 @@ def test_init_fail():
         foo: int
 
     with pytest.raises(ValueError):
-        d = Dummy(foo='test')
+        Dummy(foo='test')
 
 
 def test_set_fail():
@@ -59,7 +59,6 @@ def test_nested():
         one: int = 1
         two: str = "two"
 
-
     class Parent(Schema):
         foo: int
         child: Child
@@ -74,8 +73,8 @@ def test_nested():
 
 def test_optional():
     class Dummy(Schema):
-        one : int = 1
-        two : typing.Optional[int]
+        one: int = 1
+        two: typing.Optional[int]
 
     d = Dummy(one=2, two=1)
 
