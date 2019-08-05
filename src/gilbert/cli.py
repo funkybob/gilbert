@@ -72,13 +72,36 @@ def handle_clean(args, site):
                 onerror(None, str(child), None)
 
 
-@subcommand('serve')
 def handle_serve(args, site):
-    import http.server
+    from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
     from functools import partial
-    http.server.test(
-        partial(http.server.SimpleHTTPRequestHandler, directory=str(site.dest_dir))
+
+    server_address = (args.bind, args.port)
+
+    RequestHandler = partial(
+        SimpleHTTPRequestHandler,
+        directory=str(site.dest_dir)
     )
+    RequestHandler.protocol_version = "HTTP/1.0"
+
+    with ThreadingHTTPServer(server_address, RequestHandler) as httpd:
+        (host, port) = httpd.socket.getsockname()
+        print(f"Serving HTTP on {host} port {port}")
+        try:
+            httpd.serve_forever()
+        except KeyboardInterrupt:
+            print("\nKeyboard interrupt received, exiting.")
+            sys.exit(0)
+
+
+subparser = subparsers.add_parser('serve')
+subparser.add_argument(
+    '--bind', '-b', default='', metavar='ADDRESS',
+    help='Specify alternate bind address [default: all interfaces]'
+)
+subparser.add_argument('port', action='store', default=8000, type=int, nargs='?',
+                       help='Specify alternate port [default: 8000]')
+subparser.set_defaults(func=handle_serve)
 
 
 def main():
