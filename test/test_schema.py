@@ -1,6 +1,9 @@
+import typing
+
 import pytest
 
 from gilbert.schema import Schema
+
 
 def test_simple():
 
@@ -67,3 +70,23 @@ def test_nested():
     assert isinstance(d.child, Child)
     assert d.child.one == 2
     assert d.child.two == '2'
+
+
+def test_optional():
+    class Dummy(Schema):
+        one : int = 1
+        two : typing.Optional[int]
+
+    d = Dummy(one=2, two=1)
+
+    assert d.one == 2
+    assert d.two == 1
+
+    d = Dummy(one=2)
+    assert d.one == 2
+
+    with pytest.raises(AttributeError):
+        d.two
+
+    with pytest.raises(ValueError):
+        d = Dummy(two='one')
