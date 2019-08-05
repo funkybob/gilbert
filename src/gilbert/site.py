@@ -1,9 +1,9 @@
-from collections import OrderedDict, defaultdict
+from collections import defaultdict
 from importlib import import_module
 from pathlib import Path
 
-from stencil import Context, TemplateLoader
 import yaml
+from stencil import Context, TemplateLoader
 
 from .collection import Collection
 from .content import Page
