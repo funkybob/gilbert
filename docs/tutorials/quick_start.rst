@@ -2,13 +2,15 @@
 Quick Start Tutorial
 ********************
 
+.. caution:: Remember, ``gilbert`` requires Python 3.7
+
 First, we'll create a `virtualenv` and install `gilbert`:
 
 .. code-block:: sh
 
-    $ python3.7 -m venv venv
-    $ . venv/bin/activate
-    (venv) $ pip install gilbert
+   $ python3.7 -m venv venv
+   $ . venv/bin/activate
+   (venv) $ pip install gilbert
 
 Next, we'll create a project:
 
@@ -20,30 +22,30 @@ This will create a basic project layout:
 
 .. code-block:: sh
 
-    (venv) $ tree mysite
-    mysite/
-    ├── config.yml
-    ├── content
-    ├── docs
-    ├── pages
-    └── templates
+   (venv) $ tree mysite
+   mysite/
+   ├── config.yml
+   ├── content
+   ├── docs
+   ├── pages
+   └── templates
 
-    4 directories, 1 file
+   4 directories, 1 file
 
 Everything from here out will be easier if we're inside the `mysite` directory:
 
 .. code-block:: sh
 
-    (venv) $ cd mysite/
+   (venv) $ cd mysite/
 
 Now, let's create the index page for our new site:
 
 .. code-block:: yaml
   :caption: mysite/pages/index.yaml
 
-    title: Welcome
-    ---
-    This is my page!
+   title: Welcome
+   ---
+   This is my page!
 
 This defines a new ``Content`` object, with information _about_ the page (the
 meta-data) before the `---` line, and content after.
@@ -52,11 +54,11 @@ If we now try to `render` our site, we'll see the following:
 
 .. code-block:: sh
 
-    (venv) $ gilbert render
-    Found 0 content objects.
-    Found 1 pages.
-    Rendering index.yaml ...
-    -- Done.
+   (venv) $ gilbert render
+   Found 0 content objects.
+   Found 1 pages.
+   Rendering index.yaml ...
+   -- Done.
 
 And in our `docs/` folder we'll find `index.yaml`. Not what we wanted. This is
 becaues we haven't enabled the YAML plugin. Without it, Gilbert will treat the
@@ -71,30 +73,31 @@ Now, let's configure that plugin. If you open the `config.yml` file in your
 editor you will see something like:
 
 .. code-block:: yaml
-  :caption: mysite/config.yml
+   :caption: mysite/config.yml
 
-    global: {}
-    plugins: []
+   global: {}
+   plugins: []
 
 We can add the YAML plugin as follows:
 
-.. code-block::yaml
-  :caption: mysite/config.yml
+.. code-block:: yaml
+   :caption: mysite/config.yml
+   :emphasize-lines: 2,3
 
-    global: {}
-    plugins:
-      - gilbert.plugins.yaml
+   global: {}
+   plugins:
+     - gilbert.plugins.yaml
 
 Let's try rendering again:
 
 .. code-block:: sh
 
-    (venv) $ gilbert render
-    Loaded plugin: gilbert.plugins.yaml
-    Found 0 content objects.
-    Found 1 pages.
-    Rendering index.yaml ...
-    Template for default.html not found: ['default.html']
+   (venv) $ gilbert render
+   Loaded plugin: gilbert.plugins.yaml
+   Found 0 content objects.
+   Found 1 pages.
+   Rendering index.yaml ...
+   Template for default.html not found: ['default.html']
 
 We need to provide a template to render the page with. Let's do that now:
 
@@ -103,15 +106,15 @@ We need to provide a template to render the page with. Let's do that now:
 .. code-block:: html
   :caption: mysite/templates/default.html
 
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <title> {{ this.title }} </title>
-      </head>
-      <body>
-        {{ this.content }}
-      </body>
-    </html>
+   <!DOCTYPE html>
+   <html>
+     <head>
+       <title> {{ this.title }} </title>
+     </head>
+     <body>
+       {{ this.content }}
+     </body>
+   </html>
 
 This time when we render, we'll see:
 
