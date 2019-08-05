@@ -48,6 +48,8 @@ class Collection:
             root = path
 
         for item in path.iterdir():
+            if item.name.startswith('.'):
+                continue
             if item.is_file():
                 name = str(item.relative_to(root))
                 self._items[name] = self.load_file(item, name=name)

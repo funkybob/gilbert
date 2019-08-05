@@ -2,6 +2,7 @@
 ------------------
 
 - Improved "gilbert serve" implemetation and options.
+- Don't load dot-files from collection.
 
 0.4.0 (2019-08-05)
 ------------------
