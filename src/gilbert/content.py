@@ -24,6 +24,7 @@ class Content(Schema):
         self.name = name
         self.site = site
         self.data = data or ''
+        meta = meta or {}
         super().__init__(**meta)
 
     def __init_subclass__(cls, **kwargs):
