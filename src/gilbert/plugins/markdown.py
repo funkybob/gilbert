@@ -1,4 +1,4 @@
-# from markdown2 import Markdown
+
 from markdown import markdown
 
 from gilbert import Site

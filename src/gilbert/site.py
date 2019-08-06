@@ -3,6 +3,7 @@ from importlib import import_module
 from pathlib import Path
 
 import yaml
+
 from stencil import Context, TemplateLoader
 
 from .collection import Collection
