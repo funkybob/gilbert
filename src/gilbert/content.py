@@ -3,7 +3,7 @@ Content object classes
 """
 from pathlib import Path
 from shutil import copyfileobj
-from typing import Collection, Sequence, Union
+from typing import Collection, Dict, Sequence, Union
 
 from .exceptions import ClientException
 from .schema import Schema
@@ -14,7 +14,7 @@ class Content(Schema):
     """
     Base content class.
     """
-    _types = {}
+    _types: Dict[str, Schema] = {}
 
     content_type: str
 

@@ -1,6 +1,7 @@
 from collections import defaultdict
 from importlib import import_module
 from pathlib import Path
+from typing import Callable, Dict, List, Tuple
 
 import yaml
 
@@ -32,11 +33,11 @@ class Site:
     Configuration of main site.
     """
 
-    __context_generators__ = []
-    __loaders__ = {}
+    __context_generators__: List[Callable[[Dict], Dict]] = []
+    __loaders__: Dict[str, Callable[[Path], Tuple[str, Dict]]] = {}
 
     def __init__(self, root: Path):
-        self.hooks = defaultdict(list)
+        self.hooks: Dict[str, List[Callable[[Site], None]]] = defaultdict(list)
 
         self.root = root
 
