@@ -136,5 +136,7 @@ We can now look at our new page:
 
 And point your browser at http://localhost:8000/
 
+As you work, in another terminal run ``gilbert watch`` to make sure a fresh copy
+of your site is rendered as you work.
 
 .. _stencil: https://stencil-templates.readthedocs.io/en/latest/
