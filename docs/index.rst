@@ -25,6 +25,8 @@ Welcome to Gilbert's documentation!
    query
    hooks
 
+   recipes/index
+
    ref/modules
 
    FAQ
