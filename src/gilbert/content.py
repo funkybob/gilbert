@@ -14,7 +14,7 @@ class Content(Schema):
     """
     Base content class.
     """
-    _types: Dict[str, Schema] = {}
+    __registry__: Dict[str, Schema] = {}
 
     content_type: str
 
@@ -32,7 +32,7 @@ class Content(Schema):
         Catch-subclass declarations and register them.
         """
         super().__init_subclass__(**kwargs)
-        cls._types[cls.__name__] = cls
+        cls.__registry__[cls.__name__] = cls
 
     @classmethod
     def create(cls, name, site, data, meta):
@@ -44,7 +44,7 @@ class Content(Schema):
         """
         content_type = meta.get('content_type', cls.__name__)
         try:
-            klass = cls._types[content_type]
+            klass = cls.__registry__[content_type]
         except KeyError:
             raise ValueError(
                 f'You attempted to create a page with type "{content_type}" but no class is registered to handle this'
@@ -76,6 +76,7 @@ class Renderable:
     """
     Mixin to simplify making renderable content types.
     """
+    name: str
     output_extension: str = 'html'
 
     @oneshot
