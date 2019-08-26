@@ -11,7 +11,7 @@ class Query:
 
 
 class AstNode:
-    __ops__: Dict[str, AstNode] = {}
+    __ops__: Dict[str, 'AstNode'] = {}
 
     def __init_subclass__(cls, operator, **kwargs):
         super().__init_subclass__(**kwargs)
