@@ -4,9 +4,9 @@ from gilbert.content import Content
 from gilbert.utils import oneshot
 
 
-class Collection(Content):
+class Selection(Content):
     '''
-    A content type to provide sorted page / content collections by query.
+    A content type to provide sorted selections of pages / content.
     '''
     filter_by: dict = {}
     sort_by: str = 'name'
