@@ -45,6 +45,12 @@ If you have Linux, you can use the built-in ``watch`` command:
 
 	$ gilbert --root mysite watch
 
+Additionally, you can enable the same function by passing ``--watch`` to the ``serve`` command:
+
+.. code-block:: sh
+
+	$ gilbert --root mysite serve --watch
+
 For every other OS, you will notice an error that the module could not be found, similar to as follows:
 
 .. code-block:: sh

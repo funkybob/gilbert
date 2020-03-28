@@ -20,7 +20,7 @@ Gilbert comes with some plugins by default.
    yaml
    markdown
    scss
-   collection
+   selection
 
 
 Writing your own Plugins

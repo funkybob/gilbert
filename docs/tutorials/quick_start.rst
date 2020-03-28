@@ -136,7 +136,12 @@ We can now look at our new page:
 
 And point your browser at http://localhost:8000/
 
-As you work, in another terminal run ``gilbert watch`` to make sure a fresh copy
-of your site is rendered as you work.
+It can be helpful to have ``gilbert`` rebuild automatically as you change files.
+
+You can do this easily by passing ``--watch`` to the ``serve`` command:
+
+.. code-block:: sh
+
+   (venv) $ gilbert serve ---watch
 
 .. _stencil: https://stencil-templates.readthedocs.io/en/latest/
