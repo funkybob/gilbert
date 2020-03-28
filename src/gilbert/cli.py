@@ -7,11 +7,9 @@ from shutil import rmtree
 from .exceptions import ClientException
 from .site import Site
 
-parser = argparse.ArgumentParser(prog='gilbert', description="Gilbert static site generator")
-parser.add_argument('--root', '-r', type=Path, default=Path.cwd(),
-                    help="Root of site data [defaults to CWD]")
-parser.add_argument('--debug', '-d', default=False, action="store_true",
-                    help="Additional debugging [defaults to off]")
+parser = argparse.ArgumentParser(prog="gilbert", description="Gilbert static site generator")
+parser.add_argument("--root", "-r", type=Path, default=Path.cwd(), help="Root of site data [defaults to CWD]")
+parser.add_argument("--debug", "-d", default=False, action="store_true", help="Additional debugging [defaults to off]")
 
 parser.set_defaults(func=None)
 
@@ -29,24 +27,29 @@ def subcommand(name):
     return _inner
 
 
-@subcommand('init')
+@subcommand("init")
 def handle_init(args, site):
     site.init()
 
 
-@subcommand('render')
+@subcommand("render")
 def handle_render(args, site):
     site.render()
 
 
-@subcommand('watch')
+@subcommand("watch")
 def handle_watch(args, site):
-    site.watch()
+    import asyncio
+
+    loop = asyncio.get_event_loop()
+
+    loop.create_task(site.watch(loop))
 
 
-@subcommand('plugins')
+@subcommand("plugins")
 def handle_plugins(args, site):
     from .content import Content
+
     print("")
     print("File extensions:")
     print(f"  {', '.join(site.__loaders__)}")
@@ -57,7 +60,7 @@ def handle_plugins(args, site):
     print("")
 
 
-@subcommand('clean')
+@subcommand("clean")
 def handle_clean(args, site):
     def onerror(func, path, exc_info):
         print(f"!! Unable to remove {path}")
@@ -73,34 +76,34 @@ def handle_clean(args, site):
 
 
 def handle_serve(args, site):
-    from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
-    from functools import partial
 
-    server_address = (args.bind, args.port)
+    from aiohttp import web
 
-    RequestHandler = partial(
-        SimpleHTTPRequestHandler,
-        directory=str(site.dest_dir)
-    )
-    RequestHandler.protocol_version = "HTTP/1.0"
+    def default_index(request):
+        return web.Response(status=301, headers={"Location": "/index.html"})
 
-    with ThreadingHTTPServer(server_address, RequestHandler) as httpd:
-        (host, port) = httpd.socket.getsockname()
-        print(f"Serving HTTP on {host} port {port}")
-        try:
-            httpd.serve_forever()
-        except KeyboardInterrupt:
-            print("\nKeyboard interrupt received, exiting.")
-            sys.exit(0)
+    app = web.Application()
+    app.router.add_route("GET", "/", default_index)
+    app.router.add_static("/", site.dest_dir)
+
+    if args.watch:
+        handle_watch(args, site)
+
+    web.run_app(app, host=args.bind, port=args.port)
 
 
-subparser = subparsers.add_parser('serve')
+subparser = subparsers.add_parser("serve")
 subparser.add_argument(
-    '--bind', '-b', default='', metavar='ADDRESS',
-    help='Specify alternate bind address [default: all interfaces]'
+    "--bind",
+    "-b",
+    default="0.0.0.0",
+    metavar="ADDRESS",
+    help="Specify alternate bind address [default: all interfaces]",
 )
-subparser.add_argument('port', action='store', default=8000, type=int, nargs='?',
-                       help='Specify alternate port [default: 8000]')
+subparser.add_argument("--watch", "-w", default=False, action="store_true", help="Watch files and rebuild on changes")
+subparser.add_argument(
+    "port", action="store", default=8000, type=int, nargs="?", help="Specify alternate port [default: 8000]"
+)
 subparser.set_defaults(func=handle_serve)
 
 
