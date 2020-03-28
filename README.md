@@ -25,9 +25,13 @@ Render your site:
 
     $ gilbert --root mysite render
 
-Have gilbert watch your files, and re-render on changes:
+Have gilbert serve your site:
 
-    $ gilbert --root mysite watch
+    $ gilbert --root mysite serve
+
+Serve your site and re-render on changes:
+
+    $ gilbert --root mysite serve --watch
 
 Finally, list all loaders and plugins:
 

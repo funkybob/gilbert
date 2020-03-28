@@ -39,17 +39,13 @@ You can fix this by updating versions:
 How do I have Gilbert automatically rebuild the site when files change?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you have Linux, you can use the built-in ``watch`` command:
-
-.. code-block:: sh
-
-	$ gilbert --root mysite watch
-
-Additionally, you can enable the same function by passing ``--watch`` to the ``serve`` command:
+The ``serve`` command can automatically watch your content for changes, and re-render automatically for you:
 
 .. code-block:: sh
 
 	$ gilbert --root mysite serve --watch
+
+This currently only works for Linux based OSs.
 
 For every other OS, you will notice an error that the module could not be found, similar to as follows:
 
