@@ -11,7 +11,7 @@ class Query:
 
 
 class AstNode:
-    __ops__: Dict[str, 'AstNode'] = {}
+    __ops__: Dict[str, "AstNode"] = {}
 
     def __init_subclass__(cls, operator, **kwargs):
         super().__init_subclass__(**kwargs)
@@ -37,7 +37,7 @@ class AstNode:
         return term(context)
 
 
-class Attr(AstNode, operator='attr'):
+class Attr(AstNode, operator="attr"):
     def __init__(self, name, default=None):
         self.name = name
         self.default = default
@@ -49,31 +49,23 @@ class Attr(AstNode, operator='attr'):
         return getattr(context, name, default)
 
 
-class All(AstNode, operator='all'):
-
+class All(AstNode, operator="all"):
     def __init__(self, *terms):
         self.terms = terms
 
     def __call__(self, context):
-        return all(
-            term(context)
-            for term in self.terms
-        )
+        return all(term(context) for term in self.terms)
 
 
-class Any(AstNode, operator='any'):
-
+class Any(AstNode, operator="any"):
     def __init__(self, *terms):
         self.terms = terms
 
     def __call__(self, context):
-        return any(
-            term(context)
-            for term in self.terms
-        )
+        return any(term(context) for term in self.terms)
 
 
-class Not(AstNode, operator='not'):
+class Not(AstNode, operator="not"):
     def __init__(self, value):
         self.value = value
 
@@ -82,7 +74,6 @@ class Not(AstNode, operator='not'):
 
 
 class BinaryOperator(AstNode, operator=None):
-
     def __init__(self, left, right):
         self.left = left
         self.right = right
@@ -94,31 +85,31 @@ class BinaryOperator(AstNode, operator=None):
         return self.op(left, right)
 
 
-class Lt(BinaryOperator, operator='lt'):
+class Lt(BinaryOperator, operator="lt"):
     op = operator.lt
 
 
-class Le(BinaryOperator, operator='le'):
+class Le(BinaryOperator, operator="le"):
     op = operator.le
 
 
-class Equal(BinaryOperator, operator='eq'):
+class Equal(BinaryOperator, operator="eq"):
     op = operator.eq
 
 
-class NotEqual(BinaryOperator, operator='ne'):
+class NotEqual(BinaryOperator, operator="ne"):
     op = operator.ne
 
 
-class Ge(BinaryOperator, operator='ge'):
+class Ge(BinaryOperator, operator="ge"):
     op = operator.ge
 
 
-class Gt(BinaryOperator, operator='gt'):
+class Gt(BinaryOperator, operator="gt"):
     op = operator.gt
 
 
-class StartsWith(AstNode, operator='startswith'):
+class StartsWith(AstNode, operator="startswith"):
     def __init__(self, value, prefix):
         self.value = value
         self.prefix = prefix
@@ -130,7 +121,7 @@ class StartsWith(AstNode, operator='startswith'):
         return value.startswith(prefix)
 
 
-class Contains(AstNode, operator='contains'):
+class Contains(AstNode, operator="contains"):
     def __init__(self, left, right):
         self.left = left
         self.right = right

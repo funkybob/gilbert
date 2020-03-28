@@ -5,7 +5,6 @@ from collections.abc import Container, Mapping
 
 
 class Validator:
-
     def is_valid(self, value):
         try:
             self(value)
@@ -17,13 +16,14 @@ class Validator:
 class NoneValidator(Validator):
     def __call__(self, value):
         if value is not None:
-            raise TypeError(f'Value {value !r} is not of type NoneType')
+            raise TypeError(f"Value {value !r} is not of type NoneType")
 
 
 class InstanceValidator(Validator):
-    '''
+    """
     Validates only that the value isinstance(type)
-    '''
+    """
+
     def __init__(self, _type):
         self._type = _type
 
@@ -33,7 +33,6 @@ class InstanceValidator(Validator):
 
 
 class ContainerValidator(Validator):
-
     def __init__(self, _type):
         self.base = _type.__origin__
         self.inner_type = validator_for(_type.__args__[0])
@@ -49,7 +48,6 @@ class ContainerValidator(Validator):
 
 
 class MappingValidator(ContainerValidator):
-
     def __init__(self, _type):
         self.base = _type.__origin__
         self.key_type = validator_for(_type.__args__[0])
@@ -63,22 +61,17 @@ class MappingValidator(ContainerValidator):
 
 class UnionValidator(Validator):
     def __init__(self, _type):
-        self.args = [
-            validator_for(t)
-            for t in _type.__args__
-        ]
+        self.args = [validator_for(t) for t in _type.__args__]
 
     def __call__(self, value):
-        if not any(
-            arg.is_valid(value) for arg in self.args
-        ):
-            raise ValueError(f'{value !r} is not allowed type.')
+        if not any(arg.is_valid(value) for arg in self.args):
+            raise ValueError(f"{value !r} is not allowed type.")
 
 
 def validator_for(_type):
-    '''
+    """
     Utility function to create a Type validator callable.
-    '''
+    """
     if isinstance(_type, type(None)):
         return NoneValidator()
 
@@ -95,7 +88,7 @@ def validator_for(_type):
                 return ContainerValidator(_type)
         # Optional, Any, AnyStr ?
         elif isinstance(base, typing._SpecialForm):
-            if base._name == 'Union':
+            if base._name == "Union":
                 return UnionValidator(_type)
 
     return InstanceValidator(_type)
@@ -121,7 +114,7 @@ class SchemaProperty:
             return instance.__dict__[self.name]
         except KeyError:
             if self.default is NO_DEFAULT:
-                raise AttributeError(f'Schema {instance} has no value for {self.name}')
+                raise AttributeError(f"Schema {instance} has no value for {self.name}")
 
         return self.default
 
@@ -130,15 +123,15 @@ class SchemaProperty:
             value = self._type(**value)
         elif isinstance(self._type, Validator):
             if not self._type.is_valid(value):
-                raise ValueError(f'{instance.__class__.__name__}.{self.name} does not accept value {value !r}')
+                raise ValueError(f"{instance.__class__.__name__}.{self.name} does not accept value {value !r}")
         instance.__dict__[self.name] = value
 
 
 class SchemaType(type):
     def __new__(mcs, classname, bases, namespace, **kwargs):
 
-        for name, _type in namespace.get('__annotations__', {}).items():
-            if name.startswith('__') and name.endswith('__'):
+        for name, _type in namespace.get("__annotations__", {}).items():
+            if name.startswith("__") and name.endswith("__"):
                 continue
 
             default = namespace.get(name, NO_DEFAULT)
@@ -154,7 +147,6 @@ class SchemaType(type):
 
 
 class Schema(metaclass=SchemaType):
-
     def __init__(self, **kwargs):
         for name, value in kwargs.items():
             setattr(self, name, value)

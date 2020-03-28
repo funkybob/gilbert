@@ -8,6 +8,7 @@ class Collection:
     """
     Collection of content objects.
     """
+
     def __init__(self, site, default_type=Content, loaders=None):
         self.site = site
         self.default_type = default_type
@@ -37,11 +38,7 @@ class Collection:
         if not isinstance(query, Query):
             query = Query(query)
 
-        return [
-            item
-            for item in self
-            if query(item)
-        ]
+        return [item for item in self if query(item)]
 
     def load(self, path: Path, root: Path = None):
         """
@@ -51,7 +48,7 @@ class Collection:
             root = path
 
         for item in path.iterdir():
-            if item.name.startswith('.'):
+            if item.name.startswith("."):
                 continue
             if item.is_file():
                 name = str(item.relative_to(root))
@@ -60,7 +57,7 @@ class Collection:
                 self.load(item, root)
 
     def load_file(self, path: Path, name: str):
-        ext = path.suffix.lstrip('.')
+        ext = path.suffix.lstrip(".")
 
         load_func = self._loaders.get(ext, load_raw)
 
@@ -75,7 +72,7 @@ class Collection:
 
 
 def load_raw(path: Path):
-    '''
+    """
     For anything we don't recognise, we load it as a Raw data.
-    '''
-    return None, {'content_type': 'Raw', 'path': path}
+    """
+    return None, {"content_type": "Raw", "path": path}

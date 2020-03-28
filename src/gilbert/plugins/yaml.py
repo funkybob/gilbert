@@ -12,12 +12,12 @@ def load_yaml(path: Path):
         # PyYAML Reader greedily consumes chunks from the stream.
         # We must recover any un-consumed data, as well as what's left in the stream.
         if loader.buffer:
-            data = loader.buffer[loader.pointer:-1]
+            data = loader.buffer[loader.pointer : -1]
         else:
-            data = ''
+            data = ""
         data += fin.read()
     return data, meta
 
 
-Site.register_loader('yaml', load_yaml)
-Site.register_loader('yml', load_yaml)
+Site.register_loader("yaml", load_yaml)
+Site.register_loader("yml", load_yaml)

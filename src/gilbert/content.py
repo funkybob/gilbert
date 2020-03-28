@@ -14,6 +14,7 @@ class Content(Schema):
     """
     Base content class.
     """
+
     __registry__: Dict[str, Schema] = {}
 
     content_type: str
@@ -23,7 +24,7 @@ class Content(Schema):
     def __init__(self, name, site, data=None, meta=None):
         self.name = name
         self.site = site
-        self.data = data or ''
+        self.data = data or ""
         meta = meta or {}
         super().__init__(**meta)
 
@@ -42,13 +43,13 @@ class Content(Schema):
         Will extract the content type from the meta, and create the
         appropriate sub-class.
         """
-        content_type = meta.get('content_type', cls.__name__)
+        content_type = meta.get("content_type", cls.__name__)
         try:
             klass = cls.__registry__[content_type]
         except KeyError:
             raise ValueError(
                 f'You attempted to create a page with type "{content_type}" but no class is registered to handle this'
-                ' content type'
+                " content type"
             )
         return klass(name, site, data=data, meta=meta)
 
@@ -64,28 +65,30 @@ class Raw(Content):
     Unlike other content types, does not hold its data - only the path to the source.
     Upon render, it copies the source file directly to the target.
     """
+
     path: Path
 
     def render(self):
         target = self.site.dest_dir / self.name
         target.parent.mkdir(parents=True, exist_ok=True)
-        copyfileobj(self.path.open('rb'), target.open('wb'))
+        copyfileobj(self.path.open("rb"), target.open("wb"))
 
 
 class Renderable:
     """
     Mixin to simplify making renderable content types.
     """
+
     name: str
-    output_extension: str = 'html'
+    output_extension: str = "html"
 
     @oneshot
     def output_filename(self) -> Path:
-        return Path(self.name).with_suffix(f'.{self.output_extension}')
+        return Path(self.name).with_suffix(f".{self.output_extension}")
 
     @oneshot
     def url(self) -> str:
-        return f'/{self.output_filename}'
+        return f"/{self.output_filename}"
 
     @oneshot
     def page_content(self):
@@ -101,7 +104,8 @@ class Templated(Renderable):
     """
     Definition and implementation of the Templated interface.
     """
-    template: Union[str, Sequence[str]] = 'default.html'
+
+    template: Union[str, Sequence[str]] = "default.html"
 
     def get_template_names(self) -> Sequence[str]:
         template = self.template
@@ -119,7 +123,7 @@ class Templated(Renderable):
             except LookupError:
                 pass
         else:
-            raise ClientException(f'Template for {name} not found: {template_names}')
+            raise ClientException(f"Template for {name} not found: {template_names}")
 
         return template
 
