@@ -1,3 +1,9 @@
+0.5.0 (2020-03-28)
+------------------
+
+- Converted `watch` and `serve` commands to use asyncio
+- Added `--watch` option to `serve` command.
+
 0.4.2 (2019-08-26)
 ------------------
 
@@ -52,4 +58,3 @@
 - Rework Content API to separate data / meta / content
 - Use InstanceValidator (nes SimpleValidator) as default schema validator
 - Make Raw objects lazy; saves memory
-
