@@ -11,9 +11,9 @@ If you see an issue with the install failing like so:
 
 .. code-block:: sh
 
-    $python3.7 -m pip install git+https://github.com/funkybob/gilbert.git
-    Collecting git+https://github.com/funkybob/gilbert.git
-    Cloning https://github.com/funkybob/gilbert.git to /tmp/pip-g3bsf2gf-build
+    $python3.7 -m pip install gilbert
+    Collecting gilbert
+    ...
         Complete output from command python setup.py egg_info:
         running egg_info
         creating pip-egg-info/gilbert.egg-info
@@ -45,7 +45,7 @@ If you have Linux, you can use the built-in ``watch`` command:
 
 	$ gilbert --root mysite watch
 
-For every other OS, you will notice a similar error that the module could not be found:
+For every other OS, you will notice an error that the module could not be found, similar to as follows:
 
 .. code-block:: sh
 
