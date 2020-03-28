@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gilbert"
-version = "0.5.0"
+version = "0.5.1"
 description = "A simple, extensible static site generator."
 readme = "README.md"
 authors = ["Curtis Maloney <curtis@tinbrain.net>"]
