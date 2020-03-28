@@ -4,7 +4,6 @@ from pathlib import Path
 from typing import Callable, Dict, List, Tuple
 
 import yaml
-
 from stencil import Context, TemplateLoader
 
 from .collection import Collection
@@ -53,7 +52,7 @@ class Site:
         else:
             self.config = {}
 
-        self.templates = TemplateLoader([self.templates_dir,])
+        self.templates = TemplateLoader([self.templates_dir])
         self.load_plugins()
 
         self.emit("init")
@@ -78,7 +77,7 @@ class Site:
         self.content_dir.mkdir(parents=True, exist_ok=True)
         self.dest_dir.mkdir(parents=True, exist_ok=True)
 
-        (self.root / "config.yml").write_text(yaml.dump({"plugins": [], "global": {},}, Dumper=yaml.Dumper))
+        (self.root / "config.yml").write_text(yaml.dump({"plugins": [], "global": {}}, Dumper=yaml.Dumper))
 
     def load_plugin(self, package_name):
         """
@@ -166,21 +165,3 @@ class Site:
             ctx = func(ctx)
 
         return Context(ctx)
-
-    async def watch(self, loop):
-        """
-        Watch for changes, then re-render
-        """
-        import aionotify
-
-        watcher = aionotify.Watcher()
-
-        for path in (self.templates_dir, self.pages_dir, self.content_dir):
-            watcher.watch(str(path), flags=aionotify.Flags.MODIFY | aionotify.Flags.CREATE | aionotify.Flags.DELETE)
-
-        await watcher.setup(loop)
-
-        while True:
-            await watcher.get_event()
-            self.templates.clear()
-            self.render()

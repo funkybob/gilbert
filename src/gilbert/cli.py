@@ -8,8 +8,12 @@ from .exceptions import ClientException
 from .site import Site
 
 parser = argparse.ArgumentParser(prog="gilbert", description="Gilbert static site generator")
-parser.add_argument("--root", "-r", type=Path, default=Path.cwd(), help="Root of site data [defaults to CWD]")
-parser.add_argument("--debug", "-d", default=False, action="store_true", help="Additional debugging [defaults to off]")
+parser.add_argument(
+    "--root", "-r", type=Path, default=Path.cwd(), help="Root of site data [defaults to CWD]",
+)
+parser.add_argument(
+    "--debug", "-d", default=False, action="store_true", help="Additional debugging [defaults to off]",
+)
 
 parser.set_defaults(func=None)
 
@@ -35,15 +39,6 @@ def handle_init(args, site):
 @subcommand("render")
 def handle_render(args, site):
     site.render()
-
-
-@subcommand("watch")
-def handle_watch(args, site):
-    import asyncio
-
-    loop = asyncio.get_event_loop()
-
-    loop.create_task(site.watch(loop))
 
 
 @subcommand("plugins")
@@ -76,8 +71,10 @@ def handle_clean(args, site):
 
 
 def handle_serve(args, site):
-
+    import asyncio
     from aiohttp import web
+
+    from .watch import Watch
 
     def default_index(request):
         return web.Response(status=301, headers={"Location": "/index.html"})
@@ -86,8 +83,18 @@ def handle_serve(args, site):
     app.router.add_route("GET", "/", default_index)
     app.router.add_static("/", site.dest_dir)
 
+    async def start_watcher(app):
+        watcher = Watch(site)
+
+        app["watch-task"] = asyncio.create_task(watcher.run())
+
+    async def stop_watcher(app):
+        app["watch-task"].cancel()
+        await app["watch-task"]
+
     if args.watch:
-        handle_watch(args, site)
+        app.on_startup.append(start_watcher)
+        app.on_cleanup.append(stop_watcher)
 
     web.run_app(app, host=args.bind, port=args.port)
 
@@ -100,9 +107,11 @@ subparser.add_argument(
     metavar="ADDRESS",
     help="Specify alternate bind address [default: all interfaces]",
 )
-subparser.add_argument("--watch", "-w", default=False, action="store_true", help="Watch files and rebuild on changes")
 subparser.add_argument(
-    "port", action="store", default=8000, type=int, nargs="?", help="Specify alternate port [default: 8000]"
+    "--watch", "-w", default=False, action="store_true", help="Watch files and rebuild on changes",
+)
+subparser.add_argument(
+    "port", action="store", default=8000, type=int, nargs="?", help="Specify alternate port [default: 8000]",
 )
 subparser.set_defaults(func=handle_serve)
 
