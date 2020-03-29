@@ -9,6 +9,17 @@ from gilbert.utils import oneshot
 
 
 class MarkdownPage(Page):
+    """
+    Page type that renders its content as Markdown.
+
+    Extensions can be configured in ``config.yml`` via:
+
+    content_type:MarkdownPage
+
+    or using the ``extras`` attribute.
+    """
+
+    # List of Markdown extensions to enable.
     extras: list = []
 
     @oneshot

@@ -9,6 +9,16 @@ from gilbert.utils import oneshot
 
 
 class SCSS(Renderable, Content):
+    """
+    Content type that renders its content as SCSS
+
+    Additional options can be configured globally in ``config.yml``:
+
+    content_type:SCSS:
+
+    or using the ``scss_options`` attribute.
+    """
+
     output_extension: str = "css"
     scss_options: dict = {}
 

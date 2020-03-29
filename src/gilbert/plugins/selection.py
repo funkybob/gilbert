@@ -8,7 +8,7 @@ from gilbert.utils import oneshot
 
 class Selection(Content):
     """
-    A content type to provide sorted selections of pages / content.
+    A Content type to provide sorted selections of pages / content.
     """
 
     filter_by: dict = {}
@@ -28,8 +28,14 @@ class Selection(Content):
 
     @oneshot
     def pages(self):
+        """
+        Apply filtering and sorting to the Site's pages Collection, and return matching objects.
+        """
         return self.select_objects(self.site.pages)
 
     @oneshot
     def content(self):
+        """
+        Apply filtering and sorting to the Site's content Collection, and return matching objects.
+        """
         return self.select_objects(self.site.content)

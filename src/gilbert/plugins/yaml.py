@@ -1,3 +1,7 @@
+"""
+Provides a general YAML file loader.
+"""
+
 from pathlib import Path
 
 import yaml
@@ -7,6 +11,11 @@ from gilbert.types import LoaderResult
 
 
 def load_yaml(path: Path) -> LoaderResult:
+    """
+    Loads a YAML file.
+
+    Reads the first "document" (up to the '---' line) as meta, and treats the remainder of the file as content.
+    """
     with path.open() as fin:
         loader = yaml.Loader(fin)
         meta = loader.get_data()
