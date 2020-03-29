@@ -1,13 +1,13 @@
 Menu
 ====
 
-A ``Collection`` is an easy solution to building a navigation menu.
+A ``Selection`` is an easy solution to building a navigation menu.
 
 Steps
 -----
 
 1. Add an 'in_nav' attribute to pages you want to appear in the menu.
-2. Create a ``Collection`` in your ``content`` directory.
+2. Create a ``Selection`` in your ``content`` directory.
 3. Add it to your template.
 
 1. Add attributes
@@ -19,15 +19,15 @@ Steps
    ---
    Some page!
 
-2. Create a ``Collection``
+2. Create a ``Selection``
 --------------------------
 
-Add the ``collections`` plugin to ``config.yml``:
+Add the ``selection`` plugin to ``config.yml``:
 
 .. code-block:: yaml
 
    plugins:
-     - gilbert.plugins.collection
+     - gilbert.plugins.selection
 
 
 Next, add a menu object to your ``content`` directory:
@@ -35,8 +35,8 @@ Next, add a menu object to your ``content`` directory:
 .. code-block:: yaml
    :caption: content/menu.yml
 
-   content_type: Collection
-   filter:
+   content_type: Selection
+   filter_by:
      - attr: ['in_menu']
 
 This filter will select any object with the ``in_menu`` attribute having a
@@ -62,3 +62,11 @@ Added features
 
 Instead of setting ``in_menu`` to `True`, you could assign a value and order
 by it to ensure consistent ordering.
+
+.. code-block:: yaml
+   :caption: content/menu.yml
+
+   content_type: Selection
+   filter_by:
+     - attr: ['in_menu']
+   sort_by: in_menu

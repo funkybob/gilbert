@@ -5,3 +5,4 @@ Recipes
    :maxdepth: 2
 
    menu
+   template_helpers
