@@ -5,4 +5,6 @@ sphinx:
   configuration: docs/conf.py
 
 python:
-  pip_install: true
+  install:
+    - method: pip
+      path: .
