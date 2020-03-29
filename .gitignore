@@ -3,3 +3,5 @@
 docs/_build/
 
 .vscode/
+
+.mypy_cache
