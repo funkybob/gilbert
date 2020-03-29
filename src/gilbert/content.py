@@ -54,7 +54,7 @@ class Content(Schema):
         return klass(name, site, data=data, meta=meta)
 
     @property
-    def content(self):
+    def content(self) -> str:
         return self.data
 
 

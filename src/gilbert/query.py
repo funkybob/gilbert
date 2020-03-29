@@ -1,9 +1,12 @@
 import operator
-from typing import Dict
+from typing import Dict, Union
+
+Resolvable = Union["AstNode", int, float, str]
+QueryConfig = Union["Query", dict, Resolvable]
 
 
 class Query:
-    def __init__(self, expr):
+    def __init__(self, expr: Union[Resolvable, dict]):
         self.query = AstNode.build(expr)
 
     def __call__(self, context):
@@ -13,13 +16,16 @@ class Query:
 class AstNode:
     __ops__: Dict[str, "AstNode"] = {}
 
+    def __call__(self, context):
+        raise NotImplementedError
+
     def __init_subclass__(cls, operator, **kwargs):
         super().__init_subclass__(**kwargs)
         if operator is not None:
             AstNode.__ops__[operator] = cls
 
     @staticmethod
-    def build(term):
+    def build(term) -> Resolvable:
         if isinstance(term, (int, float, str)):
             return term
 
@@ -30,7 +36,7 @@ class AstNode:
         args = [AstNode.build(arg) for arg in args]
         return AstNode.__ops__[operator](*args)
 
-    def resolve(self, term, context):
+    def resolve(self, term: Resolvable, context):
         if isinstance(term, (int, float, str)):
             return term
 

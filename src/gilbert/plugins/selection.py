@@ -1,5 +1,7 @@
 from operator import attrgetter
+from typing import List
 
+from gilbert.collection import Collection
 from gilbert.content import Content
 from gilbert.utils import oneshot
 
@@ -13,7 +15,7 @@ class Selection(Content):
     sort_by: str = "name"
     limit: int = 0
 
-    def select_objects(self, source):
+    def select_objects(self, source: Collection) -> List[Content]:
         sort_by = self.sort_by
         reverse = sort_by.startswith("-")
         if reverse:

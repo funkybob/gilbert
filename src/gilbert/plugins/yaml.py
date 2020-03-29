@@ -2,10 +2,11 @@ from pathlib import Path
 
 import yaml
 
-from gilbert import Site
+from gilbert.site import Site
+from gilbert.types import LoaderResult
 
 
-def load_yaml(path: Path):
+def load_yaml(path: Path) -> LoaderResult:
     with path.open() as fin:
         loader = yaml.Loader(fin)
         meta = loader.get_data()

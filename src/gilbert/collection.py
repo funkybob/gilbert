@@ -1,7 +1,9 @@
 from pathlib import Path
+from typing import Iterator, Sequence, Tuple
 
 from .content import Content
-from .query import Query
+from .query import Query, QueryConfig
+from .types import LoaderResult
 
 
 class Collection:
@@ -28,10 +30,13 @@ class Collection:
     def __iter__(self):
         return iter(self._items.values())
 
-    def items(self):
+    def items(self) -> Iterator[Tuple[str, Content]]:
+        """
+        Iterates all the items in this Collection.
+        """
         return self._items.items()
 
-    def matching(self, query):
+    def matching(self, query: QueryConfig) -> Sequence[Content]:
         """
         Return objects matching a query
         """
@@ -56,7 +61,7 @@ class Collection:
             elif item.is_dir:
                 self.load(item, root)
 
-    def load_file(self, path: Path, name: str):
+    def load_file(self, path: Path, name: str) -> Content:
         ext = path.suffix.lstrip(".")
 
         load_func = self._loaders.get(ext, load_raw)
@@ -71,7 +76,7 @@ class Collection:
         return obj
 
 
-def load_raw(path: Path):
+def load_raw(path: Path) -> LoaderResult:
     """
     For anything we don't recognise, we load it as a Raw data.
     """

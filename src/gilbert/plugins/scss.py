@@ -1,7 +1,10 @@
+from pathlib import Path
+
 import sass
 
 from gilbert import Site
 from gilbert.content import Content, Renderable
+from gilbert.types import LoaderResult
 from gilbert.utils import oneshot
 
 
@@ -18,7 +21,7 @@ class SCSS(Renderable, Content):
         return sass.compile(string=self.data, **options)
 
 
-def load_scss(path):
+def load_scss(path: Path) -> LoaderResult:
     data = path.read_text(encoding="utf-8")
 
     return data, {"content_type": "SCSS"}
