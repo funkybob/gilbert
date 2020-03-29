@@ -1,7 +1,7 @@
-gilbert.utils module
+gilbert.watch module
 ====================
 
-.. automodule:: gilbert.utils
+.. automodule:: gilbert.watch
    :members:
    :undoc-members:
    :show-inheritance:

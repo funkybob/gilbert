@@ -1,7 +1,7 @@
-gilbert.utils module
+gilbert.types module
 ====================
 
-.. automodule:: gilbert.utils
+.. automodule:: gilbert.types
    :members:
    :undoc-members:
    :show-inheritance:
