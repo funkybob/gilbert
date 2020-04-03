@@ -41,6 +41,9 @@ class Watch:
             loop = asyncio.get_event_loop()
         await self.watcher.setup(loop)
 
+        self.site.templates.clear()
+        self.site.render()
+
         while True:
             event = await self.watcher.get_event()
 
