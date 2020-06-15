@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gilbert"
-version = "0.5.1"
+version = "0.5.2"
 description = "A simple, extensible static site generator."
 readme = "README.md"
 authors = ["Curtis Maloney <curtis@tinbrain.net>"]
@@ -27,6 +27,7 @@ isort = "^4.3.21"
 
 [tool.poetry.scripts]
 gilbert = "gilbert.cli:main"
+
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"

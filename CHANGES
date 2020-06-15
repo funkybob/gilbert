@@ -1,3 +1,10 @@
+0.5.2 (2020-06-15)
+------------------
+- Relax python version requirements in packaging.
+- Expanded type annotations
+- Use `functools.update_wrapper` in `gilbert.utils.oneshot`.
+- Make `watch` clear templates and do initial render befor waiting.
+
 0.5.1 (2020-03-29)
 ------------------
 - Extracted Watch code
