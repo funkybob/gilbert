@@ -21,10 +21,7 @@ def load_yaml(path: Path) -> LoaderResult:
         meta = loader.get_data()
         # PyYAML Reader greedily consumes chunks from the stream.
         # We must recover any un-consumed data, as well as what's left in the stream.
-        if loader.buffer:
-            data = loader.buffer[loader.pointer : -1]
-        else:
-            data = ""
+        data = loader.buffer[loader.pointer : -1] if loader.buffer else ""
         data += fin.read()
     return data, meta
 
