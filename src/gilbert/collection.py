@@ -71,9 +71,7 @@ class Collection:
         except Exception as e:
             raise RuntimeError(f"Error loading file: {path}") from e
 
-        obj = self.default_type.create(name, self.site, data=data, meta=meta)
-
-        return obj
+        return self.default_type.create(name, self.site, data=data, meta=meta)
 
 
 def load_raw(path: Path) -> LoaderResult:
