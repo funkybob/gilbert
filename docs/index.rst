@@ -1,6 +1,8 @@
 Welcome to Gilbert's documentation!
 ===================================
 
+A static web site generator.
+
 .. rubric::
    This project is named after `William Gilbert`_ who is credited with
    originating the term "electricity".
