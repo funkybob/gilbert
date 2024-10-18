@@ -31,8 +31,6 @@ A static web site generator.
 
    ref/modules
 
-   FAQ
-
 Indices and tables
 ==================
 
@@ -43,6 +41,6 @@ Indices and tables
 Requirements
 ============
 
-Gilbert requires Python 3.7 or newer.
+Gilbert requires Python 3.12 or newer.
 
 .. _William Gilbert: https://en.wikipedia.org/wiki/William_Gilbert_(astronomer)

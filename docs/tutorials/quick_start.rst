@@ -2,13 +2,13 @@
 Quick Start Tutorial
 ********************
 
-.. caution:: Remember, ``gilbert`` requires Python 3.7
+.. caution:: Remember, ``gilbert`` requires Python 3.12
 
 First, we'll create a `virtualenv` and install `gilbert`:
 
 .. code-block:: sh
 
-   $ python3.7 -m venv venv
+   $ python3 -m venv venv
    $ . venv/bin/activate
    (venv) $ pip install gilbert
 
@@ -136,12 +136,6 @@ We can now look at our new page:
 
 And point your browser at http://localhost:8000/
 
-It can be helpful to have ``gilbert`` rebuild automatically as you change files.
-
-You can do this easily by passing ``--watch`` to the ``serve`` command:
-
-.. code-block:: sh
-
-   (venv) $ gilbert serve ---watch
+Helpfully, ``gilbert`` will rebuild automatically as you change files.
 
 .. _stencil: https://stencil-templates.readthedocs.io/en/latest/

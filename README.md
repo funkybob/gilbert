@@ -19,7 +19,7 @@ Create a gilbert project:
 
 (You can omit `--root` if it's the current directory.)
 
-Create page files in mysite/pages/
+Create page files in `mysite/pages/`
 
 Render your site:
 
@@ -29,9 +29,7 @@ Have gilbert serve your site:
 
     $ gilbert --root mysite serve
 
-Serve your site and re-render on changes:
-
-    $ gilbert --root mysite serve --watch
+This will automatically re-render the site when source files change.
 
 Finally, list all loaders and plugins:
 
@@ -40,4 +38,4 @@ Finally, list all loaders and plugins:
 
 ## Installation requirements
 
-Gilbert current requires Python 3.7 or greater.
+Gilbert current requires Python 3.12 or greater.
