@@ -1,33 +1,99 @@
-[tool.poetry]
+[project]
 name = "gilbert"
-version = "0.5.3"
 description = "A simple, extensible static site generator."
 readme = "README.md"
-authors = ["Curtis Maloney <curtis@tinbrain.net>"]
-license = "MIT"
-documentation = "https://gilbert.readthedocs.io/en/latest/"
-repository = "https://github.com/funkybob/gilbert"
+authors = [
+    { name = "Curtis Maloney", email="curtis@tinbrain.net" },
+]
 
-[tool.poetry.dependencies]
-python = "^3.6"
-pyyaml = "^5.3.1"
-markdown = "^3.2.1"
-libsass = "^0.19.4"
-stencil-template = "^4.2.1"
-aionotify = "^0.2.0"
-aiohttp = ">=3.7.4"
+license.text = "MIT"
 
-[tool.poetry.dev-dependencies]
-flake8 = "^3.7.9"
-sphinx = "^2.4.4"
-pytest = "^5.4.1"
-pytest-mock = "^2.0.0"
-mypy = "^0.770"
-isort = "^4.3.21"
+requires-python = ">= 3.12"
 
-[tool.poetry.scripts]
+dependencies = [
+    "bareasgi-static",
+    "bareasgi",
+    "libsass",
+    "markdown",
+    "pyyaml",
+    "stencil-template",
+    "uvicorn",
+    "watchfiles",
+]
+
+dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = [
+    "coverage",
+    "mypy",
+    "pytest-mock",
+    "pytest",
+    "ruff",
+    "sphinx",
+]
+
+[project.urls]
+"Documentation" = "https://gilbert.readthedocs.io/en/latest/"
+"Source Code" = "https://github.com/funkybob/gilbert"
+
+[project.scripts]
 gilbert = "gilbert.cli:main"
 
+[tool.setuptools.dynamic]
+version.attr = "gilbert.__version__"
+
 [build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.coverage.run]
+branch = true
+source = ['.']
+
+[tool.coverage.report]
+precision = 1
+
+[tool.ruff]
+line-length = 119
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    'E',
+    'F',
+    'W',
+    'I', # isort
+    'N',
+    'UP',
+    'S', # bandit (security)
+    'A', # builtins
+    'C', # commas
+    'C4', # comprehensions
+    'DTZ', # datetimez
+    'ISC', # implicit string concat
+    'PIE',
+    'ARG', # unused arguments
+    'PL', # pylint
+    'FLY', # f-string usages
+    'PERF',
+    'RUF', # ruff specific
+]
+
+ignore = [
+    'ISC001',  # format whines about this
+    'RUF005',  # Prefer list addition to unpacking
+    'RUF012',  # Mutable class attributes should be annotated with `typing.ClassVar`
+]
+
+fixable = ["ALL"]
+
+[tool.ruff.lint.per-file-ignores]
+"test/*" = [
+    'S101', # Ignore asserts in tests
+]
+
+[tool.ruff.format]
+quote-style = "double" # Lower chance of needing to escape; ' appears in strings more often than "
+
+docstring-code-format = false

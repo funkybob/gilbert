@@ -1,13 +1,14 @@
 """
 Content object classes
 """
+
+from collections.abc import Collection, Sequence
+from functools import cached_property
 from pathlib import Path
 from shutil import copyfileobj
-from typing import Collection, Dict, Sequence, Union
 
-from .exceptions import ClientException
+from .exceptions import ClientError
 from .schema import Schema
-from .utils import oneshot
 
 
 class Content(Schema):
@@ -15,7 +16,7 @@ class Content(Schema):
     Base content class.
     """
 
-    __registry__: Dict[str, Schema] = {}
+    __registry__: dict[str, Schema] = {}
 
     content_type: str
 
@@ -48,8 +49,7 @@ class Content(Schema):
             klass = cls.__registry__[content_type]
         except KeyError:
             raise ValueError(
-                f'You attempted to create a page with type "{content_type}" but no class is registered to handle this'
-                " content type"
+                f'Unknown content type: "{content_type}" [Known types: {', '.join(cls.__registry__.keys())}]'
             )
         return klass(name, site, data=data, meta=meta)
 
@@ -82,15 +82,15 @@ class Renderable:
     name: str
     output_extension: str = "html"
 
-    @oneshot
+    @cached_property
     def output_filename(self) -> Path:
         return Path(self.name).with_suffix(f".{self.output_extension}")
 
-    @oneshot
+    @cached_property
     def url(self) -> str:
         return f"/{self.output_filename}"
 
-    @oneshot
+    @cached_property
     def page_content(self):
         return self.content
 
@@ -105,7 +105,7 @@ class Templated(Renderable):
     Definition and implementation of the Templated interface.
     """
 
-    template: Union[str, Sequence[str]] = "default.html"
+    template: str | Sequence[str] = "default.html"
 
     def get_template_names(self) -> Sequence[str]:
         template = self.template
@@ -123,14 +123,14 @@ class Templated(Renderable):
             except LookupError:
                 pass
         else:
-            raise ClientException(f"Template for {name} not found: {template_names}")
+            raise ClientError(f"Template for {name} not found: {template_names}")
 
         return template
 
     def get_context(self):
         return self.site.get_context(self)
 
-    @oneshot
+    @cached_property
     def page_content(self):
         template = self.get_template()
         context = self.get_context()
@@ -138,7 +138,7 @@ class Templated(Renderable):
         try:
             return template.render(context)
         except Exception as ex:
-            raise ClientException(f'Error rendering template "{template.name}": {ex.args[0]}')
+            raise ClientError(f'Error rendering template "{template.name}": {ex.args[0]}')
 
     def render(self):
         target = self.site.dest_dir / self.output_filename

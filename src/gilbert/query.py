@@ -1,12 +1,12 @@
 import operator
-from typing import Dict, Union
+from typing import Union
 
 Resolvable = Union["AstNode", int, float, str]
 QueryConfig = Union["Query", dict, Resolvable]
 
 
 class Query:
-    def __init__(self, expr: Union[Resolvable, dict]):
+    def __init__(self, expr: Resolvable | dict):
         self.query = AstNode.build(expr)
 
     def __call__(self, context):
@@ -14,7 +14,7 @@ class Query:
 
 
 class AstNode:
-    __ops__: Dict[str, "AstNode"] = {}
+    __ops__: dict[str, "AstNode"] = {}
 
     def __call__(self, context):
         raise NotImplementedError
@@ -26,18 +26,19 @@ class AstNode:
 
     @staticmethod
     def build(term) -> Resolvable:
-        if isinstance(term, (int, float, str)):
+        if isinstance(term, (int | float | str)):
             return term
 
-        assert isinstance(term, dict)
+        if not isinstance(term, dict):
+            raise TypeError(f"Expected dict; found {type(term)}")
 
-        operator, args = list(term.items())[0]
+        operator, args = next(iter(term.items()))
 
         args = [AstNode.build(arg) for arg in args]
         return AstNode.__ops__[operator](*args)
 
     def resolve(self, term: Resolvable, context):
-        if isinstance(term, (int, float, str)):
+        if isinstance(term, (int | float | str)):
             return term
 
         return term(context)

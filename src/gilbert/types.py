@@ -1,6 +1,6 @@
+from collections.abc import ByteString, Callable
 from pathlib import Path
-from typing import ByteString, Callable, Dict, Tuple, Union
 
-LoaderResult = Tuple[Union[None, ByteString, str], Dict]
+LoaderResult = tuple[None | ByteString | str, dict]
 
 LoaderFunction = Callable[[Path], LoaderResult]

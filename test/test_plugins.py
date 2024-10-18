@@ -16,7 +16,7 @@ def test_yaml_plugin():
 
     assert meta == {
         "title": "Test more than 8192 characters",
-        "content_type": "MarkdownPage"
+        "content_type": "MarkdownPage",
     }
 
     # Ensure that "READ" doesn't become "REA":

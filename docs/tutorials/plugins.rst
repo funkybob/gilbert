@@ -77,21 +77,21 @@ start to get expensive.
    :emphasize-lines: 4,9
 
    from collections import Counter
+   from functools import cached_property
 
    from gilbert.content import Content
-   from gilbert.utils import oneshot
 
    class TagCloud(Content):
        filter_by : dict = {}
 
-       @oneshot
+       @cached_property
        def tag_counts(self):
            tags = Counter()
            for obj in self.site.pages.matching(self.filter_by):
                tags.update(obj.tags)
             return tags
 
-So here we introduce the ``oneshot`` utility decorator, which works like
-``property`` but caches the result so it only invokes the function once,
-saving the result on the instance; future accesses are super fast as they're
-handled internally within Python.
+So here we use Python's ``cached_property`` decorator, which works like
+``property`` but caches the result so it only invokes the function once, saving
+the result on the instance; future accesses are super fast as they're handled
+internally within Python.

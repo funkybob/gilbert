@@ -1,8 +1,8 @@
 from collections import defaultdict
+from collections.abc import Callable
 from functools import wraps
 from importlib import import_module
 from pathlib import Path
-from typing import Callable, Dict, List
 
 import yaml
 from stencil import Context, TemplateLoader
@@ -12,7 +12,7 @@ from .content import Page
 from .types import LoaderFunction, LoaderResult
 
 
-class emits:
+class emits:  # noqa: N801: lower case name
     """
     Method decorator to cause a method to emit before- and after- events.
     """
@@ -39,11 +39,11 @@ class Site:
     Configuration of main site.
     """
 
-    __context_generators__: List[Callable[[Dict], Dict]] = []
-    __loaders__: Dict[str, LoaderFunction] = {}
+    __context_generators__: list[Callable[[dict], dict]] = []
+    __loaders__: dict[str, LoaderFunction] = {}
 
     def __init__(self, root: Path):
-        self.hooks: Dict[str, List[Callable[[Site], None]]] = defaultdict(list)
+        self.hooks: dict[str, list[Callable[[Site], None]]] = defaultdict(list)
 
         self.root = root
 
@@ -55,7 +55,8 @@ class Site:
         config_file = root / "config.yml"
 
         if config_file.is_file():
-            self.config = yaml.load(config_file.open(), Loader=yaml.Loader)
+            # self.config = yaml.load(config_file.open(), Loader=yaml.Loader)
+            self.config = yaml.safe_load(config_file.open())
         else:
             self.config = {}
 
@@ -85,8 +86,10 @@ class Site:
         """
         Create a new site root.
 
-        Ensures the template, pages, content, and destination directories for this site exist, creating them if they don't.
-        Creates an skeleton ``config.yml`` file.
+        Ensures the template, pages, content, and destination directories for
+        this site exist, creating them if they don't.
+
+        Creates a skeleton ``config.yml`` file.
         """
         self.templates_dir.mkdir(parents=True, exist_ok=True)
         self.pages_dir.mkdir(parents=True, exist_ok=True)

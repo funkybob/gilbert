@@ -1,3 +1,11 @@
+0.6.0 (2024-10-18)
+------------------
+
+- Switched from Poetry to setuptools
+- Replaced `aiohttp` and `aionotify` to `uvicorn`, `bareasgi`, and `watchfiles`
+- Removed `utils.oneshot` in favor of Python's `functools.cached_property`
+- Renamed `ClientException` to `ClientError`
+
 0.5.2 (2020-06-15)
 ------------------
 - Relax python version requirements in packaging.
