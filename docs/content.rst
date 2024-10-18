@@ -112,7 +112,7 @@ custom plugins.
 
       Access the objects content.
 
-      Typically implemented as a `oneshot` property.
+      Typically implemented as a `functools.cached_property`.
 
       Default: ``self.data``.
 

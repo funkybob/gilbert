@@ -1,5 +1,5 @@
+from collections.abc import Iterator, Sequence
 from pathlib import Path
-from typing import Iterator, Sequence, Tuple
 
 from .content import Content
 from .query import Query, QueryConfig
@@ -30,7 +30,7 @@ class Collection:
     def __iter__(self):
         return iter(self._items.values())
 
-    def items(self) -> Iterator[Tuple[str, Content]]:
+    def items(self) -> Iterator[tuple[str, Content]]:
         """
         Iterates all the items in this Collection.
         """
@@ -45,7 +45,7 @@ class Collection:
 
         return [item for item in self if query(item)]
 
-    def load(self, path: Path, root: Path = None):
+    def load(self, path: Path, root: Path | None = None):
         """
         Recursively load all objects from a path.
         """

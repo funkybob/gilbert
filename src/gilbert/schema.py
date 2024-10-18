@@ -53,8 +53,8 @@ class MappingValidator(ContainerValidator):
         self.key_type = validator_for(_type.__args__[0])
         self.value_type = validator_for(_type.__args__[1])
 
-    def validate_contents(self, value):
-        for key, value in value.items():
+    def validate_contents(self, contents):
+        for key, value in contents.items():
             self.key_type(key)
             self.value_type(value)
 
@@ -78,7 +78,10 @@ def validator_for(_type):
     if inspect.isclass(_type) and issubclass(_type, Schema):
         return _type
 
-    if isinstance(_type, typing._GenericAlias):
+    if isinstance(_type, types.UnionType):
+        return UnionValidator(_type)
+
+    if isinstance(_type, types.GenericAlias):
         base = _type.__origin__
 
         if inspect.isclass(base):
@@ -86,16 +89,11 @@ def validator_for(_type):
                 if issubclass(base, Mapping):
                     return MappingValidator(_type)
                 return ContainerValidator(_type)
-        # Optional, Any, AnyStr ?
-        elif isinstance(base, typing._SpecialForm):
-            if base._name == "Union":
-                return UnionValidator(_type)
 
     return InstanceValidator(_type)
 
 
-class NO_DEFAULT:
-    pass
+NoDefault = object()
 
 
 class SchemaProperty:
@@ -113,7 +111,7 @@ class SchemaProperty:
         try:
             return instance.__dict__[self.name]
         except KeyError:
-            if self.default is NO_DEFAULT:
+            if self.default is NoDefault:
                 raise AttributeError(f"Schema {instance} has no value for {self.name}")
 
         return self.default
@@ -128,13 +126,12 @@ class SchemaProperty:
 
 
 class SchemaType(type):
-    def __new__(mcs, classname, bases, namespace, **kwargs):
-
+    def __new__(cls, classname, bases, namespace, **kwargs):
         for name, _type in namespace.get("__annotations__", {}).items():
             if name.startswith("__") and name.endswith("__"):
                 continue
 
-            default = namespace.get(name, NO_DEFAULT)
+            default = namespace.get(name, NoDefault)
 
             if isinstance(default, types.FunctionType):
                 continue
@@ -143,7 +140,7 @@ class SchemaType(type):
 
             namespace[name] = SchemaProperty(_type, default)
 
-        return type.__new__(mcs, classname, bases, namespace, **kwargs)
+        return type.__new__(cls, classname, bases, namespace, **kwargs)
 
 
 class Schema(metaclass=SchemaType):

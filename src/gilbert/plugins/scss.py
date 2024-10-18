@@ -1,3 +1,4 @@
+from functools import cached_property
 from pathlib import Path
 
 import sass
@@ -5,7 +6,6 @@ import sass
 from gilbert import Site
 from gilbert.content import Content, Renderable
 from gilbert.types import LoaderResult
-from gilbert.utils import oneshot
 
 
 class SCSS(Renderable, Content):
@@ -22,7 +22,7 @@ class SCSS(Renderable, Content):
     output_extension: str = "css"
     scss_options: dict = {}
 
-    @oneshot
+    @cached_property
     def content(self):
         options = self.scss_options
         if not options:

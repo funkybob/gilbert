@@ -1,3 +1,4 @@
+from functools import cached_property
 from pathlib import Path
 
 from markdown import markdown
@@ -5,7 +6,6 @@ from markdown import markdown
 from gilbert import Site
 from gilbert.content import Page
 from gilbert.types import LoaderResult
-from gilbert.utils import oneshot
 
 
 class MarkdownPage(Page):
@@ -22,7 +22,7 @@ class MarkdownPage(Page):
     # List of Markdown extensions to enable.
     extras: list = []
 
-    @oneshot
+    @cached_property
     def content(self) -> str:
         extras = self.extras
         if not extras:
